@@ -1,0 +1,22 @@
+.order-head{
+    display: table;
+}
+.order-head li{
+    padding-left:20px;
+    padding-right: 20px;
+    float: left;
+}
+.sell-head{
+    background-color: #f3f3f3;
+    width:100%;
+    height: 40px;
+    line-height: 40px;
+}
+.goods-all{
+    border:1px #c1c1c1 solid;
+    margin-top:15px;
+}
+.goods-ul{
+    margin-top:0 !important;
+    border:none !important;
+}

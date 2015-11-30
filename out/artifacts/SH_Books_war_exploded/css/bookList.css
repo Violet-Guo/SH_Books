@@ -1,0 +1,61 @@
+#pbutton
+{
+	height: 45px;
+    width: 150px;
+    outline: none;
+    color: #ffffff;
+    background: #902BF5;
+}
+
+#bl
+{
+	width: 1100px;
+	margin: 0 auto;
+	margin-top: 5%;
+}
+
+#bltopnomove
+{
+	line-height: 30px;
+}
+
+#blbuttom
+{
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 3%;
+	height: 500px;
+}
+
+#blimage
+{
+	display: block;
+	margin: 0 auto;
+	width: 150px;
+	height: 200px;
+}
+
+#blbook
+{
+	float: left;
+	width: 20%;
+	margin-bottom: 20px;
+}
+
+#blname
+{
+	margin-top: 15px;
+	text-align: center;
+}
+
+#blbuttom
+{
+	padding: 55px;
+	border: solid 1px;
+}
+
+#blnobook
+{
+	margin-top: 100px;
+	text-align: center;
+}

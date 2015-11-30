@@ -1,0 +1,86 @@
+input
+{
+	border: 1px black solid;
+}
+
+#pbutton
+{
+	height: 35px;
+    width: 90px;
+    outline: none;
+    color: #ffffff;
+    background: #902BF5;
+}
+
+#pbutton1
+{
+	height: 35px;
+    width: 90px;
+    outline: none;
+    color: #ffffff;
+    background: #902BF5;
+    margin-left: 600px;
+    margin-bottom: 30px;
+}
+
+#personinfo
+{
+	width: 1100px;
+	margin: 0 auto;
+	margin-top: 5%;
+}
+
+#ileft
+{
+	line-height: 50px;
+	text-align: center;
+	float: left;
+	width: 30%;
+	height: 1000px;
+}
+
+#iimage
+{
+	width: 200px;
+	height: 200px;
+}
+
+#irighttop
+{
+	line-height: 50px;
+	text-align: center;
+	height: 100px;
+}
+
+#ilistitem
+{
+	float: left;
+	margin-right: 50px;
+}
+
+#irightbutton
+{
+	margin-left: 450px;
+	margin-top: 10px;
+	line-height: 60px;
+}
+
+#icurimage
+{
+	float: left;
+	width: 80px;
+	height: 80px;
+}
+
+#icurword
+{
+	text-align: center;
+	float: left;
+	padding-right: 5px;
+	height: 50px;
+}
+
+#irightcenter
+{
+	margin-left: 850px;
+}
