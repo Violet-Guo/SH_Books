@@ -19,9 +19,9 @@
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
 <% 
 Integer userID = new Integer(-1);
-  UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
-//UserVo userVo=new UserVo();
-//userVo=(UserVo)session.getAttribute("user");
+ // UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
+UserVo userVo=new UserVo();
+userVo=(UserVo)session.getAttribute("user");
 //userID=userVo.getId();
 //session.setAttribute("userID", userID);
 session.setAttribute("user",userVo);
