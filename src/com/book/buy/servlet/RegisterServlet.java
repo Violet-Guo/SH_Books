@@ -92,7 +92,7 @@ public class RegisterServlet extends HttpServlet {
 	    majorDao.close();
 	    userDao.close();
 	    //跳转登录
-	    String href = "/SH_Books/pages/personPage/login/Login.jsp";
+	    String href = "/login";
 	    response.getWriter().print("<script language='javascript'>alert('注册成功，请登录！！！');"
 		    + "window.location.href='"+ href + "';</script>");
 	}

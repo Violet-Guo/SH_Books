@@ -48,7 +48,7 @@ public class PersonInfoServlet extends HttpServlet {
 	    }
 	    
 	    locationDao.close();
-	    response.sendRedirect("/SH_Books/pages/personPage/personInfo/personInfo.jsp");
+	    response.sendRedirect("/personInfo");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 

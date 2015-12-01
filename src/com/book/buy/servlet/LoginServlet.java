@@ -49,11 +49,11 @@ public class LoginServlet extends HttpServlet {
 			//验证成功保存session
 			request.getSession().setAttribute("user", user);
 			//跳转
-			response.sendRedirect("/SH_Books/pages/mainPage/mainPage.jsp");
+			response.sendRedirect("/mainPage");
 		    }
 		    else{
 			//提示密码错误，不跳转
-			href = "/SH_Books/pages/personPage/login/Login.jsp";
+			href = "/login";
 			out.print("<script language='javascript'>alert('该用户不存在！请先注册！！！');"
 			    + "window.location.href='"+ href + "';</script>");
 		    }

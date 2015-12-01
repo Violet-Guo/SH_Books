@@ -53,7 +53,7 @@ public class SearchBook extends HttpServlet {
 	    else if(method != null || (fanye != null && fanye.equals("bufen")))
 		PartSearch(request, response, method);
 	    
-	    response.sendRedirect("/SH_Books/pages/bookPage/bookList/bookList.jsp");
+	    response.sendRedirect("/bookList");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 

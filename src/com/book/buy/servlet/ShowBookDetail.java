@@ -68,7 +68,7 @@ public class ShowBookDetail extends HttpServlet {
 	    
 	    bookDao.close();
 	    userDao.close();
-	    response.sendRedirect("/SH_Books/pages/bookPage/bookInfo/bookDetail.jsp");
+	    response.sendRedirect("/bookDetail");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
