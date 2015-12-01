@@ -2,10 +2,13 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.MajorDao;
+import com.book.buy.dao.UserDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.MajorDaoImpFactory;
+import com.book.buy.factory.UserDaoImpFactory;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.MajorVo;
+import com.book.buy.vo.UserVo;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,16 @@ import java.util.List;
 public class IndexServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //---测试登录数据---待删除
+        UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
+        try {
+            
+            UserVo userVo = userDao.findUserById(1);
+            req.getSession().setAttribute("user",userVo);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         //--------------------------------这里获取首页需要的信息
         //----获取用户登录情况
 
