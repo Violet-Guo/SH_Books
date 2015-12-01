@@ -1,0 +1,30 @@
+input{
+    border: 1px black solid;
+}
+
+#login{
+    margin: auto;
+    margin-top: 5%;
+    width: 260px;
+    text-align: center;
+}
+
+#loginbody{
+    line-height: 50px;
+}
+
+#sbutton{
+    height: 25px;
+    width: 40px;
+    outline: none;
+    color: #ffffff;
+    background: #902bf5;
+}
+
+#rbutton{
+    height: 25px;
+    width: 40px;
+    outline: none;
+    color: #ffffff;
+    background: #902BF5;
+}

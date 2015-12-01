@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Created by violet on 15/10/27.
  * 2015/11/11 修改：添加申诉的相关接口,complainType = 0代表投诉，complainType = 1代表申诉
+ * 2.15/11/26 修改：添加通过ID查找申诉和投诉的方法
  */
 public interface ComplainDao{
     
@@ -50,6 +51,16 @@ public interface ComplainDao{
      * 根据申诉状态查找申诉
      */
     public List<ComplainVo> getAppealByState(int state) throws SQLException;
+
+    /**
+     * 根据投诉的ID查找投诉
+     */
+    public ComplainVo getCompById(int id) throws SQLException;
+
+    /**
+     * 根据申诉的ID查找申诉
+     */
+    public ComplainVo getAppealById(int id) throws SQLException;
 
     /**
      * 关闭连接
