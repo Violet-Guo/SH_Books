@@ -50,16 +50,19 @@
     width: 1070px;
     z-index: 100;
 }
-#major-all li .top-pop span{
+#major-all li .top-pop a{
     display: inline-block;
     line-height: 20px;
     padding-right: 5px;
+    color: #000;
+}
+#major-all li .top-pop a:active{
+    color: #909FFF;
 }
 #major-all li:hover .top-pop{
     display: block;
 }
 #major-all li:hover{
-    cursor: pointer;
     border-left-width: 5px !important;
     border-right-width: 5px !important;
     border-bottom-width: 0 !important;

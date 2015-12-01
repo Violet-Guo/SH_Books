@@ -8,58 +8,10 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>Login</servlet-name>
-        <jsp-file>/pages/personPage/login/Login.jsp</jsp-file>
+        <jsp-file>/pages/mainPage/login.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>Register</servlet-name>
-        <jsp-file>/pages/personPage/register/register.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Register</servlet-name>
-        <url-pattern>/register</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>bookDetail</servlet-name>
-        <jsp-file>/pages/bookPage/bookInfo/bookDetail.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>bookDetail</servlet-name>
-        <url-pattern>/bookDetail</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>bookList</servlet-name>
-        <jsp-file>/pages/bookPage/bookList/bookList.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>bookList</servlet-name>
-        <url-pattern>/bookList</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>publishPage</servlet-name>
-        <jsp-file>/pages/bookPage/publish/publishPage.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>publishPage</servlet-name>
-        <url-pattern>/publishPage</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>personInfo</servlet-name>
-        <jsp-file>/pages/personPage/personInfo/personInfo.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>personInfo</servlet-name>
-        <url-pattern>/personInfo</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>changePersonInfo</servlet-name>
-        <jsp-file>/pages/personPage/personInfo/changePersonInfo.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>changePersonInfo</servlet-name>
-        <url-pattern>/changePersonInfo</url-pattern>
     </servlet-mapping>
 </web-app>

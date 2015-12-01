@@ -112,8 +112,8 @@
       <file leaf-file-name="分页.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/分页.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.750289">
-              <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.33294797">
+              <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -767,15 +767,15 @@
       <workItem from="1448948721095" duration="4851000" />
       <workItem from="1448965340002" duration="343000" />
       <workItem from="1448973703258" duration="380000" />
-      <workItem from="1448974098249" duration="122000" />
+      <workItem from="1448974098249" duration="624000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11925000" />
+    <option name="totallyTimeSpent" value="12427000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1924" height="1042" extended-state="0" />
+    <frame x="-11" y="-11" width="1924" height="1042" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1185,8 +1185,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/分页.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.750289">
-          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.33294797">
+          <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
           <folding />
         </state>
       </provider>

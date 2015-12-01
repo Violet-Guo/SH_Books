@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.book.buy.vo.OrderFormVo" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%--
   Created by IntelliJ IDEA.
   User: chao
   Date: 2015/11/12
@@ -8,17 +10,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%List<OrderFormVo> orderFormVos = (List<OrderFormVo>) request.getAttribute("orderFormVos");%>
-<%request.setAttribute("orderFormVos",orderFormVos);%>http://desktop.youku.com/ugc/youkumac_7-28_2.dmg
-
+<%ArrayList<OrderFormVo> orderFormVos = (ArrayList<OrderFormVo>) request.getAttribute("orderFormVos");%>
 <%int everyPageNum = 5;%><%--读取文章总数和计算分页数--%>
 <%request.setAttribute("everyPageNum",everyPageNum);%>
 <%String strPage = request.getParameter("thisPage");%>
 <%Integer thisPage;%>
 <%if(strPage==null||strPage.equals("")){thisPage = 1;}else{%>
 <%thisPage = Integer.valueOf(strPage);}%><%--得到当前页数--%>
-
-<%int allNum = getArticle.getArticleConunt((String) request.getAttribute("leftNav"));%>
+<%int allNum = orderFormVos.size();%>
 <%int pageNum = allNum%everyPageNum==0?allNum/everyPageNum:allNum/everyPageNum+1;//计算总共多少页数%>
 <%if(thisPage>pageNum){thisPage=pageNum;}%>
 <%if(thisPage<=0){thisPage=1;}%>
@@ -28,6 +27,7 @@
     <title>购物车</title>
     <link type="text/css" rel="stylesheet" href="../../css/all.css">
     <link type="text/css" rel="stylesheet" href="../../css/buycar.css">
+    <script src="../../js/buycar.js"></script>
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"/>
@@ -44,17 +44,19 @@
     </ul>
 
     <p class="seller-name">卖家:旺仔小馒头</p>
-    <c:forEach items="${orderFormVos}" var="orderFormVo" begin="${(thisPage-1)*everyPageNum}" end="${thisPage*everyPageNum}">
+    <c:forEach items="${orderFormVos}" var="orderFormVo" begin="${(thisPage-1)*everyPageNum}" end="${thisPage*everyPageNum}" varStatus="status">
+        <c:set value="${orderBookVos.get(status.count-1)}" var="orderBookVo" scope="page"/>
         <ul class="goods-ul">
-            <li class="goods-image"><img src="${}"/></li>
+            <li class="goods-image"><img src="${orderBookVo.imagePath}"/></li>
             <li class="goods-descript">
-                <p class="goods-title">我是一只小小鸟</p>
-
-                <p>啥啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新</p>
+                <p class="goods-title">${orderBookVo.name}</p>
+                <p>${orderBookVo.description}</p>
             </li>
-            <li class="goods-price">20.00元</li>
-            <li class="goods-num"><input type="number" name="goodsNum" value="2"></li>
-            <li class="goods-action">删除</li>
+            <li class="goods-price">${orderBookVo.price}</li>
+            <li class="goods-num"><input type="number" name="goodsNum" value="${orderFormVo.bookNum}"></li>
+            <li class="goods-action">
+                <input type="button" name="${orderBookVo.id}" value="删除" onclick="del(this)">
+            </li>
         </ul>
     </c:forEach>
 
@@ -73,7 +75,12 @@
     <ul id="total">
         <li class="del-all">全部删除</li>
         <li class="tol-price">共计：<span>￥225</span></li>
-        <li class="action-price">结算</li>
+        <li class="action-price">
+            <form action="/buycar" method="post">
+                <input type="hidden" name="buycarSub" value="yes">
+                <input value="结算" type="submit">
+            </form>
+        </li>
     </ul>
 </div>
 <jsp:include page="/pages/mainPage/foot.jsp"/>
