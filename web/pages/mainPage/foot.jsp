@@ -9,14 +9,15 @@
 <div id="foot">
   <div id="foot-center">
     <div>
-      <h2>用户帮助</h2>
-      <p>购物指南</p>
-      <p>站点地图</p>
+      <h3>用户帮助</h3>
+      <a href="#"><p>购物指南</p></a>
+      <a href="#"><p>站点地图</p></a>
     </div>
+
     <div>
-      <h2>公司信息</h2>
-      <p>关于二手书交易网</p>
-      <p>关于我们</p>
+      <h3>公司信息</h3>
+      <a href="#"><p>关于二手书交易网</p></a>
+        <a href="#"><p>关于我们</p></a>
     </div>
     <div>afd</div>
   </div>
