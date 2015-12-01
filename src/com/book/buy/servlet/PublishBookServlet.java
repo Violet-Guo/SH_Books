@@ -85,7 +85,6 @@ public class PublishBookServlet extends HttpServlet {
 	    String oldGrade = (String) request.getAttribute("pselect");
 	    String author = (String) request.getAttribute("author");
 	    String majorID = (String) request.getAttribute("selectzhuanye");
-	    System.out.println(majorID);
 	    String description = (String) request.getAttribute("description");
 	    String bookNum = (String) request.getAttribute("bookNum");
 	    String publicYear = (String) request.getAttribute("publicYear");
@@ -110,6 +109,8 @@ public class PublishBookServlet extends HttpServlet {
 		e.printStackTrace();
 	    }
 	    bookDao.close();
+	    
+	    response.sendRedirect("#?bookName=" + name + "&author=" + author);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

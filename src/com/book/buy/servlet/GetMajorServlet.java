@@ -42,7 +42,7 @@ public class GetMajorServlet extends HttpServlet {
 	    
 	    majorDao.close();
 	    
-	    response.sendRedirect("/SH_Books/pages/bookPage/publish/publishPage.jsp");
+	    response.sendRedirect("publishPage");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
