@@ -21,9 +21,7 @@
 	<div id = "bdleft">
 		<img id = "dbleftimage" alt="暂时没有图片" src="${sessionScope.bookDetils.imagePath}">
 		<br/><br/><br/>
-	<!-- 
-			<input id = "pbutton" type="button" value="降价提醒" onclick="window.location='#'"/>
-	 -->
+			<input id = "pbutton1" type="button" value="投诉" onclick="window.location='#'"/>
 	 	</div>
 	<div id = "bdrighttop">
 		书名：<h2 id = "booktitle">${sessionScope.bookDetils.name}</h2>
@@ -38,13 +36,13 @@
 		<input id = "pbutton" type="button" value="添加到购物车" onclick="window.location='#'"/>
 		<input id = "pbutton" type="button" value="一键下单"  onclick="window.location='#'"/>		
 	</div>
-</div>
 <br/>
 <hr/>
 <br/>
 <div id = "bdbutton">
 	<h1>卖家描述：</h1>
 	<p id = "bookdescription">&nbsp;&nbsp;&nbsp;${sessionScope.bookDetils.description}</p>
+</div>
 </div>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>

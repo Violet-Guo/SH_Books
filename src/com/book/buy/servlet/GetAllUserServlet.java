@@ -37,27 +37,26 @@ public class GetAllUserServlet extends HttpServlet {
         BookVo bookvo = new BookVo();
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
 
+
+
         for (int i = 0; i < complis.size(); i++){
             ComplainVo compvo = (ComplainVo)complis.get(i);
 
             try {
                 bookvo = bookdao.findById(compvo.getBookid());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            try {
                 uservo = userdao.findUserById(bookvo.getUserID());
+                if (userlis.contains(uservo)){
+                    continue;
+                }
+                else {
+                    userlis.add(uservo);
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            if (userlis.contains(uservo)){
-                continue;
-            }
-            else {
-                userlis.add(uservo);
-            }
+
+
         }
 
         request.getSession().setAttribute("allcompuser", userlis);

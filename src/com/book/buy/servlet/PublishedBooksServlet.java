@@ -27,6 +27,8 @@ public class PublishedBooksServlet extends HttpServlet {
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
         List<BookVo> lis = new ArrayList<>();
 
+
+        bookdao.close();
         response.sendRedirect("");
     }
 
