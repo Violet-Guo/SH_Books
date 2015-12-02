@@ -91,7 +91,7 @@ public class FeedBackServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		 
-		
+		FeedBackDaoImpl.close();
 		String href = "./pages/managePage/controlCenter/controlCenter.jsp";
 		out.print("<script language='javascript'>alert('反馈成功！');window.location.href='"
 				+ href + "';</script>");

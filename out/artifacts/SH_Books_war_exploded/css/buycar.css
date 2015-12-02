@@ -70,10 +70,14 @@
     text-align: center;
 }
 
+
+
 #main .goods-ul .goods-action {
     padding-left: 100px;
 }
-
+#main input[type="submit"]{
+    background: transparent;
+}
 #main .goods-head {
     margin: 0;
     border: 0;
