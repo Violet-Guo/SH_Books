@@ -41,7 +41,23 @@ public interface BookDao{
 	public BookVo findById(Integer id) throws SQLException;
 	
 	/**
-	 * 按照书名和作者去查找图书(name和description相同)
+	 * 按照用户id去查找图书
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public BookVo findByUserId(Integer userId) throws SQLException;
+	
+	/**
+	 * 按照用户id去查找图书（分页）
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public BookVo findByUserId(Integer userId, Integer start, Integer length) throws SQLException;
+	
+	/**
+	 * 返回最后一次存入的ID
 	 * @param name
 	 * @return
 	 * @throws SQLException
