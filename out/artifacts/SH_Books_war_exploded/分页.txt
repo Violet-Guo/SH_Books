@@ -24,3 +24,4 @@
         <%if(pageNum%10>0&&pageNum/10>(thisPage-1)/10){out.print("<a href='/buycar?thisPage="+((((thisPage-1)/10)+1)*10+1)+"'>&gt;&gt;</a>");}%>
         <li><a href="/buycar?thisPage=${requestScope.thisPage+1}">下一页</a></li>
 </ul>
+

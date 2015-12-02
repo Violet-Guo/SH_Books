@@ -4,6 +4,7 @@ import com.book.buy.dao.ComplainDao;
 import com.book.buy.utils.DBUtils;
 import com.book.buy.vo.ComplainVo;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.Connection;
@@ -43,38 +44,50 @@ public class ComplainImp implements ComplainDao {
 
     @Override
     public List<ComplainVo> getAllComp() throws SQLException {
-        String sql = "select userID, bookID, description, state from complain where complainType = 0";
+        String sql = "select id, userID, bookID, description, state from complain where complainType = 0";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class));
     }
 
     @Override
     public List<ComplainVo> getAllAppeal() throws SQLException {
-        String sql = "select userID, bookID, description, state from complain where complainType = 1";
+        String sql = "select id, userID, bookID, description, state from complain where complainType = 1";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class));
     }
 
     @Override
     public List<ComplainVo> getCompByUserid(int uid) throws SQLException {
-        String sql = "select userID, bookID, description, state from complain where complainType = 0 and userID = ?";
+        String sql = "select id, userID, bookID, description, state from complain where complainType = 0 and userID = ?";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), uid);
     }
 
     @Override
     public List<ComplainVo> getCompByState(int state) throws SQLException {
-        String sql = "select userID, bookID, description, state from complain where complainType = 0 and state = ?";
+        String sql = "select id, userID, bookID, description, state from complain where complainType = 0 and state = ?";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), state);
     }
 
     @Override
     public List<ComplainVo> getAppealByUserid(int uid) throws SQLException {
-        String sql = "select userID, bookID, description, state from complain where complainType = 1 and userID = ?";
+        String sql = "select id, userID, bookID, description, state from complain where complainType = 1 and userID = ?";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), uid);
     }
 
     @Override
     public List<ComplainVo> getAppealByState(int state) throws SQLException {
-        String sql = "select userID, bookID, description, state from complain where complainType = 1 and state = ?";
+        String sql = "select id, userID, bookID, description, state from complain where complainType = 1 and state = ?";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), state);
+    }
+
+    @Override
+    public ComplainVo getCompById(int id) throws SQLException {
+        String sql = "select id, userID, bookID, description, state from complain where id = ?";
+        return runner.query(conn, sql, new BeanHandler<ComplainVo>(ComplainVo.class), id);
+    }
+
+    @Override
+    public ComplainVo getAppealById(int id) throws SQLException {
+        String sql = "select id, userID, bookID, description, state from complain where id = ?";
+        return runner.query(conn, sql, new BeanHandler<ComplainVo>(ComplainVo.class), id);
     }
 
     @Override

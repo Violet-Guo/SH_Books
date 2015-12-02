@@ -27,8 +27,8 @@ public class InformDaoImpl implements InformDao
 	public void addInform(InformVo informvo) throws SQLException 
 	{
 		// TODO Auto-generated method stub
-		String sql="insert into Inform(userID,type,num,time) values(?,?,?,?)";
-		runner.update(conn, sql, informvo.getUserID(),informvo.getType(),informvo.getNum(),informvo.getTime());
+		String sql="insert into inform(userID,type,num,hasRead,time) values(?,?,?,?,?)";
+		runner.update(conn, sql, informvo.getUserID(),informvo.getType(),informvo.getNum(),informvo.getHasRead(),informvo.getTime());
 		
 	}
 
@@ -58,7 +58,7 @@ public class InformDaoImpl implements InformDao
 	public List<InformVo> findallbyut(int userID, int type)throws SQLException 
 	{
 		// TODO Auto-generated method stub
-		String sql = "select * from Inform where userID=? and type=? order by time desc";
+		String sql = "select * from inform where userID=? and type=? order by time desc";
 		return  runner.query(conn, sql, new BeanListHandler<InformVo>(InformVo.class), userID, type);
 	}
 
@@ -66,7 +66,7 @@ public class InformDaoImpl implements InformDao
 	public List<InformVo> findbyuserid(int userID) throws SQLException 
 	{
 		// TODO Auto-generated method stub
-		String sql = "select * from Inform where userID=? order by time desc";
+		String sql = "select * from inform where userID=? order by time desc";
 		return  runner.query(conn, sql, new BeanListHandler<InformVo>(InformVo.class), userID);
 	}
 
