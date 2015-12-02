@@ -21,17 +21,10 @@
   <tr><td>类别</td><td>详情</td><td>时间</td>
   </tr>
       <%		
-      Integer userID = new Integer(-1);
-      // userID=1;    
-    userID = (Integer) session.getAttribute("userID"); 
-   // UserVo userVo=new UserVo();
-   // userVo=(UserVo)session.getAttribute("userVo");
-
-   // userID=userVo.getId();
-  //  session.setAttribute("userID", userID);
-	//userID=1;
-	//out.print(userID);
-	 //session.setAttribute("userID", userID);
+		Integer userID = new Integer(-1);
+      	// userID=1;    
+		userID = (Integer) session.getAttribute("userID"); 
+  
 		String href = "";// 跳转的界面
 
 		if (userID == null ) 
@@ -42,33 +35,35 @@
 		}
 		%>
 		
-  <%
-   
-  	List informs=(List<InformVo>)session.getAttribute("informlist");
-  //out.println(informs);
- 	 InformVo informvo=new InformVo();
+	<%
+		List<InformVo> informs=null;
+		informs=(List<InformVo>)session.getAttribute("informlist");
+  		//out.println(informs);
+ 	 	InformVo informvo=new InformVo();
  	
 	%>
- 	 <% int everyPageNum = 5;%>
- 	<%String strPage=(String) session.getAttribute("thisPage");//String strPage = request.getParameter("thisPage");%>
+ 	<% int everyPageNum = 5;%>
+ 	<%String strPage=(String) session.getAttribute("thisPage");%>
+
  	<%Integer thisPage;%>
  	<%if(strPage==null||strPage.equals("")){thisPage = 1;}else{%>
  	<%thisPage = Integer.valueOf(strPage);}%><%--得到当前页数--%>
- 	<%int allNum= informs.size();int num=(thisPage-1)*5;%>
+ 	<%int allNum= informs.size();%>
  	<%//int allNum = getArticle.getArticleConunt((String) request.getAttribute("leftNav"));%>
  	<%int pageNum = allNum%everyPageNum==0?allNum/everyPageNum:allNum/everyPageNum+1;//计算总共多少页数%>
+ 
  	<%if(thisPage>pageNum){thisPage=pageNum;}%>
- 	<%if(thisPage<=0){thisPage=1;}%>
+ 	<%if(thisPage<=0){thisPage=1;}int num=(thisPage-1)*5;%>
  	<%request.setAttribute("thisPage",thisPage);%>
+ 
  	<% 
- 		
  		for (int i = (thisPage-1)*5; i<(thisPage)*5; i++) {        //显示list
  	 	  	%>
  	 	    <tr>
  	 	    <% 	 
  	 	   num++;
  	 	 	 if(num>allNum)break;
-
+		
  		 informvo = (InformVo)informs.get(i);
  		%>
  		

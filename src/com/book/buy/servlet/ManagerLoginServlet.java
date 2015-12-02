@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 /**
@@ -26,26 +27,38 @@ public class ManagerLoginServlet extends HttpServlet {
         String pwd = request.getParameter("pwd");
 
         ManagerDao mdao = ManagerDaoImpFactory.getManagerDaoImp();
+        PrintWriter out = response.getWriter();
+
         ManagerVo mvo = new ManagerVo();
+        String href = "";
 
         try {
             mvo = mdao.getPwdByName(username);
+            if (null == mvo) {
+                //提示不是管理员
+                href = "/SH_Books/pages/managerPage/login/loginManager.jsp";
+                out.print("<script language='javascript'>alert('该用户不是管理员');"
+                        + "window.location.href='" + href + "';</script>");
+            } else {
+                if (pwd.equals(mvo.getPassword())) {
+                    request.getSession().setAttribute("username", username);
+                    request.getSession().setAttribute("userid", mvo.getId());
+
+                    mdao.close();
+
+                    response.sendRedirect("pages/managerPage/login/loginSucc.jsp");
+                } else {
+                    href = "";
+                    out.print("<script language='javascript'>alert('该用户不存在！请先注册！！！');"
+                            + "window.location.href='" + href + "';</script>");
+                    mdao.close();
+                    response.sendRedirect("pages/managerPage/login/loginFailure.jsp");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        if (pwd.equals(mvo.getPassword())){
-            request.getSession().setAttribute("username", username);
-            request.getSession().setAttribute("userid", mvo.getId());
-
-            mdao.close();
-
-            response.sendRedirect("pages/managerPage/login/loginSucc.jsp");
-        }
-        else{
-            mdao.close();
-            response.sendRedirect("pages/managerPage/login/loginFailure.jsp");
-        }
 
     }
 

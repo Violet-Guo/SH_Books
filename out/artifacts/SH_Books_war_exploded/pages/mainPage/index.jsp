@@ -13,6 +13,7 @@
 <head>
     <title>二手书网</title>
     <meta content="text/html">
+    <base target="_blank">
     <link type="text/css" rel="stylesheet" href="../../css/all.css">
     <link type="text/css" rel="stylesheet" href="../../css/index.css">
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
@@ -20,6 +21,7 @@
 </head>
 <body>
 <jsp:include page="head.jsp"/>
+
 <!--主要内容部分-->
 <div id="main">
     <!--分类弹出框，左边部分-->
@@ -33,7 +35,7 @@
                         <!--这里是专业小分类-->
                         <c:forEach items="${majorVosName}" var="majorVoName">
                             <c:if test="${majorVoName.getDepartment().equals(majorVoDep.getDepartment())}">
-                                <span>${majorVoName.name}</span>
+                                <a href="#">${majorVoName.name}</a>
                             </c:if>
                         </c:forEach>
                     </div>
@@ -47,14 +49,15 @@
         <ul>
             <c:forEach items="${bookLastVos}" var="bookVo" begin="0" end="4">
                 <li>
-                    <img src="${bookVo.imagePath}"/>
-                    <div class="hotBook-title">
-                        <span>
-                            <p>${bookVo.name}</p>
-                            <p>作者:${bookVo.author}</p>
-                            <p>价格:${bookVo.price}</p>
-                        </span>
-                    </div>
+                        <img src="${bookVo.imagePath}"/>
+                        <div class="hotBook-title">
+                            <span>
+                                <p>${bookVo.name}</p>
+                                <p>作者:${bookVo.author}</p>
+                                <p>价格:${bookVo.price}</p>
+                            </span>
+                        </div>
+
                 </li>
             </c:forEach>
         </ul>

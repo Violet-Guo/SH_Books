@@ -43,7 +43,7 @@
 			</div>
 			学号：&nbsp;&nbsp;${sessionScope.user.name}<br/>
 			用户名：&nbsp;&nbsp;<input type="text" name="username"/><br/>
-			密码：&nbsp;&nbsp;<input type="text" name="mima"/><br/>
+			密码：&nbsp;&nbsp;<input type="password" name="mima"/><br/>
 			电话：&nbsp;&nbsp;<input type="text" name="tel" value="${sessionScope.user.phoneNumber}"/><br/>
 			QQ：&nbsp;&nbsp;&nbsp;<input type="text" name="qq" value="${sessionScope.user.qq}"/><br/>
 			常用地址：
