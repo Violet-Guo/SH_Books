@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import com.book.buy.dao.InformDao;
 import com.book.buy.factory.InformDaoImplFactory;
 
@@ -78,15 +79,12 @@ public class InformServlet extends HttpServlet {
 		Integer userID = new Integer(-1);
 		//userID=1;
 		UserVo userVo=new UserVo();
-	   userVo=(UserVo)session.getAttribute("user");
+		userVo=(UserVo)session.getAttribute("user");
 		userID=userVo.getId();
 		session.setAttribute("userID", userID);
-			//userID=1;
-			//out.print(userID);
-		//userID= (Integer) session.getAttribute("userID");
-		//out.print(userID);
+		
 		String href = "";// 跳转的界面
-		String strPage=request.getParameter("thisPage");
+		String strPage=request.getParameter("thisPage");//首次strPage=null
 		System.out.print(strPage);
 		session.setAttribute("userID",userID);
 		session.setAttribute("thisPage",strPage);
@@ -106,13 +104,8 @@ public class InformServlet extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		 
-	
-		
+		}		
 		session.setAttribute("informlist", informs);
-		
-		
 		if (informs != null) {
 		try {
 				InformDaoImpl.updateInform(userID);
@@ -120,6 +113,12 @@ public class InformServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		try {
+			InformDaoImpl.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		href = "./pages/managePage/inform/inform.jsp";
 			out.print("<script language='javascript'>window.location.href='"
 					+ href + "';</script>"); // 页面重定向
@@ -128,6 +127,12 @@ public class InformServlet extends HttpServlet {
 			href = "./pages/managePage/inform/inform.jsp";
 			out.print("<script language='javascript'>alert('信息有误或无到货书籍！');window.location.href='"
 					+ href + "';</script>");
+			try {
+				InformDaoImpl.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	
 	out.flush();
