@@ -1,5 +1,5 @@
-/.idea
-/out
+.idea/
+out/
 SH_Books.iml
 c3p0-config.xml
 .DS_Store
