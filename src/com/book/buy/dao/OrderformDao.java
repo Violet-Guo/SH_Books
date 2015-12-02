@@ -3,6 +3,7 @@ package com.book.buy.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+
 import com.book.buy.vo.OrderFormVo;
 
 public interface OrderformDao 
@@ -37,4 +38,10 @@ public interface OrderformDao
      * 释放链接  
      */
     public void close() throws SQLException;
+    
+    /**
+     * 根据用户id将orderid合并
+     */
+    public void updateByuserid(Integer userID, Integer orderID) throws SQLException;
+    
 }

@@ -61,6 +61,7 @@ public class showFeedback extends HttpServlet {
 		String strPage=request.getParameter("thisPage");
 		System.out.print(strPage);
 		session.setAttribute("thisPage",strPage);
+		feedbackDaoImpl.close();
 		//System.out.print(strPage);
 		if(feedbacks!=null)
 		{

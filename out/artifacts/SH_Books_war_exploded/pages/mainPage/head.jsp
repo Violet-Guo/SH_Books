@@ -23,8 +23,8 @@
         <div id="menu">
             <c:if test="${isLogin}">
                 <ul class="navigat">
-                    <li>${user.name}</li>
-                    <li>消息</li>
+                    <li><a href="#">${user.name}</a></li>
+                    <li><a href="#">消息</a></li>
                 </ul>
             </c:if>
             <c:if test="${!isLogin}">
@@ -35,22 +35,23 @@
             </c:if>
             <ul class="navigat top-sell-book">
                 <c:if test="${isLogin}">
-                    <li>购物车</li>
-                    <li>我的订单
+                    <li><a href="/buycar">购物车</a></li>
+                    <li><a href="/order">我的订单</a>
                         <ul>
-                            <li>联系方式</li>
-                            <li>联系方式</li>
-                            <li>联系方式</li>
+                            <li><a href="#">待收货</a></li>
+                            <li><a href="#">待付款</a></li>
+                            <li><a href="#">待评价</a></li>
                         </ul>
                     </li>
-                    <li>卖书</li>
+                    <li><a href="#">卖书</a></li>
                 </c:if>
+
                 <li>
-                    <a>服务中心</a>
+                    <a href="#">服务中心</a>
                     <ul>
-                        <li>联系方式</li>
-                        <li>联系方式</li>
-                        <li>联系方式</li>
+                        <li><a href="#">联系方式</a></li>
+                        <li><a href="#">联系方式</a></li>
+                        <li><a href="#">联系方式</a></li>
                     </ul>
                 </li>
             </ul>
@@ -59,8 +60,10 @@
     <div id="top-search">
         <div>
             <a href="/"><h1>二手书<span>郑大</span></h1></a>
-            <input id="search-input" type="text" name="search">
-            <input id="submit-button" type="submit">
+            <form method="get" action="/" target="_blank">
+                <input id="search-input" type="text" name="search">
+                <input id="submit-button" type="submit">
+            </form>
         </div>
     </div>
 </div>

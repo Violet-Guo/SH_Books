@@ -1,0 +1,17 @@
+#addcomp{
+    margin: auto;
+    width: 400px;
+}
+
+#comp{
+    width: 400px;
+    height: 200px;
+}
+
+#cbutton{
+    height: 25px;
+    width: 40px;
+    outline: none;
+    color: #ffffff;
+    background: #902BF5;
+}
