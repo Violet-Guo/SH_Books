@@ -1,0 +1,12 @@
+#managerInfo{
+    margin: auto;
+    width: 200px;
+}
+
+#sbutton{
+    height: 25px;
+    width: 60px;
+    outline: none;
+    color: #ffffff;
+    background: #902bf5;
+}
