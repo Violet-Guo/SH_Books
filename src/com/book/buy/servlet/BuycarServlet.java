@@ -76,8 +76,14 @@ public class BuycarServlet extends HttpServlet {
             buyVo.setMoneyTime(time);
             buyVo.setSureTime(time);
             buyVo.setTime(time);
+            buyVo.setOrderID(null);
+            OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
             try {
                 buyDao.addBuy(buyVo);
+                int id = buyDao.getLastInsertID();
+                orderformDao.updateByuserid(userVo.getId(),id);
+
+                orderformDao.close();
                 buyDao.close();
             } catch (SQLException e) {
                 e.printStackTrace();

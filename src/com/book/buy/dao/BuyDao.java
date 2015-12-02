@@ -15,7 +15,6 @@ public interface BuyDao {
      * @throws SQLException
      */
     public void addBuy(BuyVo buyVo) throws SQLException;
-    
     /**
      * 按照OrderId删除
      * @param orderID
@@ -46,5 +45,6 @@ public interface BuyDao {
      */
     public BuyVo getBuyByOrderID(int orderID) throws SQLException;
 
+    public int getLastInsertID() throws SQLException;
     public void close() throws SQLException;
 }
