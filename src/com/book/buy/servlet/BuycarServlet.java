@@ -51,7 +51,19 @@ public class BuycarServlet extends HttpServlet {
         }
         String delNum = request.getParameter("delNum");
         if(delNum!=null){
-
+            OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
+            //try {
+                int id = Integer.valueOf(delNum);
+                //orderformDao.delOrderform(id,1);//------------参数是id
+                out.print("yes");
+            /*} catch (SQLException e) {
+                e.printStackTrace();
+            }*/
+            try {
+                orderformDao.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return;
         }
         String buycarSub = request.getParameter("buycarSub");
@@ -66,6 +78,7 @@ public class BuycarServlet extends HttpServlet {
             buyVo.setTime(time);
             try {
                 buyDao.addBuy(buyVo);
+                buyDao.close();
             } catch (SQLException e) {
                 e.printStackTrace();
                 out.println("<script>alert('出错，请重试');window.location.href='/buycar';</script>");
@@ -80,34 +93,39 @@ public class BuycarServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
-        UserVo userVo = (UserVo) session.getAttribute("user");//----参数讨论
-        Boolean isLogin  = false;
+        UserVo userVo = (UserVo) session.getAttribute("user");
+
         //----------------------------
-        userVo = new UserVo();
-        userVo.setId(1);
+        UserDao userDao1 = UserDaoImpFactory.getUserDaoImpl();
+        try {
+            userVo = userDao1.findUserById(1);
+            session.setAttribute("user",userVo);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         //-------------------------------
         if(userVo!=null){
-            isLogin = true;
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
             try {
                 List<OrderFormVo> orderFormVos = orderformDao.findAllitem(userVo.getId());
                 request.setAttribute("orderFormVos",orderFormVos);
                 int len = orderFormVos.size();
-                ArrayList<ArrayList<OrderFormVo>> orderFormVoLists;
                 ArrayList<UserVo> orderUserVos = new ArrayList<>();
                 ArrayList<BookVo> orderBookVos = new ArrayList<>();
-                String sellerName;
+                BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
+                UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
                 for(int i=0;i<len;i++){
                     int bookID = orderFormVos.get(i).getBookID();
-                    BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
                     BookVo bookVo = bookDao.findById(bookID);
                     orderBookVos.add(bookVo);
-                    UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
                     UserVo userVo1 = userDao.findUserById(bookVo.getId());
                     orderUserVos.add(userVo1);
                 }
+                bookDao.close();
+                userDao.close();
                 request.setAttribute("orderUserVos",orderUserVos);
                 request.setAttribute("orderBookVos",orderBookVos);
+                orderformDao.close();
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/buycar.jsp");
                 dispatcher.forward(request,response);
             } catch (SQLException e) {

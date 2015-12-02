@@ -45,4 +45,6 @@ public interface BuyDao {
      * @throws SQLException
      */
     public BuyVo getBuyByOrderID(int orderID) throws SQLException;
+
+    public void close() throws SQLException;
 }

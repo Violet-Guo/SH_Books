@@ -51,4 +51,9 @@ public class BuyDaoImp implements BuyDao {
         String sql = "select * from buy where orderID="+orderID;
         return queryRunner.query(conn,sql,new BeanHandler<BuyVo>(BuyVo.class));
     }
+
+    @Override
+    public void close() throws SQLException {
+        conn.close();
+    }
 }
