@@ -3,4 +3,14 @@
  */
 function del(inp){
     var id = inp.name;
+    $.post(
+        "/buycar",
+        {
+            delNum:id
+        }, function (date) {
+            if(date=="yes"){
+                alert("删除成功");
+            }
+        }
+    )
 }

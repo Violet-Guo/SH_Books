@@ -27,6 +27,7 @@
     <title>购物车</title>
     <link type="text/css" rel="stylesheet" href="../../css/all.css">
     <link type="text/css" rel="stylesheet" href="../../css/buycar.css">
+    <script src="../../js/jquery.min.js"></script>
     <script src="../../js/buycar.js"></script>
 </head>
 <body>
@@ -76,7 +77,7 @@
 
         <li class="del-all">全部删除</li>
         <li class="tol-price">共计：<span>￥225</span></li>
-        <li class="action-price">
+        <li class="action-price button">
             <form action="/buycar" method="post">
                 <input type="hidden" name="buycarSub" value="yes">
                 <input value="结算" type="submit">

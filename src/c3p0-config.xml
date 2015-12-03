@@ -4,6 +4,8 @@
 		<!-- 配置用户名、密码、连接、驱动 -->
         <property name="user">root</property>
         <property name="password">19930926sch</property>
+        <!--<property name="password">19930926</property>-->
+        <!--<property name="jdbcUrl">jdbc:mysql://localhost:3306/sh_books</property>-->
         <property name="jdbcUrl">jdbc:mysql://55e1aacb0d253.sh.cdb.myqcloud.com:11462/sh_books</property>
         <property name="driverClass">com.mysql.jdbc.Driver</property>
 		<!-- 数据库连接池一次向数据库服务器要多少个连接 -->

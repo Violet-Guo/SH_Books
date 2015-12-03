@@ -7,7 +7,9 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by chao on 2015/10/28.
@@ -23,9 +25,9 @@ public class BuyDaoImp implements BuyDao {
     @Override
     public void addBuy(BuyVo buyVo) throws SQLException {
         //插入sureTime和moneyTime初始值为空，判断为空那么即为未确认和未付款的状态，但是填写插入时间
-        String sql = "insert into buy (orderID,userID,time,sureTime,moneyTime) values(?,?,?,?,?)";
+        String sql = "insert into buy (userID,time,sureTime,moneyTime) values(?,?,?,?)";
         //其中的orderID可以自动生成，所以不需要插入，但是插入后需要读出
-        queryRunner.update(conn,sql,buyVo.getOrderID(),buyVo.getUserID(),buyVo.getTime(),buyVo.getSureTime(),buyVo.getMoneyTime());
+        queryRunner.update(conn,sql,buyVo.getUserID(),buyVo.getTime(),buyVo.getSureTime(),buyVo.getMoneyTime());
     }
 
     @Override
@@ -50,5 +52,22 @@ public class BuyDaoImp implements BuyDao {
     public BuyVo getBuyByOrderID(int orderID) throws SQLException {
         String sql = "select * from buy where orderID="+orderID;
         return queryRunner.query(conn,sql,new BeanHandler<BuyVo>(BuyVo.class));
+    }
+
+    @Override
+    public int getLastInsertID() throws SQLException {
+        String sql = "select last_insert_id() as id";
+        Statement statement = conn.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        int id = 0;
+        if(resultSet.first()){
+            id = resultSet.getInt("id");
+        }
+        return id;
+    }
+
+    @Override
+    public void close() throws SQLException {
+        conn.close();
     }
 }

@@ -13,13 +13,16 @@ html,body{
 a{
     text-decoration: none;
 }
-
-.button{
+input{
+    background: transparent;
+}
+.button,input[type="button"],input[type="submit"]{
     background: #902BF5;
     color: #ffffff;
     outline: none;
+    cursor: pointer;
 }
-.button:active{
+.button:active,input[type="button"]:active,input[type="submit"]:active{
     background: #909FFF;
 }
 .clear{

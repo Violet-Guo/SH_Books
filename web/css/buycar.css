@@ -75,8 +75,13 @@
 #main .goods-ul .goods-action {
     padding-left: 100px;
 }
-#main input[type="submit"]{
+
+#main .goods-action input[type="button"]{
     background: transparent;
+    color: #000;
+}
+#main .goods-action input[type="button"]:active{
+    color: #c1c1c1;
 }
 #main .goods-head {
     margin: 0;
@@ -118,9 +123,15 @@
     font-weight: bolder;
 }
 #total .action-price{
-    margin-left: 104px;
-    background: #902BF5;
+    float: right;
+    height: 100%;
     padding-right: 25px;
     padding-left: 25px;
     color: #ffffff;
+}
+#total .action-price input[type="submit"]{
+    height: 100%;
+    color: #ffffff;
+    width: 100%;
+    background: transparent;
 }
