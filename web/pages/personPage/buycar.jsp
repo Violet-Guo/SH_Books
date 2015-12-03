@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.book.buy.vo.OrderFormVo" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
   User: chao
@@ -10,18 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%ArrayList<OrderFormVo> orderFormVos = (ArrayList<OrderFormVo>) request.getAttribute("orderFormVos");%>
-<%int everyPageNum = 5;%><%--读取文章总数和计算分页数--%>
-<%request.setAttribute("everyPageNum",everyPageNum);%>
-<%String strPage = request.getParameter("thisPage");%>
-<%Integer thisPage;%>
-<%if(strPage==null||strPage.equals("")){thisPage = 1;}else{%>
-<%thisPage = Integer.valueOf(strPage);}%><%--得到当前页数--%>
-<%int allNum = orderFormVos.size();%>
-<%int pageNum = allNum%everyPageNum==0?allNum/everyPageNum:allNum/everyPageNum+1;//计算总共多少页数%>
-<%if(thisPage>pageNum){thisPage=pageNum;}%>
-<%if(thisPage<=0){thisPage=1;}%>
-<%request.setAttribute("thisPage",thisPage);%>
+<%Paging paging = (Paging) request.getAttribute("paging");%>
 <html>
 <head>
     <title>购物车</title>
@@ -43,47 +32,47 @@
         <li class="goods-num">数量</li>
         <li class="goods-action">操作</li>
     </ul>
+    <c:if test="${orderFormVos.size()!=0}">
+        <c:set var="username" value="${''}" scope="page"/>
+        <c:forEach items="${orderFormVos}" var="orderFormVo" varStatus="status">
+            <c:set value="${orderBookVos.get(status.count-1)}" var="orderBookVo" scope="page"/>
+            <c:set value="${orderUserVos.get(status.count-1)}" var="orderUserVo" scope="page"/>
+            <c:if test="${!orderUserVo.username.equals(username)}">
+                <p class="seller-name">卖家：${orderUserVo.username}</p>
+            </c:if>
+            <c:set value="${orderUserVo.username}" var="username" scope="page"/>
+            <ul class="goods-ul">
+                <li class="goods-image"><img src="${orderBookVo.imagePath}"/></li>
+                <li class="goods-descript">
+                    <p class="goods-title">${orderBookVo.name}</p>
+                    <p>${orderBookVo.description}</p>
+                </li>
+                <li class="goods-price">${orderBookVo.price}</li>
+                <li class="goods-num">
+                    <input type="number" onchange="judgeOver(this)" big="${orderBookVo.bookNum}" name="goodsNum" value="${orderFormVo.bookNum}">
+                </li>
+                <li class="goods-action">
+                    <input type="button" name="${orderFormVo.id}" value="删除" onclick="del(this)">
+                </li>
+            </ul>
+        </c:forEach>
+        <%paging.printPage(out);%>
 
-    <p class="seller-name">卖家:旺仔小馒头</p>
-    <c:forEach items="${orderFormVos}" var="orderFormVo" begin="${(thisPage-1)*everyPageNum}" end="${thisPage*everyPageNum}" varStatus="status">
-        <c:set value="${orderBookVos.get(status.count-1)}" var="orderBookVo" scope="page"/>
-        <ul class="goods-ul">
-            <li class="goods-image"><img src="${orderBookVo.imagePath}"/></li>
-            <li class="goods-descript">
-                <p class="goods-title">${orderBookVo.name}</p>
-                <p>${orderBookVo.description}</p>
-            </li>
-            <li class="goods-price">${orderBookVo.price}</li>
-            <li class="goods-num"><input type="number" name="goodsNum" value="${orderFormVo.bookNum}"></li>
-            <li class="goods-action">
-                <input type="button" name="${orderBookVo.id}" value="删除" onclick="del(this)">
+        <ul id="total">
+            <%--计算价格--%>
+            <li class="del-all">全部删除</li>
+            <li class="tol-price">共计：<span>￥${allPrice}</span></li>
+            <li class="action-price button">
+                <form action="/buycar" method="post">
+                    <input type="hidden" name="buycarSub" value="yes">
+                    <input value="结算" type="submit">
+                </form>
             </li>
         </ul>
-    </c:forEach>
-
-    <ul id="page">
-        <li><a href="/buycar?thisPage=${requestScope.thisPage-1}">上一页</a></li>
-        <%int firstOne = thisPage%10==0?(((thisPage-1)/10)*10+1):((thisPage/10)*10+1);%>
-        <%int lastOne = thisPage%10==0?(((thisPage-1)/10+1)*10):((thisPage/10+1)*10);%>
-        <%for(int i=firstOne;i<=(lastOne>pageNum?pageNum:lastOne);i++){%>
-        <li><a <%if(thisPage==i){out.print("id='thisPage'");}%> href="/buycar?thisPage=<%out.print(i);%>"><%out.print(i);%></a></li>
-        <%}%>
-        <%if(pageNum%10>0&&pageNum/10>(thisPage-1)/10){out.print("<a href='/buycar?thisPage="+((((thisPage-1)/10)+1)*10+1)+"'>&gt;&gt;</a>");}%>
-        <li><a href="/buycar?thisPage=${requestScope.thisPage+1}">下一页</a></li>
-    </ul>
-
-
-    <ul id="total">
-
-        <li class="del-all">全部删除</li>
-        <li class="tol-price">共计：<span>￥225</span></li>
-        <li class="action-price button">
-            <form action="/buycar" method="post">
-                <input type="hidden" name="buycarSub" value="yes">
-                <input value="结算" type="submit">
-            </form>
-        </li>
-    </ul>
+    </c:if>
+    <c:if test="${orderFormVos.size()==0}">
+        <div class="is-empty-info">您的购物车空空如也，赶快去买本书吧</div>
+    </c:if>
 </div>
 <jsp:include page="/pages/mainPage/foot.jsp"/>
 </body>

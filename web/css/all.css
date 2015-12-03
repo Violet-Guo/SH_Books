@@ -16,6 +16,12 @@ a{
 input{
     background: transparent;
 }
+#main{
+    min-width: 400px;
+}
+.main{
+    min-width: 400px;
+}
 .button,input[type="button"],input[type="submit"]{
     background: #902BF5;
     color: #ffffff;

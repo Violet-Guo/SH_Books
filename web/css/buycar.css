@@ -1,7 +1,6 @@
 #main {
     width: 1100px;
     margin: 0 auto;
-    height: 500px;
     padding-top: 20px;
 }
 
@@ -102,6 +101,7 @@
     height: 50px;
     background: RGB(229, 229, 229);
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #total li {
@@ -134,4 +134,11 @@
     color: #ffffff;
     width: 100%;
     background: transparent;
+}
+
+.is-empty-info{
+    width: 100%;
+    text-align: center;
+    padding-top: 100px;
+    font-size: 20px;
 }
