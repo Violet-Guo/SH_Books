@@ -15,11 +15,13 @@ function del(inp){
     var length = div.children(".goods-ul").length;
     var id = inp.name;
     var price = ul.children(".goods-price").text();
+    price = price.substr(1,price.length);
     var allPriceSpan = $(".tol-price").children("span");
     var allPrice = allPriceSpan.text();
     var num = $(".all-num").text();
 
     alert(allPrice);
+    alert(price);
     alert(num);
     $.post(
         "/buycar",
