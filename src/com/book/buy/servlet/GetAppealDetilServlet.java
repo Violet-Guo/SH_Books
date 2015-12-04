@@ -37,7 +37,7 @@ public class GetAppealDetilServlet extends HttpServlet {
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
 
         try {
-            compvo = compdao.getAppealById(id);
+            compvo = compdao.getCompById(id);
             uservo = userdao.findUserById(compvo.getUserid());
             bookvo = bookdao.findById(compvo.getBookid());
         } catch (SQLException e) {

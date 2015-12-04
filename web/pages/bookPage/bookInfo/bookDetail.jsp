@@ -21,7 +21,7 @@
 	<div id = "bdleft">
 		<img id = "dbleftimage" alt="暂时没有图片" src="${sessionScope.bookDetils.imagePath}">
 		<br/><br/><br/>
-			<input id = "pbutton1" type="button" value="投诉" onclick="window.location='#'"/>
+			<input id = "pbutton1" type="button" value="投诉" onclick="window.location='../../serverPage/complaints/addComp.jsp?bookid=${sessionScope.bookDetils.id}'"/>
 	 	</div>
 	<div id = "bdrighttop">
 		书名：<h2 id = "booktitle">${sessionScope.bookDetils.name}</h2>

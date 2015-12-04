@@ -1,8 +1,11 @@
 package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
+import com.book.buy.dao.ComplainDao;
 import com.book.buy.factory.BookDaoImpFactory;
+import com.book.buy.factory.ComplainDaoImpFactory;
 import com.book.buy.vo.BookVo;
+import com.book.buy.vo.ComplainVo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,26 +22,34 @@ import java.sql.SQLException;
 public class DownBookByAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
+
         String bookid = request.getParameter("bookid");
-        int id = Integer.parseInt(bookid);
+        String compid = request.getParameter("compid");
+
+        int bid = Integer.parseInt(bookid);
+        int cid = Integer.parseInt(compid);
+
+        ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
+        ComplainVo compvo = new ComplainVo();
         BookVo bookvo = new BookVo();
 
         try {
-            bookvo = bookdao.findById(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            bookvo = bookdao.findById(bid);
+            compvo = compdao.getCompById(cid);
 
-        bookvo.setState(4);
+            bookvo.setState(4);
+            compvo.setState(1);
 
-        try {
             bookdao.updateBook(bookvo);
+            compdao.updateComp(compvo);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         bookdao.close();
+        compdao.close();
 
         response.sendRedirect("");
     }

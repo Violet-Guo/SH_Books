@@ -2,10 +2,13 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.ComplainDao;
+import com.book.buy.dao.UserDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.ComplainDaoImpFactory;
+import com.book.buy.factory.UserDaoImpFactory;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.ComplainVo;
+import com.book.buy.vo.UserVo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,25 +27,27 @@ public class GetCompDetilServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         String compid = request.getParameter("compid");
         int id = Integer.parseInt(compid);
+
+        UserVo uservo = new UserVo();
         BookVo bookvo = new BookVo();
         ComplainVo compvo = new ComplainVo();
+
+        UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
 
         try {
             compvo = compdao.getCompById(id);
+            uservo = userdao.findUserById(compvo.getUserid());
+            bookvo = bookdao.findById(compvo.getBookid());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        try {
-            bookvo = bookdao.findById(compvo.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        request.getSession().setAttribute("compuser", uservo);
         request.getSession().setAttribute("compdetil", compvo);
-        request.getSession().setAttribute("bookvo", bookvo);
+        request.getSession().setAttribute("compbook", bookvo);
 
         bookdao.close();
         compdao.close();

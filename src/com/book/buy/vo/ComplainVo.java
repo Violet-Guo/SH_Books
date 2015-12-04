@@ -15,6 +15,7 @@ public class ComplainVo implements Serializable{
     private int userid;
     private int bookid;
     private String description;
+    private int complainType;
     private int state;     //默认值是0
 
     /*不带参数的初始化*/
@@ -75,6 +76,18 @@ public class ComplainVo implements Serializable{
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public int getComplainType() {
+        return complainType;
+    }
+
+    public void setComplainType(int complainType) {
+        this.complainType = complainType;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     @Override
