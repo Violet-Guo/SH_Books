@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import com.book.buy.dao.OrderformDao;
 import com.book.buy.vo.OrderFormVo;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 
 public class OrderformDaoImp implements OrderformDao{
@@ -47,14 +48,32 @@ public class OrderformDaoImp implements OrderformDao{
 	
 	@Override
 	public List<OrderFormVo> findAllitem(Integer userID) throws SQLException{
-		String sql = "select id, userID, orderId, bookID, bookNum from orderform where userID = ?";
+		String sql = "select id, userID, orderId, bookID, bookNum from orderform where userID = ? and isnull(orderID)";
 		return runner.query(conn, sql, new BeanListHandler<OrderFormVo>(OrderFormVo.class),userID);	
 	}
-	
+
+	@Override
+	public double findSumPriceByUserID(int userID) throws SQLException {
+		String sql = "SELECT SUM(b.price) as price FROM book b,orderform o where o.bookID = b.id and isnull(o.orderID) and o.userID=?";
+		return (double)runner.query(conn,sql,new ScalarHandler(),userID);
+	}
+
 	@Override
 	public void  updateByuserid(Integer userID, Integer orderID) throws SQLException {
 		String sql = "update orderform set orderID = ? where userID = ?";
 		runner.update(conn, sql , orderID, userID);	
+	}
+	
+	@Override
+	public void delOrderformByid(Integer id) throws SQLException {
+		String sql = "delete from orderform where id = ?";
+		runner.update(conn, sql, id);
+	}
+	
+	@Override
+	public List<OrderFormVo> findByOrderID(Integer orderid) throws SQLException {
+		String sql = "select id, userID, orderID, bookiD, bookNum from orderform where orderid = ?";
+		return runner.query(conn, sql, new BeanListHandler<OrderFormVo>(OrderFormVo.class), orderid);
 	}
 	
 	@Override

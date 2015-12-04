@@ -33,7 +33,10 @@ public interface OrderformDao
      * 根据用户id查询所有item 
      */
     public List<OrderFormVo> findAllitem(Integer userID) throws SQLException;
-    
+    /**
+     * 获取某个用户的购物车总价值
+     */
+    public double findSumPriceByUserID(int userID) throws SQLException;
     /** 
      * 释放链接  
      */
@@ -44,4 +47,13 @@ public interface OrderformDao
      */
     public void updateByuserid(Integer userID, Integer orderID) throws SQLException;
     
+    /*
+     * 根据订单id进行删除
+     */
+    public void delOrderformByid(Integer id) throws SQLException;
+    
+    /*
+     * 根据订单id进行查询
+     */
+    public List<OrderFormVo> findByOrderID(Integer orderid) throws SQLException;
 }

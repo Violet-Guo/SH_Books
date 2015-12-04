@@ -9,6 +9,7 @@ import com.book.buy.factory.BuyDaoImpFactory;
 import com.book.buy.factory.OrderformDaoImpFactory;
 import com.book.buy.factory.UserDaoImpFactory;
 import com.book.buy.utils.NewDate;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.BuyVo;
 import com.book.buy.vo.OrderFormVo;
@@ -52,13 +53,13 @@ public class BuycarServlet extends HttpServlet {
         String delNum = request.getParameter("delNum");
         if(delNum!=null){
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
-            //try {
+            try {
                 int id = Integer.valueOf(delNum);
-                //orderformDao.delOrderform(id,1);//------------参数是id
+                orderformDao.delOrderformByid(id);
                 out.print("yes");
-            /*} catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-            }*/
+            }
             try {
                 orderformDao.close();
             } catch (SQLException e) {
@@ -76,7 +77,6 @@ public class BuycarServlet extends HttpServlet {
             buyVo.setMoneyTime(time);
             buyVo.setSureTime(time);
             buyVo.setTime(time);
-            buyVo.setOrderID(null);
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
             try {
                 buyDao.addBuy(buyVo);
@@ -112,26 +112,64 @@ public class BuycarServlet extends HttpServlet {
         //-------------------------------
         if(userVo!=null){
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
+            List<OrderFormVo> orderFormVos = null;
             try {
-                List<OrderFormVo> orderFormVos = orderformDao.findAllitem(userVo.getId());
-                request.setAttribute("orderFormVos",orderFormVos);
-                int len = orderFormVos.size();
+                orderFormVos = orderformDao.findAllitem(userVo.getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            //-----分页
+            int everyPageNum = 5;
+            Paging paging = new Paging(everyPageNum,request,orderFormVos.size(),"/buycar?");
+            int thisPage = paging.getThisPage();
+            request.setAttribute("paging",paging);
+            //------------计算结算价格
+            orderFormVos = orderFormVos.subList(paging.getStart(),paging.getEnd());
+            BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
+            UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
+            try {
+                double price = orderformDao.findSumPriceByUserID(userVo.getId());
+                request.setAttribute("allPrice",price);
+
                 ArrayList<UserVo> orderUserVos = new ArrayList<>();
                 ArrayList<BookVo> orderBookVos = new ArrayList<>();
-                BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
-                UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
+                int len = orderFormVos.size();
+
                 for(int i=0;i<len;i++){
                     int bookID = orderFormVos.get(i).getBookID();
                     BookVo bookVo = bookDao.findById(bookID);
                     orderBookVos.add(bookVo);
-                    UserVo userVo1 = userDao.findUserById(bookVo.getId());
+                    UserVo userVo1 = userDao.findUserById(bookVo.getUserID());
                     orderUserVos.add(userVo1);
                 }
+                ArrayList<OrderFormVo> orderFormVos1 = new ArrayList<>();
+                ArrayList<UserVo> orderUserVos1 = new ArrayList<>();
+                ArrayList<BookVo> orderBookVos1 = new ArrayList<>();
+
+                String tempName;
+                for(int i=0;i<orderFormVos.size();i++){
+                    tempName = orderUserVos.get(i).getUsername();
+                    for (int h=i;h<orderFormVos.size();h++){
+                        if(orderUserVos.get(h).getUsername().equals(tempName)){
+                            orderFormVos1.add(orderFormVos.get(h));
+                            orderUserVos1.add(orderUserVos.get(h));
+                            orderBookVos1.add(orderBookVos.get(h));
+
+                            orderFormVos.remove(h);
+                            orderUserVos.remove(h);
+                            orderBookVos.remove(h);
+
+                            i=-1;
+                        }
+                    }
+                }
+                request.setAttribute("orderFormVos",orderFormVos1);
+                request.setAttribute("orderUserVos",orderUserVos1);
+                request.setAttribute("orderBookVos",orderBookVos1);
+
+                orderformDao.close();
                 bookDao.close();
                 userDao.close();
-                request.setAttribute("orderUserVos",orderUserVos);
-                request.setAttribute("orderBookVos",orderBookVos);
-                orderformDao.close();
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/buycar.jsp");
                 dispatcher.forward(request,response);
             } catch (SQLException e) {
