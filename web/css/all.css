@@ -17,10 +17,10 @@ input{
     background: transparent;
 }
 #main{
-    min-width: 400px;
+    min-height: 400px;
 }
 .main{
-    min-width: 400px;
+    min-height: 400px;
 }
 .button,input[type="button"],input[type="submit"]{
     background: #902BF5;

@@ -128,7 +128,10 @@ public class BuycarServlet extends HttpServlet {
             BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
             UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
             try {
-                double price = orderformDao.findSumPriceByUserID(userVo.getId());
+                Double price = orderformDao.findSumPriceByUserID(userVo.getId());
+                if(price==null){
+                    price = 0.0;
+                }
                 request.setAttribute("allPrice",price);
 
                 ArrayList<UserVo> orderUserVos = new ArrayList<>();
