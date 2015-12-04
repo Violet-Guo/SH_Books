@@ -3,7 +3,9 @@
     margin: 0 auto;
     padding-top: 20px;
 }
-
+#main div{
+    position: relative;
+}
 #main .seller-name {
     padding-top: 20px;
 }
@@ -14,6 +16,7 @@
     background: RGB(252, 252, 252);
     border: 1px #c1c1c1 solid;
     min-width: 1098px;
+    position: relative;
 }
 
 #main .goods-ul li {
@@ -103,7 +106,6 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
-
 #total li {
     float: left;
     line-height: 50px;
@@ -111,6 +113,11 @@
 
 #total .del-all {
     padding-left: 20px;
+}
+#total .del-all input[type="submit"]{
+    height: 100%;
+    background: transparent;
+    color: #000;
 }
 
 #total .tol-price {

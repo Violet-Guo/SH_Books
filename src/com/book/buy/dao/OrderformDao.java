@@ -36,7 +36,7 @@ public interface OrderformDao
     /**
      * 获取某个用户的购物车总价值
      */
-    public double findSumPriceByUserID(int userID) throws SQLException;
+    public Double findSumPriceByUserID(int userID) throws SQLException;
     /** 
      * 释放链接  
      */

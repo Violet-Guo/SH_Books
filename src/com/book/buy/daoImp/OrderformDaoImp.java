@@ -53,9 +53,9 @@ public class OrderformDaoImp implements OrderformDao{
 	}
 
 	@Override
-	public double findSumPriceByUserID(int userID) throws SQLException {
+	public Double findSumPriceByUserID(int userID) throws SQLException {
 		String sql = "SELECT SUM(b.price) as price FROM book b,orderform o where o.bookID = b.id and isnull(o.orderID) and o.userID=?";
-		return (double)runner.query(conn,sql,new ScalarHandler(),userID);
+		return (Double)runner.query(conn,sql,new ScalarHandler(),userID);
 	}
 
 	@Override

@@ -1,6 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.book.buy.vo.OrderFormVo" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
@@ -16,13 +14,16 @@
     <title>购物车</title>
     <link type="text/css" rel="stylesheet" href="../../css/all.css">
     <link type="text/css" rel="stylesheet" href="../../css/buycar.css">
+    <link type="text/css" rel="stylesheet" href="../../css/messenger.css">
+    <link type="text/css" rel="stylesheet" href="../../css/messenger-theme-flat.css">
     <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/messenger.min.js"></script>
     <script src="../../js/buycar.js"></script>
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"/>
 <div id="main">
-    <h2>全部商品&nbsp;${orderFormVos.size()}</h2>
+    <h2>全部商品&nbsp;<span class="all-num">${orderFormVos.size()}</span></h2>
     <hr/>
     <!--购物车单的标题，表头-->
     <ul class="goods-ul goods-head">
@@ -34,11 +35,18 @@
     </ul>
     <c:if test="${orderFormVos.size()!=0}">
         <c:set var="username" value="${''}" scope="page"/>
+        <c:set value="${false}" var="isPrint" scope="page"/>
         <c:forEach items="${orderFormVos}" var="orderFormVo" varStatus="status">
             <c:set value="${orderBookVos.get(status.count-1)}" var="orderBookVo" scope="page"/>
             <c:set value="${orderUserVos.get(status.count-1)}" var="orderUserVo" scope="page"/>
             <c:if test="${!orderUserVo.username.equals(username)}">
-                <p class="seller-name">卖家：${orderUserVo.username}</p>
+                <c:if test="${isPrint}">
+                    </div>
+                    <c:set value="${false}" var="isPrint" scope="page"/>
+                </c:if>
+                    <div><%--这里打印div把每个卖家的块包到一起方便移除--%>
+                        <c:set value="${true}" var="isPrint" scope="page"/>
+                        <p class="seller-name">卖家：${orderUserVo.username}</p>
             </c:if>
             <c:set value="${orderUserVo.username}" var="username" scope="page"/>
             <ul class="goods-ul">
@@ -56,11 +64,19 @@
                 </li>
             </ul>
         </c:forEach>
+        <c:if test="${isPrint}">
+            </div>
+        </c:if>
         <%paging.printPage(out);%>
 
         <ul id="total">
             <%--计算价格--%>
-            <li class="del-all">全部删除</li>
+            <li class="del-all">
+                <form action="/buycar" method="post">
+                    <input type="hidden" name="delAll" value="yes">
+                    <input value="全部删除" type="submit">
+                </form>
+            </li>
             <li class="tol-price">共计：<span>￥${allPrice}</span></li>
             <li class="action-price button">
                 <form action="/buycar" method="post">
