@@ -1,6 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.book.buy.vo.ComplainVo" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.book.buy.vo.UserVo" %>
+<%@ page import="com.book.buy.vo.BookVo" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -25,16 +28,38 @@
     <%
         request.setCharacterEncoding("utf-8");
         ComplainVo compvo = (ComplainVo)request.getSession().getAttribute("appealdetil");
+        UserVo uservo = (UserVo)request.getSession().getAttribute("appealuser");
+        BookVo bookvo = (BookVo)request.getSession().getAttribute("appealbook");
+
+        boolean isappeal, isbook;
+        if (0 == compvo.getState()){
+            isappeal = false;
+        } else if (1 == compvo.getState()){
+            isappeal = true;
+        }
+        if (4 == bookvo.getState()){
+            isbook = false;
+        } else if (1 == bookvo.getState()){
+            isbook = true;
+        }
     %>
     <div class="panel panel-primary" style="width: 1100px; margin: auto">
         <div class="panel-heading">
             <h3 class="panel-title">投诉详情</h3>
         </div>
         <div class="panel-body">
-            投诉人：
-            被投诉书籍：
-            投诉表述：
-            状态：
+            申诉人：<%=uservo.getName()%><br>
+            被申诉书籍：<%=bookvo.getName()%><br>
+            申诉描述：<%=compvo.getDescription()%><br>
+            申诉状态：
+            <c:if test="isappeal">已处理</c:if><br>
+            <c:if test="!isappeal">未处理</c:if><br>
+            书籍状态：
+            <c:if test="isbook">已上架</c:if><br>
+            <c:if test="!isbook">已下架</c:if><br>
+            <br>
+            <input type="submit" value="查看书籍详情" onclick="window.location='#'">
+            <input type="submit" value="上架书籍" onclick="window.location='#'">
         </div>
     </div>
     <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
