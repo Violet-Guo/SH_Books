@@ -67,8 +67,9 @@ public class BuycarServlet extends HttpServlet {
             }
             return;
         }
+        //--------------购物车的提交
         String buycarSub = request.getParameter("buycarSub");
-        if(buycarSub.equals("yes")){
+        if(buycarSub!=null&&buycarSub.equals("yes")){
             BuyDao buyDao = BuyDaoImpFactory.getBuyDaoImp();
             BuyVo buyVo = new BuyVo();
             buyVo.setUserID(userVo.getId());
@@ -91,8 +92,21 @@ public class BuycarServlet extends HttpServlet {
             }
             return;
         }
-        //----------------------------这里添加购物车
-
+        //----------------------------这里删除所有商品
+        String delAll = request.getParameter("delAll");
+        if(delAll != null&&delAll.equals("yes")){
+            OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
+            try {
+                orderformDao.delOrderformByUserID(userVo.getId());
+                out.print("<script>alert('删除成功');window.location.href='/buycar'</script>");
+                orderformDao.close();
+                return;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                out.println("<script>alert('出错，请重试');window.location.href='/buycar';</script>");
+            }
+            return;
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
