@@ -76,7 +76,7 @@ public class BuycarServlet extends HttpServlet {
             Date date = new Date();
             String time = NewDate.getDateTime(date);//获取时间
             buyVo.setMoneyTime(time);
-            buyVo.setSureTime(time);
+            buyVo.setSureTime(null);
             buyVo.setTime(time);
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
             try {

@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.book.buy.vo.UserVo" %>
+<%@ page import="com.book.buy.dao.InformDao" %>
+<%@ page import="com.book.buy.factory.InformDaoImplFactory" %>
+<%@ page import="com.book.buy.vo.InformVo" %>
+<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: chao
@@ -11,8 +15,11 @@
 <%UserVo userVo = (UserVo) session.getAttribute("user");%>
 <%Boolean isLogin;%>
 <%
+    List<InformVo> informVos = null;
     if (userVo != null) {
         isLogin = true;
+        InformDao informDao = InformDaoImplFactory.getInformDaoImpl();
+        informVos = informDao.count(userVo.getId());
     } else {
         isLogin = false;
     }
@@ -24,7 +31,7 @@
             <c:if test="${isLogin}">
                 <ul class="navigat">
                     <li><a href="#">${user.name}</a></li>
-                    <li><a href="#">消息</a></li>
+                    <li><a href="#">消息<%=informVos.size()%></a></li>
                 </ul>
             </c:if>
             <c:if test="${!isLogin}">
