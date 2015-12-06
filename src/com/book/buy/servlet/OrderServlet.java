@@ -70,14 +70,15 @@ public class OrderServlet extends HttpServlet {
                 //通过buy列表获取orderForm
                 BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
                 UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
-                HashMap<Integer, List<OrderFormVo>> orderFormVoMap = new HashMap<>();
-                HashMap<Integer, List<UserVo>> orderFormUserMap = new HashMap<>();
-                HashMap<Integer, List<BookVo>> orderFormBookMap = new HashMap<>();
+                HashMap<Long, List<OrderFormVo>> orderFormVoMap = new HashMap<>();
+                HashMap<Long, List<UserVo>> orderFormUserMap = new HashMap<>();
+                HashMap<Long, List<BookVo>> orderFormBookMap = new HashMap<>();
                 ArrayList<Double> orderPriceList = new ArrayList<>();
+
                 for (int r = 0; r < buyVos.size(); r++) {
 
                     List<OrderFormVo> orderFormVos = orderformDao.findByOrderID(buyVos.get(r).getOrderID());
-                    orderFormVoMap.put(r, orderFormVos);
+                    orderFormVoMap.put(Long.valueOf(r), orderFormVos);
 
 
                     //------------计算结算价格
@@ -120,9 +121,9 @@ public class OrderServlet extends HttpServlet {
                             }
                         }
                     }
-                    orderFormVoMap.put(r, orderFormVos1);
-                    orderFormUserMap.put(r, orderUserVos1);
-                    orderFormBookMap.put(r, orderBookVos1);
+                    orderFormVoMap.put(Long.valueOf(r), orderFormVos1);
+                    orderFormUserMap.put(Long.valueOf(r), orderUserVos1);
+                    orderFormBookMap.put(Long.valueOf(r), orderBookVos1);
 
                 }
 
