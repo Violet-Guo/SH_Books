@@ -46,7 +46,7 @@ public interface BookDao{
 	 * @return
 	 * @throws SQLException
 	 */
-	public BookVo findByUserId(Integer userId) throws SQLException;
+	public List<BookVo> findByUserId(Integer userId) throws SQLException;
 	
 	/**
 	 * 按照用户id去查找图书（分页）
@@ -54,7 +54,7 @@ public interface BookDao{
 	 * @return
 	 * @throws SQLException
 	 */
-	public BookVo findByUserId(Integer userId, Integer start, Integer length) throws SQLException;
+	public List<BookVo> findByUserId(Integer userId, Integer start, Integer length) throws SQLException;
 	
 	/**
 	 * 返回最后一次存入的ID

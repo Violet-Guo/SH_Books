@@ -190,7 +190,7 @@ public class SearchBook extends HttpServlet {
                     tnianji = "大一";
                     break;
                 case 2:
-                    tnianji = "大二";
+                        tnianji = "大二";
                     break;
                 case 3:
                     tnianji = "大三";

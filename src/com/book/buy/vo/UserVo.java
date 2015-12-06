@@ -144,4 +144,19 @@ public class UserVo {
 		+ ", password=" + password + ", majorID=" + majorID + ", time=" + time + ", qq=" + qq + ", phoneNumber="
 		+ phoneNumber + ", complainNum=" + complainNum + "]";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        UserVo  user1 = (UserVo)obj;
+        int a = user1.getId();
+        int b = this.getId();
+        if(a == b)
+            return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getId();
+    }
 }

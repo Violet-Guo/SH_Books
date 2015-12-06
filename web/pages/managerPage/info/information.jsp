@@ -139,6 +139,7 @@
             <br>
         </div>
     </div>
+    <br>
     <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>
 </html>

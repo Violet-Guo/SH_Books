@@ -16,7 +16,7 @@
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
 <div id = "login">
 	<h1>用户登录</h1>
-	<form action="/SH_Books/LoginServlet" method="post">
+	<form action="/LoginServlet" method="post">
 		<div id = "logincenter">
 			账号：<input type="text" name = "username"/><br/>
 			密码：<input type="password" name = "password"/>

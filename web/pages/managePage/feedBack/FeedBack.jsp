@@ -21,7 +21,7 @@
 
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
-		<form action="../../../FeedBack" method="post">
+		<form action="./FeedBackServlet" method="post">
 		<br><br>
 		<input type="hidden" name="action" value="post" />
 				<h2 align="center">账号:					

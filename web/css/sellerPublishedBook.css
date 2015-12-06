@@ -1,0 +1,51 @@
+#publishedbooklist{
+    margin: auto;
+    width: 1100px;
+    line-height: 30px;
+    min-height: 300px;
+}
+
+#toph{
+    margin: auto;
+    width: 1000px;
+}
+
+#num{
+    position: absolute;
+    left: 300px;
+}
+
+#bname{
+    position: absolute;
+    left: 400px;
+}
+
+#bauther{
+    position: absolute;
+    left: 500px;
+}
+
+#oldgrade{
+    position: absolute;
+    left: 600px;
+}
+
+#ptime{
+    position: absolute;
+    right: 600px;
+}
+
+#udstate{
+    position: absolute;
+    right: 500px;
+}
+
+#bstate{
+    position: absolute;
+    right: 400px;
+}
+
+#appeal{
+    position: absolute;
+    right: 300px;
+}

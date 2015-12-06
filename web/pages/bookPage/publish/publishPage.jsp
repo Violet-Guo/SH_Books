@@ -19,7 +19,7 @@
 	<div id = "pleft">
 		<h2 id = "psubtitle">图书发布</h2><br/>
 	</div>
-	<form action="/SH_Books/PublishBookServlet" method="post" enctype="multipart/form-data">
+	<form action="/PublishBookServlet" method="post" enctype="multipart/form-data">
 		<div id = "pright">
 			<div id = "prightleft">
 				书名：&nbsp;<input type="text" name="bookName"/>&nbsp;&nbsp;<br/>

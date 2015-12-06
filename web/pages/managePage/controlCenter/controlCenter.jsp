@@ -19,7 +19,7 @@
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
 <% 
 Integer userID = new Integer(-1);
- // UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
+// UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
 UserVo userVo=new UserVo();
 userVo=(UserVo)session.getAttribute("user");
 //userID=userVo.getId();
@@ -40,9 +40,9 @@ try {
 int num=informs.size();
 %>
 <br><br><br><br><br>
-                     <H1 align="center"><a href="../feedBack/FeedBack.jsp">反馈</a>
-                     <a href="../../../Inform">通知(<%=num %>)</a>
-                    <a href="../help/help.jsp">帮助</a></H1>
+                     <H1 align="center"><a href="./feedback">反馈</a>
+                     <a href="./InformServlet">通知(<%=num %>)</a>
+                    <a href="./help">帮助</a></H1>
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>

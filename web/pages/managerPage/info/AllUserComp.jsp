@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.book.buy.vo.ComplainVo" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.book.buy.vo.UserVo" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -24,8 +25,8 @@
     <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
     <%
         request.setCharacterEncoding("utf-8");
-        List<ComplainVo> lis = new ArrayList<>();
-        lis = (ArrayList)request.getSession().getAttribute("");
+        List<UserVo> lis = new ArrayList<>();
+        lis = (ArrayList)request.getSession().getAttribute("allcompuser");
     %>
 
     <br>
@@ -34,7 +35,34 @@
             <h3 class="panel-title">用户</h3>
         </div>
         <div class="panel-body">
-            用户显示
+            <div>
+                <span style="position: absolute; left: 200px;">用户名</span>
+                <span style="position: absolute; left: 400px">被投诉次数</span>
+                <span style="position: absolute; left: 700px">用户状态</span>
+            </div>
+            <%
+                for (int i = 0; i < lis.size(); i++){
+                    UserVo uservo = (UserVo)lis.get(i);
+            %>
+            <%=i+1%>.
+            <p style="position: absolute; left: 200px"><%=uservo.getName()%></p>
+            <p style="position: absolute; left: 400px"><%=uservo.getComplainNum()%></p>
+            <%
+                if (3 < uservo.getComplainNum()){
+            %>
+            <p style="position: absolute; left: 700px">已冻结</p><br>
+            <%
+            }
+            else{
+            %>
+            <p style="position: absolute; left: 700px;">正常</p><br>
+            <%
+                }
+            %>
+            <%
+                }
+            %>
+            <br>
         </div>
     </div>
     <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>

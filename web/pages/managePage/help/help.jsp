@@ -29,7 +29,7 @@
 <h3 align="center">   2.发布图书应内容健康，图文物相符         </h3><br>
 <h3 align="center">   3.书籍违规被强制下架后应修改内容并提出申诉         </h3><br>
 <h3 align="center">   4.违规多次将被封号         </h3><br>
-<img  src="../../../images/买卖时序图.jpg" style="margin-left:450px" width="500" height="800"/>
+<img  src="./images/买卖时序图.jpg" style="margin-left:450px" width="500" height="800"/>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>

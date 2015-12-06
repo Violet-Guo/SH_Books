@@ -40,6 +40,13 @@ public class ManagerDaoImp implements ManagerDao{
     }
 
     @Override
+    public void updateManager(ManagerVo managervo) throws SQLException {
+        String sql = "update admin set userName = ?, password = ? where id = ?";
+        runner.update(conn,sql, managervo.getUsername(), managervo.getPassword(), managervo.getId());
+    }
+
+
+    @Override
     public void close() {
         try {
             if (conn != null)

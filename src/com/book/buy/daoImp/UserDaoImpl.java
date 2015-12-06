@@ -27,10 +27,11 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void addUser(UserVo user) throws SQLException{
 		String sql = "insert into user(name, username, headPhoto, password, majorID, time,"
-				+ " qq, phoneNumber, complainNum) values(?, ?, ?, ?, ?, ?, ?, ?)";
-		runner.update(conn, sql, user.getName(), user.getHeadPhoto(), user.getPassword(),
-			user.getMajorID(), user.getTime(), user.getQq(), 
-			user.getPhoneNumber(), user.getComplainNum());
+				+ " qq, phoneNumber, complainNum) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		runner.update(conn, sql, user.getName(), user.getUsername(),
+				user.getHeadPhoto(), user.getPassword(), user.getMajorID(),
+				user.getTime(), user.getQq(),  user.getPhoneNumber(),
+				user.getComplainNum());
 	}
 
 	@Override

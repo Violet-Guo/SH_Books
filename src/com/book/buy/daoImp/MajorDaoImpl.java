@@ -74,7 +74,7 @@ public  class MajorDaoImpl implements MajorDao {
 	public MajorVo getMajorByNG(String name, int grade) throws SQLException {
 		// TODO Auto-generated method stub
 		String sql="select * from major where name=? and grade=?";
-    	return  runner.query(conn, sql,new BeanHandler<MajorVo>(MajorVo.class), name,grade);
+    	return  runner.query(conn, sql,new BeanHandler<MajorVo>(MajorVo.class), name, grade);
 	}
 
 	@Override

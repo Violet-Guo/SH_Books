@@ -1,3 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.book.buy.vo.BookVo" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -13,12 +17,57 @@
 <html>
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
+    <link rel="stylesheet" href="<%=basePath %>css/sellerPublishedBook.css">
     <title>已发布的书籍</title>
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
+    <%
+        request.setCharacterEncoding("utf-8");
+        List<BookVo> booklis = (ArrayList)request.getSession().getAttribute("publishedbook");
+    %>
     <div id="publishedbooklist">
-
+        <div id="toph">
+            <span id="num">序号</span><span id="bname">书名</span><span id="bauther">作者</span><span id="oldgrade">新旧程度</span>
+            <span id="ptime">发布时间</span><span id="udstate">上下架状态</span><span id="bstate">书籍状态</span><span id="appeal">申诉</span>
+        </div>
+        <br>
+        <%
+            for (int i = 0; i < booklis.size(); i++){
+                BookVo book = (BookVo)booklis.get(i);
+                boolean udstate, bstate;
+                bstate = false;
+                if (1 == book.getState())
+                    udstate = true;
+                else if (2 == book.getState())
+                    udstate = false;
+                else if (3 == book.getState())
+                    bstate = true;
+        %>
+        <div id="body">
+            <span id="num"><%=i+1%></span>
+            <span id="bname"><a href="/bookDetail?bookID=<%=book.getId()%>"><%=book.getName()%></a></span>
+            <span id="bauther"><%=book.getAuthor()%></span>
+            <span id="oldgrade"><%=book.getOldGrade()%></span>
+            <span id="ptime"><%=book.getTime()%></span>
+            <span id="udstate">
+                <c:if test="${!udstate}">已下架</c:if>
+                <c:if test="${udstate}">已上架</c:if>
+                <c:if test="${bstate}">被管理员下架</c:if>
+            </span>
+            <span id="bstate">
+                <c:if test="${!udstate}"><a href="#">上架</a></c:if>
+                <c:if test="${udstate}">下架</c:if>
+            </span>
+            <span id="appeal">
+                <c:if test="${bstate}"><a href="#">申诉</a></c:if>
+                <c:if test="${!bstate}">申诉</c:if>
+            </span>
+        </div>
+        <br>
+        <%
+            }
+        %>
     </div>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>

@@ -34,7 +34,7 @@
 			<li id = "ilistitem"><a href="#">退货</a></li>
 		</ul>
 	</div>
-	<form action="/SH_Books/ChangePersonInfoServlet" method="post" enctype="multipart/form-data">
+	<form action="/ChangePersonInfoServlet" method="post" enctype="multipart/form-data">
 		<div id = "irightbutton">
 			<div>
 				<p id = "icurword">当前头像：</p>

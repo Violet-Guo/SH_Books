@@ -66,14 +66,14 @@ public class showFeedback extends HttpServlet {
 		if(feedbacks!=null)
 		{
 			
-			String href="./pages/managePage/showFeedback/showFeedback.jsp";
+			String href="./showFeedbacks";
 			out.print("<script language='javascript'>window.location.href='"+href+"';</script>");  //页面重定向
 			out.flush();
 			out.close();
 		}else 
 		{
 		
-			String href="./pages/managePage/showFeedback/showFeedback.jsp";
+			String href="./showFeedbacks";
 			out.print("<script language='javascript'>alert('反馈信息为空！');window.location.href='"+href+"';</script>");
 		}
 	

@@ -21,18 +21,16 @@
 		<h3><strong>账号管理</strong></h3>
 		<ul>
 			<li><a href="#">个人资料</a></li>
-			<li><a href="#">消息（${sessionScope.num }）</a></li>
+			<li><a href="./InformServlet">消息（${sessionScope.num }）</a></li>
 			<li><a href="#">心愿书籍</a></li>
 			<li><a href="#">已发布图书</a></li>
 		</ul>
 	</div>
 	<div id = "irighttop">
 		<ul id = "ilist">
-			<li id = "ilistitem"><a href="#">待付款（）</a></li>
-			<li id = "ilistitem"><a href="#">待发货（）</a></li>
-			<li id = "ilistitem"><a href="#">待收货（）</a></li>
-			<li id = "ilistitem"><a href="#">待评价（）</a></li>
-			<li id = "ilistitem"><a href="#">退货</a></li>
+			<li id = "ilistitem"><a href="/order?state=waitmoney">待付款（）</a></li>
+			<li id = "ilistitem"><a href="/order?state=waitsure">待确认（）</a></li>
+			<li id = "ilistitem"><a href="/order?state=waiteva">待评价（）</a></li>
 		</ul>
 	</div>
 	<div id = "irightcenter">
