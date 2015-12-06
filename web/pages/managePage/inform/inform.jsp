@@ -70,10 +70,10 @@
  		<%String a; if (informvo.getType()==1) a="心愿单到货"; else a="购买通知";%> <td><%= a %></td>
          <%if(informvo.getType()==1) {%>
          
- 		 <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="*书籍详情.jsp?id=<%=informvo.getNum() %>"><%=informvo.getNum() %></a></td>
+ 		 <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=informvo.getNum() %>"><%=informvo.getNum() %></a></td>
  		<% }%>
  		   <% if(informvo.getType()==2) {%>
- 		    <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="*买家信息.jsp?id=<%=informvo.getNum() %>"><%=informvo.getNum() %></a></td>
+ 		    <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/order?isUser=seller"><%=informvo.getNum() %></a></td>
  		<% }%>
  		<td><%=informvo.getTime()%></td>
  		 
@@ -81,14 +81,14 @@
  		 <%} %>
         </table>
         <ul id="page">
-        <li><a href="../../../Inform?thisPage=${requestScope.thisPage-1}">上一页</a></li>
+        <li><a href="./InformServlet?thisPage=${requestScope.thisPage-1}">上一页</a></li>
         <%int firstOne = thisPage%10==0?(((thisPage-1)/10)*10+1):((thisPage/10)*10+1);%>
         <%int lastOne = thisPage%10==0?(((thisPage-1)/10+1)*10):((thisPage/10+1)*10);%>
         <%for(int i=firstOne;i<=(lastOne>pageNum?pageNum:lastOne);i++){%>
-        <li><a <%if(thisPage==i){out.print("id='thisPage'");}%> href="../../../Inform?thisPage=<%out.print(i);%>"><%out.print(i);%></a></li>
+        <li><a <%if(thisPage==i){out.print("id='thisPage'");}%> href="./InformServlet?thisPage=<%out.print(i);%>"><%out.print(i);%></a></li>
         <%}%>
-        <%if(pageNum%10>0&&pageNum/10>(thisPage-1)/10){out.print("<a href='../../../Inform?thisPage="+((((thisPage-1)/10)+1)*10+1)+"'>&gt;&gt;</a>");}%>
-        <li><a href="../../../Inform?thisPage=${requestScope.thisPage+1}">下一页</a></li>
+        <%if(pageNum%10>0&&pageNum/10>(thisPage-1)/10){out.print("<a href='./InformServlet?thisPage="+((((thisPage-1)/10)+1)*10+1)+"'>&gt;&gt;</a>");}%>
+        <li><a href="./InformServlet?thisPage=${requestScope.thisPage+1}">下一页</a></li>
 </ul>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>

@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 			//验证成功保存session
 			request.getSession().setAttribute("user", user);
 			//跳转
-			response.sendRedirect("/mainPage");
+			response.sendRedirect("/index");
 		    }
 		    else{
 			//提示密码错误，不跳转

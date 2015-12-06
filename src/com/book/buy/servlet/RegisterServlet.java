@@ -30,75 +30,75 @@ import com.book.buy.vo.UserVo;
  */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     public RegisterServlet() {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-		throws ServletException, IOException {
-	    //获取参数
-	    String xuehao = request.getParameter("xuehao");
-	    String username = request.getParameter("username");
-	    String mima = request.getParameter("mima");
-	    String tel = request.getParameter("tel");
-	    String qq = request.getParameter("QQ");
-	    String sUrl = "http://jw.zzu.edu.cn/scripts/qscore.dll/search";
-	    String nianji = xuehao.substring(0, 4);
-	    String headPhoto = "/SH_Books/images/touxiang.png";
-	    
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("nianji", nianji);
-            map.put("xuehao", xuehao);
-            map.put("mima", mima);
-            
-            //获取页面
-            Document document = Jsoup.connect(sUrl).data(map).post();
-            Element e = document.getElementsByTag("p").get(1);
-	    String line = e.text();
-	    
-	    Integer index1 = line.indexOf("专业：");
-	    Integer index2 = line.indexOf("学期");
-	    String zhuanye = line.substring(index1 + 3, index2 - 2);
-	    index1 = line.indexOf("院系：");
-	    index2 = line.indexOf("专业");
-	    String yuanxi = line.substring(index1 + 3, index2 - 2);
-	    
-	    String xueqi = line.substring(line.length() - 1);
-	    
-	    //拿到专业id
-	    MajorDao majorDao = MajorDaoImpFactory.getmajordaoimpl();
-	    MajorVo majorVo = null;
-	    try {
-		majorVo = majorDao.getMajorByAll(yuanxi, zhuanye, (Integer.parseInt(xueqi) + 1) /2);
-	    } catch (SQLException e2) {
-		// TODO Auto-generated catch block
-		e2.printStackTrace();
-	    }
-	    
-	    String time = NewDate.getDateTime(new Date());
-	    UserVo userVo = new UserVo(xuehao, username, headPhoto, mima, majorVo.getId(), time, qq, tel, 0);
-	    
-	    UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
-	    try {
-		//增加用户完成验证
-		userDao.addUser(userVo);
-	    } catch (SQLException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	    }
-	    
-	    majorDao.close();
-	    userDao.close();
-	    //跳转登录
-	    String href = "/login";
-	    response.getWriter().print("<script language='javascript'>alert('注册成功，请登录！！！');"
-		    + "window.location.href='"+ href + "';</script>");
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //获取参数
+        String xuehao = request.getParameter("xuehao");
+        String username = request.getParameter("username");
+        String mima = request.getParameter("mima");
+        String tel = request.getParameter("tel");
+        String qq = request.getParameter("QQ");
+        String sUrl = "http://jw.zzu.edu.cn/scripts/qscore.dll/search";
+        String nianji = xuehao.substring(0, 4);
+        String headPhoto = "/SH_Books/images/touxiang.png";
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-		throws ServletException, IOException {
-		doGet(request, response);
-	}
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("nianji", nianji);
+        map.put("xuehao", xuehao);
+        map.put("mima", mima);
+
+        //获取页面
+        Document document = Jsoup.connect(sUrl).data(map).post();
+        Element e = document.getElementsByTag("p").get(1);
+        String line = e.text();
+
+        Integer index1 = line.indexOf("专业：");
+        Integer index2 = line.indexOf("学期");
+        String zhuanye = line.substring(index1 + 3, index2 - 2);
+        index1 = line.indexOf("院系：");
+        index2 = line.indexOf("专业");
+        String yuanxi = line.substring(index1 + 3, index2 - 2);
+
+        String xueqi = line.substring(line.length() - 1);
+
+        //拿到专业id
+        MajorDao majorDao = MajorDaoImpFactory.getmajordaoimpl();
+        MajorVo majorVo = new MajorVo();
+        try {
+            majorVo = majorDao.getMajorByAll(yuanxi, zhuanye, (Integer.parseInt(xueqi) + 1) / 2);
+        } catch (SQLException e2) {
+            // TODO Auto-generated catch block
+            e2.printStackTrace();
+        }
+
+        String time = NewDate.getDateTime(new Date());
+        UserVo userVo = new UserVo(xuehao, username, headPhoto, mima, majorVo.getId(), time, qq, tel, 0);
+
+        UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
+        try {
+            //增加用户完成验证
+            userDao.addUser(userVo);
+        } catch (SQLException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+        majorDao.close();
+        userDao.close();
+        //跳转登录
+        String href = "/login";
+        response.getWriter().print("<script language='javascript'>alert('注册成功，请登录！！！');"
+                + "window.location.href='" + href + "';</script>");
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
 }

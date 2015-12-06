@@ -38,7 +38,7 @@ public class DownBookByAdminServlet extends HttpServlet {
             bookvo = bookdao.findById(bid);
             compvo = compdao.getCompById(cid);
 
-            bookvo.setState(4);
+            bookvo.setState(3);
             compvo.setState(1);
 
             bookdao.updateBook(bookvo);

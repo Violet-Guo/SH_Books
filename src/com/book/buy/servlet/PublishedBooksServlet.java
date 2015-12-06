@@ -38,7 +38,7 @@ public class PublishedBooksServlet extends HttpServlet {
 
 
         bookdao.close();
-        response.sendRedirect("pages/SellerPage/sellerPublishedBook.jsp");
+        response.sendRedirect("/publishedbook");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

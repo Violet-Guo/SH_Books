@@ -35,7 +35,7 @@
                         <!--这里是专业小分类-->
                         <c:forEach items="${majorVosName}" var="majorVoName">
                             <c:if test="${majorVoName.getDepartment().equals(majorVoDep.getDepartment())}">
-                                <a href="#">${majorVoName.name}</a>
+                                <a href="/SearchBook?majorName=${majorVoName.name}">${majorVoName.name}</a>
                             </c:if>
                         </c:forEach>
                     </div>
@@ -49,14 +49,15 @@
         <ul>
             <c:forEach items="${bookLastVos}" var="bookVo" begin="0" end="4">
                 <li>
-                        <img src="${bookVo.imagePath}"/>
-                        <div class="hotBook-title">
-                            <span>
-                                <p>${bookVo.name}</p>
-                                <p>作者:${bookVo.author}</p>
-                                <p>价格:${bookVo.price}</p>
-                            </span>
-                        </div>
+                    <a href="/ShowBookDetail?bookID=${bookVo.id}"><img src="${bookVo.imagePath}"/></a>
+
+                    <div class="hotBook-title">
+                        <span>
+                            <p><a href="/ShowBookDetail?bookID=${bookVo.id}">${bookVo.name}</a></p>
+                            <p><a href="/ShowBookDetail?bookID=${bookVo.id}">作者:${bookVo.author}</a></p>
+                            <p><a href="/ShowBookDetail?bookID=${bookVo.id}">价格:${bookVo.price}</a></p>
+                        </span>
+                    </div>
 
                 </li>
             </c:forEach>
