@@ -1,0 +1,171 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>订单</title>
+
+    <link type="text/css" rel="stylesheet" href="../../css/all.css">
+    <link type="text/css" rel="stylesheet" href="../../css/buycar.css">
+    <link type="text/css" rel="stylesheet" href="../../css/order.css">
+</head>
+<body>
+<div id="head">
+    <div id="top-navigat">
+        <div id="menu">
+            <ul class="navigat">
+                <li>逸天空逝</li>
+            </ul>
+            <ul class="navigat top-sell-book">
+                <li>购物车</li>
+                <li>我的订单
+                    <ul>
+                        <li>联系方式</li>
+                        <li>联系方式</li>
+                        <li>联系方式</li>
+                    </ul>
+                </li>
+                <li>
+                    <a>服务中心</a>
+                    <ul>
+                        <li>联系方式</li>
+                        <li>联系方式</li>
+                        <li>联系方式</li>
+                    </ul>
+                </li>
+                <li>卖书</li>
+            </ul>
+        </div>
+    </div>
+    <div id="top-search">
+        <div>
+            <h1>二手书<span>郑大</span></h1>
+            <input id="search-input" type="text" name="search">
+            <input id="submit-button" type="submit">
+        </div>
+    </div>
+</div>
+
+<div id="main">
+    <ul class="order-head">
+        <li class="on">
+            <h2>全部订单</h2>
+        </li>
+        <li>
+            <h2>待付款</h2>
+        </li>
+        <li>
+            <h2>待发货</h2>
+        </li>
+        <li>
+            <h2>待确认</h2>
+        </li>
+        <li>
+            <h2>待评价</h2>
+        </li>
+        <li class="floatRight">
+            <h2>买</h2>
+        </li>
+        <li class="floatRight">
+            <h2>卖</h2>
+        </li>
+    </ul>
+    <hr/>
+    <!--购物车单的标题，表头-->
+    <ul class="goods-ul goods-head">
+        <li class="goods-image">图片</li>
+        <li class="goods-descript">描述</li>
+        <li class="goods-price">价格</li>
+        <li class="goods-num">数量</li>
+        <li class="goods-action">操作</li>
+        <li class="goods-state">状态</li>
+    </ul>
+    <div class="goods-all">
+        <ul class="order-head main-head">
+            <li class="user-state buy">买</li>
+            <li>时间：2015-09-08</li>
+            <li>订单号：34</li>
+            <li class="goods-sure">
+                <form>
+                    <input type="hidden" name="isSure" value="yes">
+                    <input type="hidden" name="number" value="34">
+                    <input type="submit" value="确认收货">
+                </form>
+            </li>
+            <li class="all-price">总价：<span>34</span></li>
+        </ul>
+        <ul class="order-head sell-head">
+            <li>卖家:旺仔小馒头</li>
+            <li>2015-08-09</li>
+        </ul>
+        <ul class="goods-ul">
+            <li class="goods-image"><img src="images/test.jpg"/></li>
+            <li class="goods-descript">
+                <p class="goods-title">我是一只小小鸟</p>
+
+                <p>啥啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新</p>
+            </li>
+            <li class="goods-price">20.00元</li>
+            <li class="goods-num">2</li>
+            <li class="goods-action">删除</li>
+        </ul>
+    </div>
+
+    <div class="goods-all">
+        <ul class="order-head main-head">
+            <li class="user-state sell">卖</li>
+            <li>时间：2015-09-08</li>
+            <li>订单号：34</li>
+            <li class="goods-sure">
+                <form>
+                    <input type="hidden" name="isSure" value="yes">
+                    <input type="hidden" name="number" value="34">
+                    <input type="submit" value="确认收货">
+                </form>
+            </li>
+        </ul>
+        <ul class="order-head sell-head">
+            <li>卖家:旺仔小馒头</li>
+            <li>2015-08-09</li>
+        </ul>
+        <ul class="goods-ul">
+            <li class="goods-image"><img src="images/test.jpg"/></li>
+            <li class="goods-descript">
+                <p class="goods-title">我是一只小小鸟</p>
+
+                <p>啥啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新啥啥书5成新</p>
+            </li>
+            <li class="goods-price">20.00元</li>
+            <li class="goods-num"><input type="number" name="goodsNum" value="2"></li>
+            <li class="goods-action">删除</li>
+        </ul>
+    </div>
+
+
+    <ul id="total">
+        <li class="del-all">全部删除</li>
+        <li class="tol-price">共计：<span>￥225</span></li>
+        <li class="action-price">结算</li>
+    </ul>
+</div>
+
+
+<div id="foot">
+    <div id="foot-center">
+        <div>
+            <h2>用户帮助</h2>
+
+            <p>购物指南</p>
+
+            <p>站点地图</p>
+        </div>
+        <div>
+            <h2>公司信息</h2>
+
+            <p>关于二手书交易网</p>
+
+            <p>关于我们</p>
+        </div>
+        <div>afd</div>
+    </div>
+</div>
+</body>
+</html>
