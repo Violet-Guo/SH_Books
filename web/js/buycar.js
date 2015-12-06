@@ -15,14 +15,10 @@ function del(inp){
     var length = div.children(".goods-ul").length;
     var id = inp.name;
     var price = ul.children(".goods-price").text();
-    price = price.substr(1,price.length);
     var allPriceSpan = $(".tol-price").children("span");
     var allPrice = allPriceSpan.text();
     var num = $(".all-num").text();
 
-    alert(allPrice);
-    alert(price);
-    alert(num);
     $.post(
         "/buycar",
         {
@@ -41,8 +37,12 @@ function del(inp){
         ele.animate({"left":"-1200"},800,function(){
             ele.animate({"height":"0"},500, function () {
                 ele.remove();
-                allPriceSpan.text(allPrice-price);
+                var p = allPrice - price;
+                allPriceSpan.text(p.toFixed(1));
                 $(".all-num").text(num-1);
+                if((num-1)==0){
+                    $("#total").replaceWith("<div class='is-empty-info'>您的购物车空空如也，赶快去买本书吧</div>");
+                }
             })
         });
     }

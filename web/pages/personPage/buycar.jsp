@@ -77,7 +77,7 @@
                     <input value="全部删除" type="submit">
                 </form>
             </li>
-            <li class="tol-price">共计：<span>￥${allPrice}</span></li>
+            <li class="tol-price">共计：<span>${allPrice}</span></li>
             <li class="action-price button">
                 <form action="/buycar" method="post">
                     <input type="hidden" name="buycarSub" value="yes">
