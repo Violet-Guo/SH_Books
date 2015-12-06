@@ -3,6 +3,7 @@ package com.book.buy.dao;
 import com.book.buy.vo.BuyVo;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by chao on 2015/10/28.
@@ -35,8 +36,8 @@ public interface BuyDao {
      * @return
      * @throws SQLException
      */
-    public BuyVo getBuyByUserID(int userID) throws SQLException;
-    
+    public List<BuyVo> getBuyByUserID(int userID,int begin,int count) throws SQLException;
+    public Long getCountByUserID(int userID) throws SQLException;
     /**
      * 按照orderid查找
      * @param orderID
@@ -45,6 +46,54 @@ public interface BuyDao {
      */
     public BuyVo getBuyByOrderID(int orderID) throws SQLException;
 
+    /**
+     * 获取待付款
+     * @param userID
+     * @param begin
+     * @param count
+     * @return
+     * @throws SQLException
+     */
+    public List<BuyVo> getWaitMoneyByUserID(int userID,int begin,int count) throws SQLException;
+    public Long getWaitMoneyCount(int userID) throws SQLException;
+    /**
+     * 获取待确认订单
+     * @param userID
+     * @param begin
+     * @param count
+     * @return
+     * @throws SQLException
+     */
+    public List<BuyVo> getWaitSureByUserID(int userID,int begin,int count) throws SQLException;
+    public Long getWaitSureCount(int userID) throws SQLException;
+    /**
+     * 获取最后插入的一列的id
+     * @return
+     * @throws SQLException
+     */
     public int getLastInsertID() throws SQLException;
+
+    /**
+     * 获取未评价的订单
+     * @return
+     * @param userID
+     * @param begin
+     * @param count
+     * @throws SQLException
+     */
+    public List<BuyVo> getWaitEvaByUserID(int userID,int begin,int count) throws SQLException;
+    public Long getWaitEvaCount(int userID) throws SQLException;
+
+    /**
+     * 获取每个订单的总价格
+     * @param orderID
+     * @return
+     * @throws SQLException
+     */
+    public Double getBuyPrice(int orderID) throws SQLException;
+    /**
+     * 关闭数据库
+     * @throws SQLException
+     */
     public void close() throws SQLException;
 }

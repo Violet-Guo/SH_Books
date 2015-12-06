@@ -1,4 +1,4 @@
-html,body,p,h1,h2,h3,h4,h5,h6,ul,li,input,button{
+html,body,p,h1,h2,h3,h4,h5,h6,ul,li,input,button,form{
     margin: 0;
     padding: 0;
     border: none;
@@ -22,6 +22,9 @@ input{
 .main{
     min-height: 400px;
 }
+.on{
+    color: orangered !important;
+}
 .button,input[type="button"],input[type="submit"]{
     background: #902BF5;
     color: #ffffff;
@@ -33,6 +36,12 @@ input{
 }
 .clear{
     clear: both;
+}
+.floatLeft{
+    float: left;
+}
+.floatRight{
+    float: right;
 }
 /*------------------------------------------顶部css值*/
 /*-------------------------------顶部*/

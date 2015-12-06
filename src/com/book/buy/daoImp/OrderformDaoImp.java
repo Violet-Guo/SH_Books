@@ -29,9 +29,9 @@ public class OrderformDaoImp implements OrderformDao{
 	}
 	
 	@Override
-	public void delOrderform(Integer userID, Integer bookID) throws SQLException{
-		String sql = "delete from orderform where userID = ? and bookID = ?";
-		runner.update(conn, sql, userID, bookID);
+	public void delOrderformByUserID(Integer userID) throws SQLException{
+		String sql = "delete from orderform where userID = ?";
+		runner.update(conn, sql, userID);
 	}
 	
 	@Override
