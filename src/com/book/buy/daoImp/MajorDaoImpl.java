@@ -66,7 +66,7 @@ public  class MajorDaoImpl implements MajorDao {
 	@Override
 	public List<MajorVo> showname() throws SQLException {
 		// TODO Auto-generated method stub
-		String sql="select name,department from major";
+		String sql="select DISTINCT name,department from major";
 		return runner.query(conn,sql,new BeanListHandler<MajorVo>(MajorVo.class));
 	}
 
