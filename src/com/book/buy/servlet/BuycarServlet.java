@@ -115,15 +115,6 @@ public class BuycarServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UserVo userVo = (UserVo) session.getAttribute("user");
 
-        //----------------------------
-        UserDao userDao1 = UserDaoImpFactory.getUserDaoImpl();
-        try {
-            userVo = userDao1.findUserById(1);
-            session.setAttribute("user",userVo);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //-------------------------------
         if(userVo!=null){
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
             List<OrderFormVo> orderFormVos = null;

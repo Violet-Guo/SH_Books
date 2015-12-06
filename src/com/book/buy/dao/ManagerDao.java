@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 /**
  * Created by violet on 2015/11/4.
+ * 12.2更新：增加updateManager方法，更新管理员信息
  */
 public interface ManagerDao {
     /**
@@ -22,6 +23,11 @@ public interface ManagerDao {
      * 通过用户名获得密码
      */
     public ManagerVo getPwdByName(String username) throws SQLException;
+
+    /**
+     * 更新管理员信息
+     */
+    public void updateManager(ManagerVo managervo) throws SQLException;
 
     /**
      * 关闭数据库连接

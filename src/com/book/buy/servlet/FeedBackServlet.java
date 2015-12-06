@@ -24,7 +24,7 @@ import com.book.buy.vo.InformVo;
 /**
  * Servlet implementation class FeedBack
  */
-@WebServlet("/FeedBack")
+@WebServlet("/FeedBackServlet")
 public class FeedBackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -67,14 +67,14 @@ public class FeedBackServlet extends HttpServlet {
 			description=request.getParameter("description");//反馈信息
 		} catch (NumberFormatException e1) {
 			// TODO Auto-generated catch block
-			String href="./pages/managePage/controlCenter/controlCenter.jsp";
+			String href="./controlCenter";
 			  out.print("<script language='javascript'>alert('输入有误！');window.location.href='"
 						+ href + "';</script>");
 			  out.flush();
 				out.close();
 		}
 		
-		if(description==""){String href="./pages/managePage/controlCenter/controlCenter.jsp";out.print("<script language='javascript'>alert('输入有误！');window.location.href='"
+		if(description==""){String href="./controlCenter";out.print("<script language='javascript'>alert('输入有误！');window.location.href='"
 				+ href + "';</script>");
 		 out.flush();
 			out.close();}
@@ -92,12 +92,9 @@ public class FeedBackServlet extends HttpServlet {
 		}
 		 
 		FeedBackDaoImpl.close();
-		String href = "./pages/managePage/controlCenter/controlCenter.jsp";
+		String href = "./controlCenter";
 		out.print("<script language='javascript'>alert('反馈成功！');window.location.href='"
 				+ href + "';</script>");
-		
-		  
-
 		out.flush();
 		out.close();
 	  

@@ -39,7 +39,7 @@ public class PersonInfoServlet extends HttpServlet {
 	    InformDao InformDaoImpl = InformDaoImplFactory.getInformDaoImpl();
 	    try {
 		Integer num = InformDaoImpl.count(userVo.getId()).size();
-		request.setAttribute("num", num);
+		request.getSession().setAttribute("num", num);
 		locationVo = locationDao.getLocationByuserID(userVo.getId());
 		request.getSession().setAttribute("location", locationVo);
 	    } catch (SQLException e) {

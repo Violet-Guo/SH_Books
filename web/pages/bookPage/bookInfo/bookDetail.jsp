@@ -21,30 +21,28 @@
 	<div id = "bdleft">
 		<img id = "dbleftimage" alt="暂时没有图片" src="${sessionScope.bookDetils.imagePath}">
 		<br/><br/><br/>
-	<!-- 
-			<input id = "pbutton" type="button" value="降价提醒" onclick="window.location='#'"/>
-	 -->
+			<input id = "pbutton1" type="button" value="投诉" onclick="window.location='/addComp?bookid=${sessionScope.bookDetils.id}'"/>
 	 	</div>
 	<div id = "bdrighttop">
-		书名：<h2 id = "booktitle">${sessionScope.bookDetils.name}</h2>
-		作者：<h3 id = "bookauthor">${sessionScope.bookDetils.author}</h3>
-		新旧程度：<h3 id = "bookoldgrade">${newOld}</h3>
-		价格：<h3 id = "bookprice">${sessionScope.bookDetils.price} 元</h3>
-		联系人：<h3 id = "user">${sessionScope.userVo.name}</h3>
-		联系电话：<h3 id = "tel">${sessionScope.userVo.phoneNumber}</h3>
+		书名：<span id = "booktitle">${sessionScope.bookDetils.name}</span>
+		作者：<span id = "bookauthor">${sessionScope.bookDetils.author}</span>
+		新旧程度：<span id = "bookoldgrade">${sessionScope.newOld}</span>
+		价格：<span id = "bookprice">${sessionScope.bookDetils.price} 元</span>
+		联系人：<span id = "user">${sessionScope.userVo.name}</span>
+		联系电话：<span id = "tel">${sessionScope.userVo.phoneNumber}</span>
 	</div>
 	<br/><br/>
 	<div id = "bdrightdown">
 		<input id = "pbutton" type="button" value="添加到购物车" onclick="window.location='#'"/>
 		<input id = "pbutton" type="button" value="一键下单"  onclick="window.location='#'"/>		
 	</div>
-</div>
 <br/>
 <hr/>
 <br/>
 <div id = "bdbutton">
 	<h1>卖家描述：</h1>
 	<p id = "bookdescription">&nbsp;&nbsp;&nbsp;${sessionScope.bookDetils.description}</p>
+</div>
 </div>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>

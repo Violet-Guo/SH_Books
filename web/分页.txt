@@ -25,3 +25,5 @@
         <li><a href="/buycar?thisPage=${requestScope.thisPage+1}">下一页</a></li>
 </ul>
 
+
+

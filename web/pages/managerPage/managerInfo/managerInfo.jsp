@@ -14,9 +14,16 @@
 <html>
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
+    <link rel="stylesheet" href="<%=basePath %>css/managerInfo.css">
     <title>管理员信息</title>
 </head>
 <body>
-
+<jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
+    <div id="managerInfo">
+        <p>管理员帐号：${admin.username}</p><br>
+        <input id="sbutton" type="submit" value="修改密码" onclick="window.location='./changeManagerInfo.jsp'"/>
+    </div>
+    <br>
+<jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>
 </html>

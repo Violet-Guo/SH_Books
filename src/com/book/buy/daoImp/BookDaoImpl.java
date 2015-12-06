@@ -66,19 +66,19 @@ public class BookDaoImpl implements BookDao{
 	}
 
 	@Override
-	public BookVo findByUserId(Integer userId) throws SQLException {
+	public List<BookVo> findByUserId(Integer userId) throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author,"
 			+ " hasNote, imagePath, description, bookNum, price, canBargain, time,"
 			+ " state from book where userID = ?";
-	    return runner.query(conn, sql, new BeanHandler<BookVo>(BookVo.class), userId);
+	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), userId);
 	}
 
 	@Override
-	public BookVo findByUserId(Integer userId, Integer start, Integer length) throws SQLException {
+	public List<BookVo> findByUserId(Integer userId, Integer start, Integer length) throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author,"
 			+ " hasNote, imagePath, description, bookNum, price, canBargain, time,"
 			+ " state from book where userID = ? limit ?, ?";
-	    return runner.query(conn, sql, new BeanHandler<BookVo>(BookVo.class), userId, start, length);
+	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), userId, start, length);
 	}
 
 	@Override

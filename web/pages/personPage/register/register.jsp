@@ -16,7 +16,7 @@
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
 <div id = "login">
 	<h1>用户注册</h1>
-	<form action="/SH_Books/RegisterServlet" method="post">
+	<form action="/RegisterServlet" method="post">
 		<div id = "logincenter">
 			账&nbsp;号：<input type="text" name = "xuehao"/><br/>
 			用户名：<input type="text" name = "username"/><br/>

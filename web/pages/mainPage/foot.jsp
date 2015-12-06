@@ -10,8 +10,8 @@
   <div id="foot-center">
     <div>
       <h3>用户帮助</h3>
-      <a href="#"><p>购物指南</p></a>
-      <a href="#"><p>站点地图</p></a>
+      <a href="/help"><p>购物指南</p></a>
+      <a href="/help"><p>站点地图</p></a>
     </div>
 
     <div>

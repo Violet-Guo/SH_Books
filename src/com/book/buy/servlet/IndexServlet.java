@@ -30,19 +30,8 @@ import java.util.List;
 public class IndexServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //---测试登录数据---待删除
-        UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
-        try {
-            
-            UserVo userVo = userDao.findUserById(1);
-            req.getSession().setAttribute("user",userVo);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         //--------------------------------这里获取首页需要的信息
-        //----获取用户登录情况
-        UserVo userVo = (UserVo) req.getSession().getAttribute("user");
 
         //----获取专业院系列表
         MajorDao majorDao = MajorDaoImpFactory.getmajordaoimpl();

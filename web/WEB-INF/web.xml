@@ -62,4 +62,61 @@
         <servlet-name>changePersonInfo</servlet-name>
         <url-pattern>/changePersonInfo</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>addComp</servlet-name>
+        <jsp-file>/pages/serverPage/complaints/addComp.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addComp</servlet-name>
+        <url-pattern>/addComp</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>feedback</servlet-name>
+        <jsp-file>/pages/managePage/feedBack/FeedBack.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>feedback</servlet-name>
+        <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>controlCenter</servlet-name>
+        <jsp-file>/pages/managePage/controlCenter/controlCenter.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>controlCenter</servlet-name>
+        <url-pattern>/controlCenter</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>help</servlet-name>
+        <jsp-file>/pages/managePage/help/help.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>help</servlet-name>
+        <url-pattern>/help</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>inform</servlet-name>
+        <jsp-file>/pages/managePage/inform/inform.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>inform</servlet-name>
+        <url-pattern>/inform</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>showFeedBack</servlet-name>
+        <jsp-file>/pages/managePage/showFeedback/showFeedback.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>showFeedBack</servlet-name>
+        <url-pattern>/showFeedbacks</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>publishedbook</servlet-name>
+        <jsp-file>/pages/SellerPage/sellerPublishedBook.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>publishedbook</servlet-name>
+        <url-pattern>/publishedbook</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -1,0 +1,18 @@
+#managerInfo{
+    margin: auto;
+    width: 230px;
+    line-height: 50px;
+}
+
+#sbutton{
+    float: none;
+    height: 25px;
+    width: 60px;
+    outline: none;
+    color: #ffffff;
+    background: #902bf5;
+}
+
+input{
+    border: 1px black solid;
+}

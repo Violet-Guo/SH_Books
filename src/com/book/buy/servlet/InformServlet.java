@@ -54,7 +54,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class Inform
  */
-@WebServlet("/Inform")
+@WebServlet("/InformServlet")
 public class InformServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -77,9 +77,14 @@ public class InformServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession(true);
 		Integer userID = new Integer(-1);
+		//UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
 		//userID=1;
-		UserVo userVo=new UserVo();
-		userVo=(UserVo)session.getAttribute("user");
+		UserVo userVo;
+	    userVo=(UserVo)session.getAttribute("user");
+		if(userVo==null){
+			out.print("<script>alert('你的登陆状态出错');window.location.href='/login';</script>");
+			return;
+		}
 		userID=userVo.getId();
 		session.setAttribute("userID", userID);
 		
@@ -89,7 +94,7 @@ public class InformServlet extends HttpServlet {
 		session.setAttribute("userID",userID);
 		session.setAttribute("thisPage",strPage);
 	if (userID == null || userID.intValue() == -1) {
-			href = "./pages/managePage/controlCenter/controlCenter.jsp";
+			href = "./controlCenter.jsp";
 			out.print("<script language='javascript'>alert('该用户没有权限！');window.location.href='"
 					+ href + "';</script>"); // 页面重定向
 		}
@@ -119,12 +124,12 @@ public class InformServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		href = "./pages/managePage/inform/inform.jsp";
+		href = "./inform";
 			out.print("<script language='javascript'>window.location.href='"
 					+ href + "';</script>"); // 页面重定向
 		
 		} else {
-			href = "./pages/managePage/inform/inform.jsp";
+			href = "./inform";
 			out.print("<script language='javascript'>alert('信息有误或无到货书籍！');window.location.href='"
 					+ href + "';</script>");
 			try {

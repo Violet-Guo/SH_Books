@@ -36,13 +36,12 @@ public class ManagerLoginServlet extends HttpServlet {
             mvo = mdao.getPwdByName(username);
             if (null == mvo) {
                 //提示不是管理员
-                href = "/SH_Books/pages/managerPage/login/loginManager.jsp";
+                href = "/pages/managerPage/login/loginManager.jsp";
                 out.print("<script language='javascript'>alert('该用户不是管理员');"
                         + "window.location.href='" + href + "';</script>");
             } else {
                 if (pwd.equals(mvo.getPassword())) {
-                    request.getSession().setAttribute("username", username);
-                    request.getSession().setAttribute("userid", mvo.getId());
+                    request.getSession().setAttribute("admin", mvo);
 
                     mdao.close();
 

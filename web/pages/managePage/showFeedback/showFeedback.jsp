@@ -38,7 +38,7 @@
 	<%int pageNum = allNum%everyPageNum==0?allNum/everyPageNum:allNum/everyPageNum+1;//计算总共多少页数%>
 	<%if(thisPage>pageNum){thisPage=pageNum;}%>
 	<%if(thisPage<=0){thisPage=1;}%>
-	<%request.setAttribute("thisPage",thisPage);int num=(thisPage-1)*5;%>
+	<%request.setAttribute("thisPage",thisPage);int num=(thisPage-1)*5;System.out.println(thisPage);%>
 	<% 
 	
 	for (int i = (thisPage-1)*5; i<(thisPage)*5; i++) {        //显示list
@@ -61,14 +61,14 @@
 
 
 <ul id="page">
-        <li><a href="../../../showFeedback?thisPage=${requestScope.thisPage-1}">上一页</a></li>
+        <li><a href="./showFeedback?thisPage=${requestScope.thisPage-1}">上一页</a></li>
         <%int firstOne = thisPage%10==0?(((thisPage-1)/10)*10+1):((thisPage/10)*10+1);%>
         <%int lastOne = thisPage%10==0?(((thisPage-1)/10+1)*10):((thisPage/10+1)*10);%>
         <%for(int i=firstOne;i<=(lastOne>pageNum?pageNum:lastOne);i++){%>
-        <li><a <%if(thisPage==i){out.print("id='thisPage'");}%> href="../../../showFeedback?thisPage=<%out.print(i);%>"><%out.print(i);%></a></li>
+        <li><a <%if(thisPage==i){out.print("id='thisPage'");}%> href="./showFeedback?thisPage=<%out.print(i);%>"><%out.print(i);%></a></li>
         <%}%>
-        <%if(pageNum%10>0&&pageNum/10>(thisPage-1)/10){out.print("<a href='../../../showFeedback?thisPage="+((((thisPage-1)/10)+1)*10+1)+"'>&gt;&gt;</a>");}%>
-        <li><a href="../../../showFeedback?thisPage=${requestScope.thisPage+1}">下一页</a></li>
+        <%if(pageNum%10>0&&pageNum/10>(thisPage-1)/10){out.print("<a href='./showFeedback?thisPage="+((((thisPage-1)/10)+1)*10+1)+"'>&gt;&gt;</a>");}%>
+        <li><a href="./showFeedback?thisPage=${requestScope.thisPage+1}">下一页</a></li>
 </ul>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>

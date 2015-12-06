@@ -30,8 +30,8 @@
         <div id="menu">
             <c:if test="${isLogin}">
                 <ul class="navigat">
-                    <li><a href="#">${user.name}</a></li>
-                    <li><a href="#">消息<%=informVos.size()%></a></li>
+                    <li><a href="/PersonInfoServlet">${user.username}</a></li>
+                    <li><a href="./InformServlet">消息<%=informVos.size()%></a></li>
                 </ul>
             </c:if>
             <c:if test="${!isLogin}">
@@ -50,15 +50,15 @@
                             <li><a href="#">待评价</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">卖书</a></li>
+                    <li><a href="/publishedbooks">卖书</a></li>
                 </c:if>
 
                 <li>
-                    <a href="#">服务中心</a>
+                    <a href="./controlCenter">服务中心</a>
                     <ul>
-                        <li><a href="#">联系方式</a></li>
-                        <li><a href="#">联系方式</a></li>
-                        <li><a href="#">联系方式</a></li>
+                        <li><a href="./feedback">反馈</a></li>
+                        <li><a href="./InformServlet">通知</a></li>
+                        <li><a href="./help">帮助</a></li>
                     </ul>
                 </li>
             </ul>
@@ -67,8 +67,8 @@
     <div id="top-search">
         <div>
             <a href="/"><h1>二手书<span>郑大</span></h1></a>
-            <form method="get" action="/" target="_blank">
-                <input id="search-input" type="text" name="search">
+            <form method="get" action="/SearchBook" target="_blank">
+                <input id="search-input" type="text" name="bookName">
                 <input id="submit-button" type="submit">
             </form>
         </div>
