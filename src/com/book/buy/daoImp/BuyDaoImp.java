@@ -78,13 +78,13 @@ public class BuyDaoImp implements BuyDao {
 
     @Override
     public List<BuyVo> getWaitSureByUserID(int userID, int begin, int count) throws SQLException {
-        String sql = "select * from buy where userID=? and time=sureTime order by time desc limit ?,?";
+        String sql = "select * from buy where userID=? and isNull(sureTime) order by time desc limit ?,?";
         return queryRunner.query(conn,sql,new BeanListHandler<BuyVo>(BuyVo.class),userID,begin,count);
     }
 
     @Override
     public Long getWaitSureCount(int userID) throws SQLException {
-        String sql = "select count(*) from buy where userID=? and time=sureTime";
+        String sql = "select count(*) from buy where userID=? and isNull(sureTime)";
         return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userID);
     }
 

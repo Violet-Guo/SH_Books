@@ -62,88 +62,96 @@ public class OrderServlet extends HttpServlet {
             e.printStackTrace();
         }
         Paging paging = new Paging(5, request, count, "/order?state=" + state);
-        request.setAttribute("paging",paging);
-        if (state.equals("all")) {
-            try {
+        request.setAttribute("paging", paging);
+
+        try {
+            List<BuyVo> buyVos = null;
+            if (state.equals("all")) {
                 //获取buy列表
-                List<BuyVo> buyVos = buyDao.getBuyByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
-                //通过buy列表获取orderForm
-                BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
-                UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
-                HashMap<Long, List<OrderFormVo>> orderFormVoMap = new HashMap<>();
-                HashMap<Long, List<UserVo>> orderFormUserMap = new HashMap<>();
-                HashMap<Long, List<BookVo>> orderFormBookMap = new HashMap<>();
-                ArrayList<Double> orderPriceList = new ArrayList<>();
+                buyVos = buyDao.getBuyByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
+            }else if(state.equals("waitmoney")){
+                buyVos = buyDao.getWaitMoneyByUserID(userVo.getId(),paging.getStart(),paging.getEnd());
+            }else if(state.equals("waitsure")){
+                buyVos = buyDao.getWaitSureByUserID(userVo.getId(),paging.getStart(),paging.getEnd());
+            }else if(state.equals("waiteva")){
+                buyVos = buyDao.getWaitEvaByUserID(userVo.getId(),paging.getStart(),paging.getEnd());
+            }
+            //通过buy列表获取orderForm
+            BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
+            UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
+            HashMap<Long, List<OrderFormVo>> orderFormVoMap = new HashMap<>();
+            HashMap<Long, List<UserVo>> orderFormUserMap = new HashMap<>();
+            HashMap<Long, List<BookVo>> orderFormBookMap = new HashMap<>();
+            ArrayList<Double> orderPriceList = new ArrayList<>();
 
-                for (int r = 0; r < buyVos.size(); r++) {
+            for (int r = 0; r < buyVos.size(); r++) {
 
-                    List<OrderFormVo> orderFormVos = orderformDao.findByOrderID(buyVos.get(r).getOrderID());
-                    orderFormVoMap.put(Long.valueOf(r), orderFormVos);
-
-
-                    //------------计算结算价格
-                    Double price = buyDao.getBuyPrice(buyVos.get(r).getOrderID());
-                    if (price == null) {
-                        price = 0.0;
-                    }
-                    orderPriceList.add(price);
+                List<OrderFormVo> orderFormVos = orderformDao.findByOrderID(buyVos.get(r).getOrderID());
+                orderFormVoMap.put(Long.valueOf(r), orderFormVos);
 
 
-                    ArrayList<UserVo> orderUserVos = new ArrayList<>();
-                    ArrayList<BookVo> orderBookVos = new ArrayList<>();
-                    int len = orderFormVos.size();
+                //------------计算结算价格
+                Double price = buyDao.getBuyPrice(buyVos.get(r).getOrderID());
+                if (price == null) {
+                    price = 0.0;
+                }
+                orderPriceList.add(price);
 
-                    for (int i = 0; i < len; i++) {
-                        int bookID = orderFormVos.get(i).getBookID();
-                        BookVo bookVo = bookDao.findById(bookID);
-                        orderBookVos.add(bookVo);
-                        UserVo userVo1 = userDao.findUserById(bookVo.getUserID());
-                        orderUserVos.add(userVo1);
-                    }
-                    ArrayList<OrderFormVo> orderFormVos1 = new ArrayList<>();
-                    ArrayList<UserVo> orderUserVos1 = new ArrayList<>();
-                    ArrayList<BookVo> orderBookVos1 = new ArrayList<>();
 
-                    String tempName;
-                    for (int i = 0; i < orderFormVos.size(); i++) {
-                        tempName = orderUserVos.get(i).getUsername();
-                        for (int h = i; h < orderFormVos.size(); h++) {
-                            if (orderUserVos.get(h).getUsername().equals(tempName)) {
-                                orderFormVos1.add(orderFormVos.get(h));
-                                orderUserVos1.add(orderUserVos.get(h));
-                                orderBookVos1.add(orderBookVos.get(h));
+                ArrayList<UserVo> orderUserVos = new ArrayList<>();
+                ArrayList<BookVo> orderBookVos = new ArrayList<>();
+                int len = orderFormVos.size();
 
-                                orderFormVos.remove(h);
-                                orderUserVos.remove(h);
-                                orderBookVos.remove(h);
+                for (int i = 0; i < len; i++) {
+                    int bookID = orderFormVos.get(i).getBookID();
+                    BookVo bookVo = bookDao.findById(bookID);
+                    orderBookVos.add(bookVo);
+                    UserVo userVo1 = userDao.findUserById(bookVo.getUserID());
+                    orderUserVos.add(userVo1);
+                }
+                ArrayList<OrderFormVo> orderFormVos1 = new ArrayList<>();
+                ArrayList<UserVo> orderUserVos1 = new ArrayList<>();
+                ArrayList<BookVo> orderBookVos1 = new ArrayList<>();
 
-                                i = -1;
-                            }
+                String tempName;
+                for (int i = 0; i < orderFormVos.size(); i++) {
+                    tempName = orderUserVos.get(i).getUsername();
+                    for (int h = i; h < orderFormVos.size(); h++) {
+                        if (orderUserVos.get(h).getUsername().equals(tempName)) {
+                            orderFormVos1.add(orderFormVos.get(h));
+                            orderUserVos1.add(orderUserVos.get(h));
+                            orderBookVos1.add(orderBookVos.get(h));
+
+                            orderFormVos.remove(h);
+                            orderUserVos.remove(h);
+                            orderBookVos.remove(h);
+
+                            i = -1;
                         }
                     }
-                    orderFormVoMap.put(Long.valueOf(r), orderFormVos1);
-                    orderFormUserMap.put(Long.valueOf(r), orderUserVos1);
-                    orderFormBookMap.put(Long.valueOf(r), orderBookVos1);
-
                 }
+                orderFormVoMap.put(Long.valueOf(r), orderFormVos1);
+                orderFormUserMap.put(Long.valueOf(r), orderUserVos1);
+                orderFormBookMap.put(Long.valueOf(r), orderBookVos1);
 
-                orderformDao.close();
-                bookDao.close();
-                userDao.close();
-                buyDao.close();
-
-                request.setAttribute("state", state);
-                request.setAttribute("buyVos",buyVos);
-                request.setAttribute("orderFormVoMap",orderFormVoMap);
-                request.setAttribute("orderFormUserMap",orderFormUserMap);
-                request.setAttribute("orderFormBookMap",orderFormBookMap);
-                request.setAttribute("orderPriceList",orderPriceList);
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/order.jsp");
-                dispatcher.forward(request,response);
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+
+            orderformDao.close();
+            bookDao.close();
+            userDao.close();
+            buyDao.close();
+
+            request.setAttribute("state", state);
+            request.setAttribute("buyVos", buyVos);
+            request.setAttribute("orderFormVoMap", orderFormVoMap);
+            request.setAttribute("orderFormUserMap", orderFormUserMap);
+            request.setAttribute("orderFormBookMap", orderFormBookMap);
+            request.setAttribute("orderPriceList", orderPriceList);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/order.jsp");
+            dispatcher.forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

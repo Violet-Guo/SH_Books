@@ -1,12 +1,15 @@
 package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
+import com.book.buy.dao.InformDao;
 import com.book.buy.dao.MajorDao;
 import com.book.buy.dao.UserDao;
 import com.book.buy.factory.BookDaoImpFactory;
+import com.book.buy.factory.InformDaoImplFactory;
 import com.book.buy.factory.MajorDaoImpFactory;
 import com.book.buy.factory.UserDaoImpFactory;
 import com.book.buy.vo.BookVo;
+import com.book.buy.vo.InformVo;
 import com.book.buy.vo.MajorVo;
 import com.book.buy.vo.UserVo;
 
@@ -39,6 +42,7 @@ public class IndexServlet extends HttpServlet {
 
         //--------------------------------这里获取首页需要的信息
         //----获取用户登录情况
+        UserVo userVo = (UserVo) req.getSession().getAttribute("user");
 
         //----获取专业院系列表
         MajorDao majorDao = MajorDaoImpFactory.getmajordaoimpl();
@@ -59,7 +63,6 @@ public class IndexServlet extends HttpServlet {
         }
         //----获取最新上架书籍列表
 
-        //----获取用户消息
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/pages/mainPage/index.jsp");
         dispatcher.forward(req,resp);

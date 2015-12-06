@@ -149,6 +149,7 @@ input{
 }
 
 #foot{
+    margin-top: 20px;
     width: 100%;
     height: 150px;
     background: #902BF5;
