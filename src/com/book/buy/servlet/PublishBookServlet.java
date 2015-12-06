@@ -38,6 +38,7 @@ public class PublishBookServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
+	    String method = request.getParameter("method");
 	    String newPath = null;
 	    String extName = null;
 	    String newName = null;
@@ -74,7 +75,6 @@ public class PublishBookServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    
 	    //获取参数
 	    newPath = "/SH_Books/images/" + newName + extName;
 	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
@@ -103,14 +103,27 @@ public class PublishBookServlet extends HttpServlet {
 	    //添加图书
 	    BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
 	    try {
-		bookDao.addBook(bookVo);
+		if(Integer.parseInt(method) == 2)
+		{
+		    bookDao.addBook(bookVo);
+		    bookDao.close();
+		    response.sendRedirect("#");
+		}
+		else
+		{
+		    Integer bookId = (Integer) request.getSession().getAttribute("changeBookId");
+		    BookVo bookVo2 = bookDao.findById(bookId);
+		    bookVo.setId(bookId);
+		    bookVo.setImagePath(bookVo2.getImagePath());
+		    bookDao.updateBook(bookVo);
+		    bookDao.close();
+		    response.sendRedirect("#?bookName=" + name + "&author=" + author);
+		}
 	    } catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
-	    bookDao.close();
 	    
-	    response.sendRedirect("#?bookName=" + name + "&author=" + author);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

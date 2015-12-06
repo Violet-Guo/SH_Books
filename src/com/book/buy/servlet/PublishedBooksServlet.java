@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,29 @@ public class PublishedBooksServlet extends HttpServlet {
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
         List<BookVo> booklis = new ArrayList<>();
 
+        PrintWriter out = response.getWriter();
+
+        if (user == null) {
+            out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
+            return;
+        }
+
+        String state = request.getParameter("state");
+        if (state == null) {
+            state = "all";
+        }
+
         try {
-            booklis = bookdao.findByUserId(user.getId());
+            if (state.equals("all")){
+                booklis = bookdao.findByUserId(user.getId());
+            } else if (state.equals("up")){
+
+            } else if (state.equals("down")){
+
+            } else if (state.equals("selled")){
+
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
