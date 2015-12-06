@@ -33,8 +33,13 @@
             for (int i = 0; i < booklis.size(); i++){
                 BookVo book = (BookVo)booklis.get(i);
                 boolean udstate, bstate;
+                bstate = false;
                 if (0 == book.getState())
-
+                    udstate = false;
+                else if (1 == book.getState())
+                    udstate = true;
+                else if (4 == book.getState())
+                    bstate = true;
         %>
         <div id="body">
             <span id="num"><%=i+1%></span>
@@ -43,12 +48,18 @@
             <span id="oldgrade"><%=book.getOldGrade()%></span>
             <span id="ptime"><%=book.getTime()%></span>
             <span id="udstate">
-                <c:if test=""></c:if>
+                <c:if test="${!udstate}">已下架</c:if>
+                <c:if test="${udstate}">已上架</c:if>
+                <c:if test="${bstate}">被管理员下架</c:if><br>
             </span>
             <span id="bstate">
-
+                <c:if test="${!udstate}"><a href="#">上架</a></c:if>
+                <c:if test="${udstate}"><a href="#">下架</a></c:if><br>
             </span>
-            <span id="appeal"><a href="#">申诉</a></span>
+            <span id="appeal">
+                <c:if test="${bstate}"><a href="#">申诉</a></c:if>
+                <c:if test="${!bstate}">申诉</c:if><br>
+            </span>
         </div>
         <%
             }
