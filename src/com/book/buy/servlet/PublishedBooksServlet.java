@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +26,19 @@ public class PublishedBooksServlet extends HttpServlet {
         UserVo user = (UserVo)request.getSession().getAttribute("user");
 
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
-        List<BookVo> lis = new ArrayList<>();
+        List<BookVo> booklis = new ArrayList<>();
+
+        try {
+            booklis = bookdao.findByUserId(user.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        request.getSession().setAttribute("publishedbook", booklis);
 
 
         bookdao.close();
-        response.sendRedirect("");
+        response.sendRedirect("pages/SellerPage/sellerPublishedBook.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
