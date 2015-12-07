@@ -1,0 +1,22 @@
+#more{
+    float: right;
+}
+
+#wm{
+    color: white;
+}
+
+#username{
+    position: absolute;
+    left: 200px;
+}
+
+#compnum{
+    position: absolute;
+    left: 400px
+}
+
+#userstate{
+    position: absolute;
+    left: 700px
+}

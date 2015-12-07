@@ -119,4 +119,44 @@
         <servlet-name>publishedbook</servlet-name>
         <url-pattern>/publishedbook</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>managerLogin</servlet-name>
+        <jsp-file>/pages/managerPage/login/loginManager.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>managerLogin</servlet-name>
+        <url-pattern>/loginmanager</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>managerindex</servlet-name>
+        <jsp-file>/pages/managerPage/info/information.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>managerindex</servlet-name>
+        <url-pattern>/indexmanager</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>allappeal</servlet-name>
+        <jsp-file>/pages/managerPage/info/AllAppeal.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>allappeal</servlet-name>
+        <url-pattern>/allappeal</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>allcomp</servlet-name>
+        <jsp-file>/pages/managerPage/info/AllComp.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>allcomp</servlet-name>
+        <url-pattern>/allcomp</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>alluser</servlet-name>
+        <jsp-file>/pages/managerPage/info/AllUserComp.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>alluser</servlet-name>
+        <url-pattern>/allusercomp</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -36,16 +36,19 @@
 <div id="publishedbooklist">
     <ul class="publishedbook-top">
         <li>
-            <h2><a <%=state.equals("all") ? "class='on'" : ""%> href="#">全部书籍</a></h2>
+            <h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/publishedbooks">全部书籍</a></h2>
         </li>
         <li>
-            <h2><a <%=state.equals("up") ? "class='on'" : ""%> href="#">已上架的书籍</a></h2>
+            <h2><a <%=state.equals("up") ? "class='on'" : ""%> href="/publishedbooks?state=up">已上架的书籍</a></h2>
         </li>
         <li>
-            <h2><a <%=state.equals("down") ? "class='on'" : ""%> href="#">已下架的书籍</a></h2>
+            <h2><a <%=state.equals("down") ? "class='on'" : ""%> href="/publishedbooks?state=down">已下架的书籍</a></h2>
         </li>
         <li>
-            <h2><a <%=state.equals("selled") ? "class='on'" : ""%> href="#">已售出的书籍</a></h2>
+            <h2><a <%=state.equals("managerdown") ? "class='on'" : ""%> href="/publishedbooks?state=managerdown">被管理员下架的书</a></h2>
+        </li>
+        <li>
+            <h2><a <%=state.equals("selled") ? "class='on'" : ""%> href="/publishedbooks?state=selled">已售出的书籍</a></h2>
         </li>
     </ul>
     <br>
@@ -94,7 +97,7 @@
             </span>
             <span id="bstate">
                 <c:if test="${!udstate}"><a href="#">上架</a></c:if>
-                <c:if test="${udstate}">下架</c:if>
+                <c:if test="${udstate}"><a href="#">下架</a></c:if>
             </span>
             <span id="appeal">
                 <c:if test="${bstate}"><a href="#">申诉</a></c:if>

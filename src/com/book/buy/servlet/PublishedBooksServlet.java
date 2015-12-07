@@ -45,11 +45,13 @@ public class PublishedBooksServlet extends HttpServlet {
             if (state.equals("all")){
                 booklis = bookdao.findByUserId(user.getId());
             } else if (state.equals("up")){
-
+                booklis = bookdao.findAllByUserIDAndState(user.getId(), 1);
             } else if (state.equals("down")){
-
+                booklis = bookdao.findAllByUserIDAndState(user.getId(), 2);
+            } else if (state.equals("managerdown")){
+                booklis = bookdao.findAllByUserIDAndState(user.getId(), 3);
             } else if (state.equals("selled")){
-
+                booklis = bookdao.findAllByUserIDAndBookNum(user.getId(), 0);
             }
 
         } catch (SQLException e) {
@@ -57,7 +59,6 @@ public class PublishedBooksServlet extends HttpServlet {
         }
 
         request.getSession().setAttribute("publishedbook", booklis);
-
 
         bookdao.close();
         response.sendRedirect("/publishedbook");

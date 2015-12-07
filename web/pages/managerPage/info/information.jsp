@@ -19,6 +19,7 @@
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath %>css/information.css">
     <title>管理员主页</title>
 </head>
 <body>
@@ -35,7 +36,7 @@
     <br>
     <div class="panel panel-primary" style="width: 1100px; margin: auto">
         <div class="panel-heading">
-            <h3 class="panel-title">投诉<span style="float: right"><a style="color: white" href="AllComp.jsp">更多</a></span></h3>
+            <h3 class="panel-title">投诉<span id="more"><a id="wm" href="/allcomp">更多</a></span></h3>
         </div>
         <div class="panel-body">
             <%
@@ -69,7 +70,7 @@
     <br>
     <div class="panel panel-primary" style="width: 1100px; margin: auto">
         <div class="panel-heading">
-            <h3 class="panel-title">申诉<span style="float: right"><a style="color: white" href="AllAppeal.jsp">更多</a></span></h3>
+            <h3 class="panel-title">申诉<span id="more"><a id="wm" href="/allappeal">更多</a></span></h3>
         </div>
         <div class="panel-body">
             <%
@@ -103,13 +104,13 @@
     <br>
     <div class="panel panel-primary" style="width: 1100px; margin: auto">
         <div class="panel-heading">
-            <h3 class="panel-title">用户<span style="float: right;"><a style="color: white" href="AllUserComp.jsp">更多</a></span></h3>
+            <h3 class="panel-title">用户<span id="more"><a id="wm" href="/allusercomp">更多</a></span></h3>
         </div>
         <span class="panel-body">
-            <div>
-                <span style="position: absolute; left: 200px;">用户名</span>
-                <span style="position: absolute; left: 400px">被投诉次数</span>
-                <span style="position: absolute; left: 700px">用户状态</span>
+            <div class="userhead">
+                <span id="username">用户名</span>
+                <span id="compnum">被投诉次数</span>
+                <span id="userstate">用户状态</span>
             </div>
             <%
                 int len3 = 10;
@@ -140,6 +141,14 @@
         </div>
     </div>
     <br>
+    <div class="panel panel-primary" style="width: 1100px; margin: auto">
+        <div class="panel-heading">
+            <h3 class="panel-title">反馈<span id="more"><a id="wm" href="#">更多</a></span></h3>
+        </div>
+        <div class="panel-body">
+
+        </div>
+    </div>
     <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>
 </html>

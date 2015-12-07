@@ -28,9 +28,10 @@
     <div id="top-navigat">
         <div id="menu">
             <ul class="navigat">
-                <li><a style="color: white" href="AllComp.jsp">投诉</a></li>
-                <li><a style="color: white" href="AllAppeal.jsp">申诉</a></li>
-                <li><a style="color: white" href="AllUserComp.jsp">用户</a></li>
+                <li><a style="color: white" href="/allcomp">投诉</a></li>
+                <li><a style="color: white" href="/allappeal">申诉</a></li>
+                <li><a style="color: white" href="/allusercomp">用户</a></li>
+                <li><a style="color: white" href="#">反馈</a></li>
             </ul>
             <c:if test="${isLogin}">
                 <ul class="top-sell-book">
@@ -49,7 +50,7 @@
 
     <div id="top-search">
         <div>
-            <a href="/"><h1>二手书<span>郑大</span></h1></a>
+            <a href="/indexmanager"><h1>二手书<span>郑大</span></h1></a>
             <input id="search-input" type="text" name="search">
             <input id="submit-button" type="submit">
         </div>
