@@ -159,4 +159,12 @@
         <servlet-name>alluser</servlet-name>
         <url-pattern>/allusercomp</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>allfeedback</servlet-name>
+        <jsp-file>/pages/managerPage/info/Allfedback.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>allfeedback</servlet-name>
+        <url-pattern>/allfedback</url-pattern>
+    </servlet-mapping>
 </web-app>

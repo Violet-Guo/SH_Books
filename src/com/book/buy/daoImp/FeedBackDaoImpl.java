@@ -42,7 +42,7 @@ public class FeedBackDaoImpl implements FeedBackDao{
 	public List<FeedBackVo> showFeedBack() throws SQLException {
 		// TODO Auto-generated method stub
 		String sql="select userId,description,time from feedback order by time desc";
-		return  runner.query(conn, sql, new BeanListHandler<FeedBackVo>(FeedBackVo.class));
+		return runner.query(conn, sql, new BeanListHandler<FeedBackVo>(FeedBackVo.class));
 	}
 	
 	@Override

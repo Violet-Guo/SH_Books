@@ -31,7 +31,7 @@
                 <li><a style="color: white" href="/allcomp">投诉</a></li>
                 <li><a style="color: white" href="/allappeal">申诉</a></li>
                 <li><a style="color: white" href="/allusercomp">用户</a></li>
-                <li><a style="color: white" href="#">反馈</a></li>
+                <li><a style="color: white" href="/allfedback">反馈</a></li>
             </ul>
             <c:if test="${isLogin}">
                 <ul class="top-sell-book">

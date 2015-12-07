@@ -54,14 +54,14 @@ public class GetAllUserServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-
-
         }
 
         request.getSession().setAttribute("allcompuser", userlis);
 
-        response.sendRedirect("pages/managerPage/info/information.jsp");
+        bookdao.close();
+        userdao.close();
+
+        response.sendRedirect("/getallfedback");
 
     }
 
