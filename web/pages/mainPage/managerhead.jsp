@@ -50,7 +50,7 @@
 
     <div id="top-search">
         <div>
-            <a href="/indexmanager"><h1>二手书<span>郑大</span></h1></a>
+            <a href="/getallappeal"><h1>二手书<span>郑大</span></h1></a>
             <input id="search-input" type="text" name="search">
             <input id="submit-button" type="submit">
         </div>

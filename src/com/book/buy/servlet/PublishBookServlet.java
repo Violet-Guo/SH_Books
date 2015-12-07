@@ -2,6 +2,7 @@ package com.book.buy.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -92,41 +93,57 @@ public class PublishBookServlet extends HttpServlet {
 	    String publicYear = (String) request.getAttribute("publicYear");
 	    String pchoice1 = (String) request.getAttribute("pchoice1");//被选中的值
 	    String pchoice2 = (String) request.getAttribute("pchoice2");//被选中的值
-	    Integer hasNote = 0, canBargain = 0, state = 0;
-	    if(pchoice1 != null && pchoice1.equals("keyijia"))
-		canBargain = 1;
-	    if(pchoice2 != null && pchoice2.equals("youbiji"))
-		hasNote = 1;
-	    String time = NewDate.getDateTime(new Date());
-	   
-	    BookVo bookVo = new BookVo(name, userVo.getId(), Integer.parseInt(majorID), pubNumber, 
-		    Integer.parseInt(oldGrade), publicYear, author, hasNote, newPath, 
-		    description, Integer.parseInt(bookNum), Float.parseFloat(price), canBargain, time, state);
-	    //添加图书
-	    BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
-	    try {
-		if(Integer.parseInt(method) == 2)
-		{
-		    bookDao.addBook(bookVo);
-		    bookDao.close();
-		    response.sendRedirect("#");
-		}
-		else
-		{
-		    Integer bookId = (Integer) request.getSession().getAttribute("changeBookId");
-		    BookVo bookVo2 = bookDao.findById(bookId);
-		    bookVo.setId(bookId);
-		    if(mark == 1)
-			bookVo.setImagePath(bookVo2.getImagePath());
-		    bookDao.updateBook(bookVo);
-		    bookDao.close();
-		    response.sendRedirect("#?bookName=" + name + "&author=" + author);
-		}
-	    } catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
+	    PrintWriter out = response.getWriter();
 	    
+	    String href = "/publishPage";
+	    
+	    if(name == null || price == null || pubNumber == null || oldGrade == null
+		    || author == null || majorID == null || description == null 
+		    || bookNum == null || publicYear == null || name.equals("") ||
+		    price.equals("") || pubNumber.equals("") || oldGrade.equals("")
+		    || author.equals("") || majorID.equals("") || description.equals("") 
+		    || bookNum.equals("") || publicYear.equals(""))
+	    {
+		out.print("<script language='javascript'>alert('不能有选项为空！！！');"
+		    	+ "window.location.href='"+ href + "';</script>");
+	    }
+	    else
+	    {
+        	    Integer hasNote = 0, canBargain = 0, state = 0;
+        	    if(pchoice1 != null && pchoice1.equals("keyijia"))
+        		canBargain = 1;
+        	    if(pchoice2 != null && pchoice2.equals("youbiji"))
+        		hasNote = 1;
+        	    String time = NewDate.getDateTime(new Date());
+        	   
+        	    BookVo bookVo = new BookVo(name, userVo.getId(), Integer.parseInt(majorID), pubNumber, 
+        		    Integer.parseInt(oldGrade), publicYear, author, hasNote, newPath, 
+        		    description, Integer.parseInt(bookNum), Float.parseFloat(price), canBargain, time, state);
+        	    //添加图书
+        	    BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
+        	    try {
+        		if(Integer.parseInt(method) == 2)
+        		{
+        		    bookDao.addBook(bookVo);
+        		    bookDao.close();
+        		    response.sendRedirect("#");
+        		}
+        		else
+        		{
+        		    Integer bookId = (Integer) request.getSession().getAttribute("changeBookId");
+        		    BookVo bookVo2 = bookDao.findById(bookId);
+        		    bookVo.setId(bookId);
+        		    if(mark == 1)
+        			bookVo.setImagePath(bookVo2.getImagePath());
+        		    bookDao.updateBook(bookVo);
+        		    bookDao.close();
+        		    response.sendRedirect("#?bookName=" + name + "&author=" + author);
+        		}
+        	    } catch (SQLException e) {
+        		// TODO Auto-generated catch block
+        		e.printStackTrace();
+        	    }
+	    }
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

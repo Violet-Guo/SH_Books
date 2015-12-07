@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 /**
@@ -22,6 +23,8 @@ import java.sql.SQLException;
 public class UpBookByAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
+        PrintWriter out = response.getWriter();
+        String href = "";
 
         String bookid = request.getParameter("bookid");
         String appealid = request.getParameter("appealid");
@@ -51,7 +54,9 @@ public class UpBookByAdminServlet extends HttpServlet {
         bookdao.close();
         appealdao.close();
 
-        response.sendRedirect("");
+        href = "/getappealdetil?appid="+aid;
+        out.print("<script language='javascript'>alert('上架成功');"
+                + "window.location.href='" + href + "';</script>");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
