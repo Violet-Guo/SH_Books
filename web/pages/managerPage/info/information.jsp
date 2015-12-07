@@ -151,7 +151,7 @@
                     UserVo uservo = (UserVo)lis3.get(i);
             %>
             <div id="userbody">
-                <span id="xuhao"><%=i + 1%>.</span>
+                <span id="xuhao"><%=i+1%>.</span>
                 <span id="username"><%=uservo.getName()%></span>
                 <span id="compnum"><%=uservo.getComplainNum()%></span>
                 <%
@@ -199,8 +199,7 @@
         %>
         <div id="feedbody">
             <span id="xuhao"><%=i + 1%>.</span>
-            <span id="content"><a href="#"><%=des%>
-            </a></span>
+            <span id="content"><a href="#"><%=des%></a></span>
             <span id="feedtime"><%=feed.getTime()%></span>
         </div>
         <br>

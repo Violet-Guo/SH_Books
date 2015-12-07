@@ -52,7 +52,7 @@ public class GetCompDetilServlet extends HttpServlet {
         bookdao.close();
         compdao.close();
 
-        response.sendRedirect("pages/managerPage/info/CompDetil.jsp");
+        response.sendRedirect("/compdetil");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
