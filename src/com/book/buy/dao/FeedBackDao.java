@@ -18,7 +18,7 @@ public interface FeedBackDao {
 	  * @param userId
 	  * @throws SQLException
 	  */
-	 public void deleteFeedBack(int userId)throws SQLException;
+	 public void deleteFeedBack(int userId,String time)throws SQLException;
 	 
 	 /**
 	  * 显示反馈信息
@@ -30,8 +30,16 @@ public interface FeedBackDao {
 	 
 	 /**
 	  * 释放连接
+	 * @return 
 	  */
 	 public void close();
+
+	 /**
+	  * 通过userid和time查询
+	 * @return 
+	  */
+	 public FeedBackVo findbyut(int userId,String time) throws SQLException;
+	
 
 	
 }

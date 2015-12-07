@@ -199,7 +199,7 @@
         %>
         <div id="feedbody">
             <span id="xuhao"><%=i + 1%>.</span>
-            <span id="content"><a href="#"><%=des%></a></span>
+            <span id="content"><a href="/getfedbackdetil?userid=<%=feed.getUserId()%>&&time=<%=feed.getTime()%>"><%=des%></a></span>
             <span id="feedtime"><%=feed.getTime()%></span>
         </div>
         <br>

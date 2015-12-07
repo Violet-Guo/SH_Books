@@ -31,16 +31,22 @@
     UserVo uservo = (UserVo) request.getSession().getAttribute("compuser");
 
     boolean isbook, iscomp;
+    isbook = true;
+    iscomp = true;
     if (0 == compvo.getState()) {
         iscomp = false;
     } else if (1 == compvo.getState()) {
         iscomp = true;
     }
-    if (4 == bookvo.getState()) {
+    if (3 == bookvo.getState()) {
         isbook = false;
     } else if (1 == bookvo.getState()) {
         isbook = true;
+    } else if (2 == bookvo.getState()){
+        isbook = false;
     }
+    request.setAttribute("iscomp", iscomp);
+    request.setAttribute("isbook", isbook);
 %>
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
     <div class="panel-heading">
@@ -55,11 +61,11 @@
             <c:if test="${iscomp}">已处理</c:if>
             <c:if test="${!iscomp}">未处理</c:if><br>
             书籍状态：
-            <c:if test="${isbook}">已下架</c:if>
-            <c:if test="${!isbook}">上架</c:if><br>
-            <input id="sbutton" type="submit" value="查看书籍详情" onclick="window.location='#'">
+            <c:if test="${!isbook}">已下架</c:if>
+            <c:if test="${isbook}">上架</c:if><br>
+            <input id="sbutton" type="submit" value="查看书籍详情" onclick="window.location='/ShowBookDetail?bookID=<%=bookvo.getId()%>'">
             &nbsp;&nbsp;
-            <input id="sbutton" type="submit" value="下架书籍" onclick="window.location='#'">
+            <input id="sbutton" type="submit" value="下架书籍" onclick="window.location='/downbookbyadmin?bookid=<%=bookvo.getId()%>&&compid=<%=compvo.getId()%>'">
         </div>
     </div>
 </div>

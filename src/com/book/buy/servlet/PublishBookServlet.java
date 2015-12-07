@@ -42,6 +42,7 @@ public class PublishBookServlet extends HttpServlet {
 	    String newPath = null;
 	    String extName = null;
 	    String newName = null;
+	    Integer mark = 1;
 	    //获取表单数据
 	    DiskFileItemFactory factory = new DiskFileItemFactory();
 		
@@ -57,6 +58,7 @@ public class PublishBookServlet extends HttpServlet {
 				    request.setAttribute(name, value);
 				}else{
 				    //上传图片
+				    	mark = 0;
 					String filename = item.getName();
 					extName = filename.substring(filename.lastIndexOf("."));
 					newName = UUID.randomUUID().toString();
@@ -114,7 +116,8 @@ public class PublishBookServlet extends HttpServlet {
 		    Integer bookId = (Integer) request.getSession().getAttribute("changeBookId");
 		    BookVo bookVo2 = bookDao.findById(bookId);
 		    bookVo.setId(bookId);
-		    bookVo.setImagePath(bookVo2.getImagePath());
+		    if(mark == 1)
+			bookVo.setImagePath(bookVo2.getImagePath());
 		    bookDao.updateBook(bookVo);
 		    bookDao.close();
 		    response.sendRedirect("#?bookName=" + name + "&author=" + author);
