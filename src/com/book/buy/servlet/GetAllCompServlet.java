@@ -5,6 +5,7 @@ import com.book.buy.factory.ComplainDaoImpFactory;
 import com.book.buy.utils.Paging;
 import com.book.buy.vo.ComplainVo;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,10 +37,11 @@ public class GetAllCompServlet extends HttpServlet {
         }
 
         int everyPageNum = 5;
-        Paging paging = new Paging(everyPageNum,request,lis.size(),"/buycar?");
-        int thisPage = paging.getThisPage();
+        Paging paging = new Paging(everyPageNum,request,lis.size(),"/getallcomp?");
         request.getSession().setAttribute("paging", paging);
         lis = lis.subList(paging.getStart(),paging.getEnd());
+
+
 
         request.getSession().setAttribute("allcomp", lis);
 

@@ -58,5 +58,10 @@
 
 #edit{
     position: absolute;
-    left: 1050px;
+    left: 1010px;
+}
+
+#del{
+    position: absolute;
+    left: 1100px;
 }

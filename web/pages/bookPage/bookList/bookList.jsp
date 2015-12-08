@@ -60,7 +60,7 @@
 		<c:if test="${sessionScope.bList.size() == 0}">
 			<div id = "blnobook">
 				<h2>您要查找的图书不存在</h2><br/>
-				<a href="#"><input id = "pbutton" type="button" value="是否加入心愿单？"></a>
+				<a href="/wantpage"><input id = "pbutton" type="button" value="是否加入心愿单？"></a>
 			</div>
 		</c:if>
 		<br/>

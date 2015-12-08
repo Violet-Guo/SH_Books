@@ -2,6 +2,7 @@ package com.book.buy.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -41,6 +42,8 @@ public class ChangePersonInfoServlet extends HttpServlet {
 	    String newPath = null;
 	    String extName = null;
 	    String newName = null;
+	    Integer mark   = 0;
+	    PrintWriter out = response.getWriter();
 	    //获取表单数据
 	    DiskFileItemFactory factory = new DiskFileItemFactory();
 		
@@ -56,6 +59,7 @@ public class ChangePersonInfoServlet extends HttpServlet {
 				    request.setAttribute(name, value);
 				}else{
 				    //上传图片
+				    	mark = 1;
 					String filename = item.getName();
 					extName = filename.substring(filename.lastIndexOf("."));
 					newName = UUID.randomUUID().toString();
@@ -76,7 +80,7 @@ public class ChangePersonInfoServlet extends HttpServlet {
 		}
 	    
 	    //获取参数
-	    newPath = "/SH_Books/images/" + newName + extName;
+	    newPath = "/images/" + newName + extName;
 	    String mima = (String) request.getAttribute("mima");
 	    String phoneNumber = (String) request.getAttribute("tel");
 	    String qq = (String) request.getAttribute("qq");
@@ -84,11 +88,54 @@ public class ChangePersonInfoServlet extends HttpServlet {
 	    String dorNum = (String) request.getAttribute("jihaolou");
 	    String floorNum = (String) request.getAttribute("jilingji");
 	    
+	    String href = "/SH_Books";
+	    if(mima == null){
+		href += "/changePersonInfo";
+		out.print("<script language='javascript'>alert('修改时密码不能为空！！！');"
+		    	+ "window.location.href='"+ href + "';</script>");
+		return;
+	    }
+	    
+	    if(dorName == null || dorNum == null 
+		    || dorName.equals("") || dorNum.equals("")){
+		href += "/changePersonInfo";
+		out.print("<script language='javascript'>alert('请填写收货地址！！！');"
+		    	+ "window.location.href='"+ href + "';</script>");
+		return;
+	    }
+	    
+	    if(phoneNumber.length() != 11){
+		href += "/changePersonInfo";
+		out.print("<script language='javascript'>alert('电话格式错误！！！');"
+		    	+ "window.location.href='"+ href + "';</script>");
+		return;
+	    }
+	    else{
+		for(int i = 0; i < 11; ++i){
+		    if(!Character.isDigit(phoneNumber.charAt(i))){
+			href += "/changePersonInfo";
+			out.print("<script language='javascript'>alert('电话格式错误！！！');"
+			    	+ "window.location.href='"+ href + "';</script>");
+			return;
+		    }
+		}
+	    }
+	    
+	    for(int i = 0; i < 11; ++i){
+		if(!Character.isDigit(qq.charAt(i))){
+		    href += "/changePersonInfo";
+		    out.print("<script language='javascript'>alert('qq格式错误！！！');"
+			+ "window.location.href='"+ href + "';</script>");
+		    return;
+		}
+	    }
+	    
 	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
 	    userVo.setPassword(mima);
 	    userVo.setPhoneNumber(phoneNumber);
 	    userVo.setQq(qq);
-	    userVo.setHeadPhoto(newPath);
+	    if(mark == 1)
+		userVo.setHeadPhoto(newPath);
 	    
 	    LocationVo locationVo = (LocationVo) request.getSession().getAttribute("location");
 	    if(locationVo == null){

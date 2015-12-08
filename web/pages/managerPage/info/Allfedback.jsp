@@ -44,7 +44,7 @@
                 FeedBackVo feed = (FeedBackVo) lis.get(i);
                 String des = feed.getDescription();
                 if (20 < des.length())
-                    des.substring(0, 20);
+                    des = des.substring(0, 20);
         %>
         <div id="feedbody">
             <span id="xuhao"><%=i + 1%>.</span>

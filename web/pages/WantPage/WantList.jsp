@@ -32,7 +32,7 @@
                         alert(xhr.responseText);
                     }
                 }
-                xhr.open("get", "DeleteWant.do?id=" + id, true);
+                xhr.open("get", "DeleteWantServlet?id=" + id, true);
                 xhr.send(null);
             }
             var tr = obj.parentNode.parentNode;
@@ -68,7 +68,7 @@
                 <td><c:out value="${book.publicYear}"></c:out></td>
                 <td><c:out value="${book.pubNumber}"></c:out></td>
                 <td>
-                    <button onclick="window.location.href='AlterWant.jsp?bookname=${book.name}&writer=${book.author}&year=${book.publicYear}&ISBN=${book.pubNumber}&id=${book.id}'"
+                    <button onclick="window.location.href='/alterwant?bookname=${book.name}&writer=${book.author}&year=${book.publicYear}&ISBN=${book.pubNumber}&id=${book.id}'"
                             id="alter" value="<c:out value="${book.id}" />">修改
                     </button>
                 </td>
@@ -85,12 +85,12 @@
 <br/>
 
 <div id="page">
-    <a href="WantList.jsp?curPage=1">首页</a>
-    <a href="WantList.jsp?curPage=${curpage-1}">上一页</a>
-    <a href="WantList.jsp?curPage=${curpage+1}">下一页</a>
-    <a href="WantList.jsp?curPage=${sessionScope.maxpage}">尾页</a><br/>
+    <a href="/WantListServlet?curPage=1">首页</a>
+    <a href="/WantListServlet?curPage=${sessionScope.curpage-1}">上一页</a>
+    <a href="/WantListServlet?curPage=${sessionScope.curpage+1}">下一页</a>
+    <a href="/WantListServlet?curPage=${sessionScope.maxpage}">尾页</a><br/>
 
-    <div id="count">第<c:out value="${curpage}"></c:out>页/共<c:out value="${sessionScope.maxpage}"></c:out>页</div>
+    <div id="count">第<c:out value="${sessionScope.curpage}"></c:out>页/共<c:out value="${sessionScope.maxpage}"></c:out>页</div>
 </div>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>

@@ -381,7 +381,7 @@
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
 <div id="title"><h1>修改心愿单</h1></div>
-<form action="/AddWantServlet" method="post">
+<form action="/AlterWantServlet" method="post">
     <input type="hidden" name="id" value="${param.id}">
     <table border="0" align="center" style="font-size:15px">
         <tr id="bookname" bgcolor="#FFFFCC">

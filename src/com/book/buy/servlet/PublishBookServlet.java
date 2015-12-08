@@ -125,19 +125,20 @@ public class PublishBookServlet extends HttpServlet {
         		if(Integer.parseInt(method) == 2)
         		{
         		    bookDao.addBook(bookVo);
+					Integer bookID = bookDao.getLastInfertID();
         		    bookDao.close();
-        		    response.sendRedirect("#");
+					response.sendRedirect("/UpdateServlet?bookname=" + name + "&author=" + author + "&bookID=" + bookID);
         		}
         		else
         		{
         		    Integer bookId = (Integer) request.getSession().getAttribute("changeBookId");
         		    BookVo bookVo2 = bookDao.findById(bookId);
         		    bookVo.setId(bookId);
-        		    if(mark == 1)
+        		    if (mark == 1)
         			bookVo.setImagePath(bookVo2.getImagePath());
         		    bookDao.updateBook(bookVo);
         		    bookDao.close();
-        		    response.sendRedirect("#?bookName=" + name + "&author=" + author);
+					response.sendRedirect("/ShowBookDetail?bookID=" + bookId);
         		}
         	    } catch (SQLException e) {
         		// TODO Auto-generated catch block
