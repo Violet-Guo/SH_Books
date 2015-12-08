@@ -2,6 +2,7 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.ComplainDao;
 import com.book.buy.factory.ComplainDaoImpFactory;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.ComplainVo;
 
 import javax.servlet.ServletException;
@@ -34,11 +35,17 @@ public class GetAllCompServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        int everyPageNum = 5;
+        Paging paging = new Paging(everyPageNum,request,lis.size(),"/buycar?");
+        int thisPage = paging.getThisPage();
+        request.getSession().setAttribute("paging", paging);
+        lis = lis.subList(paging.getStart(),paging.getEnd());
+
         request.getSession().setAttribute("allcomp", lis);
 
         compdao.close();
 
-        response.sendRedirect("/getalluser");
+        response.sendRedirect("/allcomp");
 
     }
 

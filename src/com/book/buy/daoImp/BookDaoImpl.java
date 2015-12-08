@@ -1,7 +1,9 @@
 package com.book.buy.daoImp;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -117,8 +119,15 @@ public class BookDaoImpl implements BookDao{
 
 	@Override
 	public Integer getLastInfertID() throws SQLException {
-	    String sql = "SELECT LAST_INSERT_ID();";
-	    return runner.query(sql, new BeanHandler<Integer>(Integer.class));
+	    String sql = "SELECT LAST_INSERT_ID() as id";
+	    Statement statement = conn.createStatement();
+	    ResultSet resultSet = statement.executeQuery(sql);
+	    Integer id = null;
+	    if(resultSet.first())
+	    {
+		id = resultSet.getInt("id");
+	    }
+	    return id;
 	}
 	
 	@Override

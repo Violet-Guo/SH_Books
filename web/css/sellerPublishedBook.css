@@ -18,45 +18,45 @@
 
 #num{
     position: absolute;
-    left: 200px;
+    left: 150px;
 }
 
 #bname{
     position: absolute;
-    left: 300px;
+    left: 200px;
 }
 
 #bauther{
     position: absolute;
-    left: 400px;
+    left: 300px;
 }
 
 #oldgrade{
     position: absolute;
-    left: 500px;
+    left: 400px;
 }
 
 #ptime{
     position: absolute;
-    left: 600px;
+    left: 500px;
 }
 
 #udstate{
     position: absolute;
-    left: 800px;
+    left: 700px;
 }
 
 #bstate{
     position: absolute;
-    left: 900px;
+    left: 850px;
 }
 
 #appeal{
     position: absolute;
-    left: 1000px;
+    left: 950px;
 }
 
 #edit{
     position: absolute;
-    left: 1100px;
+    left: 1050px;
 }

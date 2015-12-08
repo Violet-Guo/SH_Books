@@ -34,7 +34,7 @@ public class GetAllFedbackServlet extends HttpServlet {
         request.getSession().setAttribute("allfeedback", feedlis);
 
         feeddao.close();
-        response.sendRedirect("/indexmanager");
+        response.sendRedirect("/allfedback");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

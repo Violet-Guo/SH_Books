@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.book.buy.vo.ComplainVo" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -25,8 +26,8 @@
     <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
     <%
         request.setCharacterEncoding("utf-8");
-        List<ComplainVo> lis = new ArrayList<>();
-        lis = (ArrayList)request.getSession().getAttribute("allcomp");
+        List<ComplainVo> lis = (List) request.getSession().getAttribute("allcomp");
+        Paging paging = (Paging) request.getSession().getAttribute("paging");
     %>
 
     <br>
@@ -65,9 +66,11 @@
                     }
                 %>
             </div>
+
             <br>
             <%
                 }
+                paging.printPage(out);
             %>
         </div>
     </div>

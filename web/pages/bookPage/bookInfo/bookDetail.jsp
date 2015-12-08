@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="<%=basePath %>css/all.css">
 <link rel="stylesheet" href="<%=basePath %>css/lmbookdetails.css">
 	<script type="application/javascript" src="../../../js/jquery.min.js"></script>
+	<script type="application/javascript" src="../../../js/bookdetil.js"></script>
 <title>图书详情</title>
 </head>
 <body>
@@ -34,24 +35,12 @@
 	</div>
 	<br/><br/>
 	<input type="number" big="${sessionScope.bookDetils.bookNum}" id="bookNum" value="1" onchange="change()" name="bookNum" /> 本数
-	<script>
-		function change() {
-			var input = $("#bookNum");
-			var big = input.attr("big");
-			var now = input.val();
-			if(now > big)
-			{
-				alert("只有"+ big +"本");
-				input.val(big);
-			}
-			if(now <= 0)
-				input.val(1);
-		}
-	</script>
+
 	<div id = "bdrightdown">
-		<input id = "pbutton" type="button" value="添加到购物车" onclick="window.location='#'"/>
-		<input id = "pbutton" type="button" value="一键下单"  onclick="window.location='#'"/>
+		<input id = "pbutton" class="addbuycar" type="button" value="添加到购物车"/>
+		<input id = "pbutton" class="quick" type="button" value="一键下单" bookID="${sessionScope.bookDetils.id}"/>
 	</div>
+
 <br/>
 <hr/>
 <br/>
