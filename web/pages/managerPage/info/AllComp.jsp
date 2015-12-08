@@ -18,6 +18,7 @@
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath %>css/information.css">
     <title>投诉列表</title>
 </head>
 <body>
@@ -34,30 +35,40 @@
             <h3 class="panel-title">投诉</h3>
         </div>
         <div class="panel-body">
+            <div id="comphead">
+                <span id="xuhao">序号</span>
+                <span id="content">投诉内容</span>
+                <span id="feedtime">投诉状态</span>
+            </div>
+            <br>
+            <hr>
             <%
-                for (int i = 0; i < lis.size(); i++){
-                    ComplainVo comp = (ComplainVo)lis.get(i);
+                for (int i = 0; i < lis.size(); i++) {
+                    ComplainVo comp = (ComplainVo) lis.get(i);
                     String des = comp.getDescription();
                     if (des.length() > 20)
                         des.substring(0, 20);
             %>
-            <%=i+1%>.&nbsp;&nbsp;<a href="/getcompdetil?compid=<%=comp.getId()%>"><%=des%></a> &nbsp;&nbsp;
-            <%
-                if (0 == comp.getState()){
-            %>
-            <p style="float: right">未处理</p><br>
+            <div id="compbody">
+                <span id="xuhao"><%=i + 1%></span>
+            <span id="content"><a href="/getcompdetil?compid=<%=comp.getId()%>"><%=des%>
+            </a></span>
+                <%
+                    if (0 == comp.getState()) {
+                %>
+                <span id="feedtime">未处理</span>
+                <%
+                } else {
+                %>
+                <span id="feedtime">已处理</span>
+                <%
+                    }
+                %>
+            </div>
+            <br>
             <%
                 }
-                else{
             %>
-            <p style="float: right">已处理</p><br>
-            <%
-                }
-            %>
-            <%
-                }
-            %>
-
         </div>
     </div>
     <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>

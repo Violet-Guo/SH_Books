@@ -19,6 +19,7 @@
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath %>css/information.css">
     <title></title>
 </head>
 <body>
@@ -35,34 +36,39 @@
             <h3 class="panel-title">用户</h3>
         </div>
         <div class="panel-body">
-            <div>
-                <span style="position: absolute; left: 200px;">用户名</span>
-                <span style="position: absolute; left: 400px">被投诉次数</span>
-                <span style="position: absolute; left: 700px">用户状态</span>
+            <div id="userhead">
+                <span id="xuhao">序号</span>
+                <span id="username">用户名</span>
+                <span id="compnum">被投诉次数</span>
+                <span id="userstate">用户状态</span>
             </div>
+            <br>
+            <hr>
             <%
                 for (int i = 0; i < lis.size(); i++){
                     UserVo uservo = (UserVo)lis.get(i);
             %>
-            <%=i+1%>.
-            <p style="position: absolute; left: 200px"><%=uservo.getName()%></p>
-            <p style="position: absolute; left: 400px"><%=uservo.getComplainNum()%></p>
-            <%
-                if (3 < uservo.getComplainNum()){
-            %>
-            <p style="position: absolute; left: 700px">已冻结</p><br>
-            <%
-            }
-            else{
-            %>
-            <p style="position: absolute; left: 700px;">正常</p><br>
-            <%
-                }
-            %>
-            <%
-                }
-            %>
+            <div id="userbody">
+                <span id="xuhao"><%=i + 1%>.</span>
+                <span id="username"><%=uservo.getName()%></span>
+                <span id="compnum"><%=uservo.getComplainNum()%></span>
+                <%
+                    if (3 < uservo.getComplainNum()) {
+                %>
+                <span id="userstate">已冻结</span>
+                <%
+                } else {
+                %>
+                <span id="userstate">正常</span>
+                <%
+                    }
+                %>
+
+            </div>
             <br>
+            <%
+                }
+            %>
         </div>
     </div>
     <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>

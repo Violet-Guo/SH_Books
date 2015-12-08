@@ -5,6 +5,7 @@ import java.util.List;
 import java.sql.Connection;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import com.book.buy.dao.FeedBackDao;
@@ -20,10 +21,10 @@ public class FeedBackDaoImpl implements FeedBackDao{
 	}
 
 	@Override
-	public void deleteFeedBack(int userId) throws SQLException {
+	public void deleteFeedBack(int userId,String time) throws SQLException {
 		// TODO Auto-generated method stub
-		String sql="delete from feedback where userid=?";
-		runner.update(conn,sql,userId);
+		String sql="delete from feedback where userid=? and time=?";
+		runner.update(conn,sql,userId,time);
 	}
 
 	@Override
@@ -50,6 +51,16 @@ public class FeedBackDaoImpl implements FeedBackDao{
 		// TODO Auto-generated method stub
 		String sql="insert into feedback (userid,description,time) values(?,?,?)";
 		runner.update(conn,sql,FeedBack.getUserId(),FeedBack.getDescription(),FeedBack.getTime());	
+	}
+
+
+
+	@Override
+	public FeedBackVo  findbyut(int userId, String time)throws SQLException {
+		// TODO Auto-generated method stub
+		String sql="select * from feedback where userId=? and time=?";
+		return runner.query(conn,sql,new BeanHandler<FeedBackVo>(FeedBackVo.class),userId,time);
+		
 	}
 
 	

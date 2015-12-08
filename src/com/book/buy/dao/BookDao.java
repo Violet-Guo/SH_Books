@@ -41,6 +41,42 @@ public interface BookDao{
 	public BookVo findById(Integer id) throws SQLException;
 	
 	/**
+	 * 按照用户id和图书的状态查找图书
+	 * @param UserID
+	 * @param State
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<BookVo> findAllByUserIDAndState(Integer UserID, Integer State) throws SQLException;
+	
+	/**
+	 * 按照用户id和图书的状态查找图书(分页)
+	 * @param UserID
+	 * @param State
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<BookVo> findAllByUserIDAndState(Integer UserID, Integer State, Integer start, Integer length) throws SQLException;
+	
+	/**
+	 * 按照用户id和图书的本数进行图书的查找
+	 * @param UserID
+	 * @param bookNum
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<BookVo> findAllByUserIDAndBookNum(Integer UserID, Integer bookNum) throws SQLException;
+	
+	/**
+	 * 按照用户id和图书的本数进行图书的查找(分页)
+	 * @param UserID
+	 * @param bookNum
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<BookVo> findAllByUserIDAndBookNum(Integer UserID, Integer bookNum, Integer start, Integer length) throws SQLException;
+	
+	/**
 	 * 按照用户id去查找图书
 	 * @param id
 	 * @return

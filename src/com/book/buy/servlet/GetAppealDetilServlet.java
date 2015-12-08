@@ -50,7 +50,7 @@ public class GetAppealDetilServlet extends HttpServlet {
 
         compdao.close();
 
-        response.sendRedirect("pages/managerPage/info/AppealDetil.jsp");
+        response.sendRedirect("/appealdetil");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

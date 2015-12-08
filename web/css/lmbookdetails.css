@@ -17,6 +17,13 @@ input
     background: #902BF5;
 }
 
+#bookNum
+{
+	width: 50px;
+	margin-left: 800px;
+	margin-bottom: 20px;
+}
+
 #bdtop
 {
 	width: 1100px;
@@ -39,8 +46,9 @@ input
 
 #bdrighttop
 {
+	margin-top: 30px;
 	height: 500px;
-	line-height: 40px;
+	line-height: 60px;
 }
 
 #bdrightdown
@@ -61,5 +69,6 @@ input
 #booktitle, #bookauthor, #bookoldgrade,
 #bookprice, #user, #tel
 {
-	padding-left:600px;
+	padding-left: 10px;
+	font-size: 16px;
 }
