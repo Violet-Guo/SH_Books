@@ -22,34 +22,74 @@
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
+<%
+    request.setCharacterEncoding("utf-8");
+
+    String state = (String) request.getAttribute("state");
+
+    if (state == null) {
+        state = "";
+    }
+
+    List<BookVo> booklis = (ArrayList) request.getSession().getAttribute("publishedbook");
+%>
+<div id="publishedbooklist">
+    <ul class="publishedbook-top">
+        <li>
+            <h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/publishedbooks">全部书籍</a></h2>
+        </li>
+        <li>
+            <h2><a <%=state.equals("up") ? "class='on'" : ""%> href="/publishedbooks?state=up">已上架的书籍</a></h2>
+        </li>
+        <li>
+            <h2><a <%=state.equals("down") ? "class='on'" : ""%> href="/publishedbooks?state=down">已下架的书籍</a></h2>
+        </li>
+        <li>
+            <h2><a <%=state.equals("managerdown") ? "class='on'" : ""%> href="/publishedbooks?state=managerdown">被管理员下架的书</a></h2>
+        </li>
+        <li>
+            <h2><a <%=state.equals("selled") ? "class='on'" : ""%> href="/publishedbooks?state=selled">已售出的书籍</a></h2>
+        </li>
+    </ul>
+    <br>
+    <hr>
+    <br>
+
+    <div id="toph">
+        <span id="num"><strong>序号</strong></span>
+        <span id="bname"><strong>书名</strong></span>
+        <span id="bauther"><strong>作者</strong></span>
+        <span id="oldgrade"><strong>新旧程度</strong></span>
+        <span id="ptime"><strong>发布时间</strong></span>
+        <span id="udstate"><strong>上下架状态</strong></span>
+        <span id="bstate"><strong>书籍状态</strong></span>
+        <span id="appeal"><strong>申诉</strong></span>
+        <span id="edit"><strong>编辑书籍</strong></span>
+    </div>
+    <br>
     <%
-        request.setCharacterEncoding("utf-8");
-        List<BookVo> booklis = (ArrayList)request.getSession().getAttribute("publishedbook");
+        for (int i = 0; i < booklis.size(); i++) {
+            BookVo book = (BookVo) booklis.get(i);
+            boolean udstate, bstate;
+            udstate = false;
+            bstate = false;
+            if (1 == book.getState())
+                udstate = true;
+            else if (2 == book.getState())
+                udstate = false;
+            else if (3 == book.getState())
+                bstate = true;
+
+            request.setAttribute("udstate", udstate);
+            request.setAttribute("bstate", bstate);
     %>
-    <div id="publishedbooklist">
-        <div id="toph">
-            <span id="num">序号</span><span id="bname">书名</span><span id="bauther">作者</span><span id="oldgrade">新旧程度</span>
-            <span id="ptime">发布时间</span><span id="udstate">上下架状态</span><span id="bstate">书籍状态</span><span id="appeal">申诉</span>
-        </div>
-        <br>
-        <%
-            for (int i = 0; i < booklis.size(); i++){
-                BookVo book = (BookVo)booklis.get(i);
-                boolean udstate, bstate;
-                bstate = false;
-                if (1 == book.getState())
-                    udstate = true;
-                else if (2 == book.getState())
-                    udstate = false;
-                else if (3 == book.getState())
-                    bstate = true;
-        %>
-        <div id="body">
-            <span id="num"><%=i+1%></span>
-            <span id="bname"><a href="/bookDetail?bookID=<%=book.getId()%>"><%=book.getName()%></a></span>
-            <span id="bauther"><%=book.getAuthor()%></span>
-            <span id="oldgrade"><%=book.getOldGrade()%></span>
-            <span id="ptime"><%=book.getTime()%></span>
+    <div id="body">
+        <span id="num"><%=i + 1%></span>
+        <span id="bname"><a href="/bookDetail?bookID=<%=book.getId()%>"><%=book.getName()%>
+        </a></span>
+        <span id="bauther"><%=book.getAuthor()%></span>
+        <span id="oldgrade"><%=book.getOldGrade()%></span>
+        <span id="ptime"><%=book.getTime()%></span>
             <span id="udstate">
                 <c:if test="${!udstate}">已下架</c:if>
                 <c:if test="${udstate}">已上架</c:if>
@@ -57,18 +97,19 @@
             </span>
             <span id="bstate">
                 <c:if test="${!udstate}"><a href="#">上架</a></c:if>
-                <c:if test="${udstate}">下架</c:if>
+                <c:if test="${udstate}"><a href="#">下架</a></c:if>
             </span>
             <span id="appeal">
                 <c:if test="${bstate}"><a href="#">申诉</a></c:if>
                 <c:if test="${!bstate}">申诉</c:if>
             </span>
-        </div>
-        <br>
-        <%
-            }
-        %>
+        <span id="edit"><a href="">编辑</a></span>
     </div>
+    <br>
+    <%
+        }
+    %>
+</div>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>
 </html>

@@ -37,12 +37,13 @@ public class GetMajorServlet extends HttpServlet {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
-	    
+	     request.getSession().setAttribute("bookVo", null);
 	    request.getSession().setAttribute("major", list);
+	    request.getSession().setAttribute("method", 2);
 	    
 	    majorDao.close();
 	    
-	    response.sendRedirect("publishPage");
+	    response.sendRedirect("/publishPage");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

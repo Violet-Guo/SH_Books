@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.book.buy.vo.ComplainVo" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.book.buy.vo.UserVo" %>
 <%@ page import="com.book.buy.vo.BookVo" %>
 <%--
@@ -21,6 +19,7 @@
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath %>css/compdetil.css">
     <title>申诉详情</title>
 </head>
 <body>
@@ -32,16 +31,23 @@
     BookVo bookvo = (BookVo) request.getSession().getAttribute("appealbook");
 
     boolean isappeal, isbook;
+    isappeal = true;
+    isbook = true;
     if (0 == compvo.getState()) {
         isappeal = false;
     } else if (1 == compvo.getState()) {
         isappeal = true;
     }
-    if (4 == bookvo.getState()) {
+    if (3 == bookvo.getState()) {
         isbook = false;
     } else if (1 == bookvo.getState()) {
         isbook = true;
+    } else if (2 == bookvo.getState()){
+        isbook = false;
     }
+
+    request.setAttribute("isbook", isbook);
+    request.setAttribute("isappeal", isappeal);
 %>
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
     <div class="panel-heading">
@@ -59,9 +65,9 @@
             <c:if test="${isbook}">已上架</c:if>
             <c:if test="${!isbook}">已下架</c:if><br>
             <br>
-            <input id="sbutton" type="submit" value="查看书籍详情" onclick="window.location='#'">
+            <input id="sbutton" type="submit" value="查看书籍详情" onclick="window.location='/ShowBookDetail?bookID=<%=bookvo.getId()%>'">
             &nbsp;&nbsp;
-            <input id="sbutton" type="submit" value="上架书籍" onclick="window.location='#'">
+            <input id="sbutton" type="submit" value="上架书籍" onclick="window.location='/upbookbyadmin?bookid=<%=bookvo.getId()%>&&appealid=<%=compvo.getId()%>'">
         </div>
     </div>
 </div>

@@ -10,6 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="<%=basePath %>css/all.css">
 <link rel="stylesheet" href="<%=basePath %>css/lmbookdetails.css">
+	<script type="application/javascript" src="../../../js/jquery.min.js"></script>
 <title>图书详情</title>
 </head>
 <body>
@@ -24,17 +25,32 @@
 			<input id = "pbutton1" type="button" value="投诉" onclick="window.location='/addComp?bookid=${sessionScope.bookDetils.id}'"/>
 	 	</div>
 	<div id = "bdrighttop">
-		书名：<span id = "booktitle">${sessionScope.bookDetils.name}</span>
-		作者：<span id = "bookauthor">${sessionScope.bookDetils.author}</span>
-		新旧程度：<span id = "bookoldgrade">${sessionScope.newOld}</span>
-		价格：<span id = "bookprice">${sessionScope.bookDetils.price} 元</span>
-		联系人：<span id = "user">${sessionScope.userVo.name}</span>
-		联系电话：<span id = "tel">${sessionScope.userVo.phoneNumber}</span>
+		书名：<span class = "booksame" id = "booktitle">${sessionScope.bookDetils.name}</span><br/>
+		作者：<span class = "booksame" id = "bookauthor">${sessionScope.bookDetils.author}</span><br/>
+		新旧程度：<span class = "booksame" id = "bookoldgrade">${sessionScope.newOld}</span><br/>
+		价格：<span class = "booksame" id = "bookprice">${sessionScope.bookDetils.price} 元</span><br/>
+		联系人：<span class = "booksame" id = "user">${sessionScope.userVo.name}</span><br/>
+		联系电话：<span class = "booksame" id = "tel">${sessionScope.userVo.phoneNumber}</span><br/>
 	</div>
 	<br/><br/>
+	<input type="number" big="${sessionScope.bookDetils.bookNum}" id="bookNum" value="1" onchange="change()" name="bookNum" /> 本数
+	<script>
+		function change() {
+			var input = $("#bookNum");
+			var big = input.attr("big");
+			var now = input.val();
+			if(now > big)
+			{
+				alert("只有"+ big +"本");
+				input.val(big);
+			}
+			if(now <= 0)
+				input.val(1);
+		}
+	</script>
 	<div id = "bdrightdown">
 		<input id = "pbutton" type="button" value="添加到购物车" onclick="window.location='#'"/>
-		<input id = "pbutton" type="button" value="一键下单"  onclick="window.location='#'"/>		
+		<input id = "pbutton" type="button" value="一键下单"  onclick="window.location='#'"/>
 	</div>
 <br/>
 <hr/>

@@ -1,0 +1,37 @@
+#more{
+    float: right;
+}
+
+#wm{
+    color: white;
+}
+
+#xuhao{
+    position: absolute;
+    left: 150px;
+}
+
+#username{
+    position: absolute;
+    left: 200px;
+}
+
+#compnum{
+    position: absolute;
+    left: 300px
+}
+
+#userstate{
+    position: absolute;
+    left: 400px
+}
+
+#content{
+    position: absolute;
+    left: 200px;
+}
+
+#feedtime{
+    position: absolute;
+    left: 500px;
+}

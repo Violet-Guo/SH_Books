@@ -40,8 +40,12 @@ public class LoginServlet extends HttpServlet {
 	    try {
 		UserVo user = userDao.findUserByName(username);
 		if(user == null){
-		    //提示未注册，不跳转
 		    href = "/login";
+		    if(username == null || username.equals("") || password == null || password.equals(""))
+			out.print("<script language='javascript'>alert('用户名或密码不能为空！！！');"
+			    	+ "window.location.href='"+ href + "';</script>");
+		    else
+		    //提示未注册，不跳转
 		    out.print("<script language='javascript'>alert('该用户不存在！请先注册！！！');"
 		    	+ "window.location.href='"+ href + "';</script>");
 		}else{

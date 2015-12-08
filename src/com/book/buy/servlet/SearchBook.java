@@ -63,8 +63,14 @@ public class SearchBook extends HttpServlet {
     //点击专业进行类别的搜索
     protected void ClickSearch(HttpServletRequest request, HttpServletResponse response, String majorName)
             throws ServletException, IOException {
-        if (majorName != null)
+        if (majorName != null) {
             request.getSession().setAttribute("majorName", majorName);
+            request.getSession().setAttribute("majorNamet", majorName);
+            request.getSession().setAttribute("tnianji", null);
+            request.getSession().setAttribute("newOld", null);
+            request.getSession().setAttribute("nianji", null);
+            request.getSession().setAttribute("oldAndNew", null);
+        }
         majorName = (String) request.getSession().getAttribute("majorName");
         request.getSession().setAttribute("fanye", "leibie");
         BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
@@ -111,9 +117,14 @@ public class SearchBook extends HttpServlet {
     protected void NameSearch(HttpServletRequest request, HttpServletResponse response, String bookName)
             throws ServletException, IOException {
         request.getSession().setAttribute("fanye", "mingzi");
-        System.out.println("gg");
-        if (bookName != null)
+        if (bookName != null) {
             request.getSession().setAttribute("bookName", bookName);
+            request.getSession().setAttribute("majorNamet", null);
+            request.getSession().setAttribute("tnianji", null);
+            request.getSession().setAttribute("newOld", null);
+            request.getSession().setAttribute("nianji", null);
+            request.getSession().setAttribute("oldAndNew", null);
+        }
         bookName = (String) request.getSession().getAttribute("bookName");
         BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
 
@@ -173,16 +184,28 @@ public class SearchBook extends HttpServlet {
         String oldAndNew = (String) request.getSession().getAttribute("oldAndNew");
         String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
                 + " imagePath, description, bookNum, price, canBargain, time, state from book where ";
+        Integer mark = 0;
         if (majorName != null && nianji != null) {
             MajorDao majorDao = MajorDaoImpFactory.getmajordaoimpl();
             try {
                 MajorVo majorVo = majorDao.getMajorByNG(majorName, Integer.parseInt(nianji));
                 sql += "majorID = '" + majorVo.getId() + "' ";
+                mark = 1;
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
+        } else if (majorName != null) {
+            mark = 1;
+            sql += "majorID in (select id from major where name = '" + majorName + "') ";
+        } else if (nianji != null) {
+            mark = 1;
+            sql += "majorID in (select id from major where grade = '" + nianji + "') ";
+        }
+
+        if(nianji != null) {
             Integer dnianji = Integer.parseInt(nianji);
             String tnianji = null;
             switch (dnianji) {
@@ -190,7 +213,7 @@ public class SearchBook extends HttpServlet {
                     tnianji = "大一";
                     break;
                 case 2:
-                        tnianji = "大二";
+                    tnianji = "大二";
                     break;
                 case 3:
                     tnianji = "大三";
@@ -200,14 +223,12 @@ public class SearchBook extends HttpServlet {
                     break;
             }
             request.getSession().setAttribute("tnianji", tnianji);
-        } else if (majorName != null) {
-            sql += "majorID in (select id from major where name = '" + majorName + "') ";
-        } else if (nianji != null) {
-            sql += "majorID in (select id from major where grade = '" + nianji + "') ";
         }
 
         if (oldAndNew != null) {
-            sql += "and oldGrade = '" + oldAndNew + "' ";
+            if(mark == 1)
+                sql += " and";
+            sql += " oldGrade = '" + oldAndNew + "' ";
             Integer tnewOld = Integer.parseInt(oldAndNew);
             String newOld = null;
             //新旧程度

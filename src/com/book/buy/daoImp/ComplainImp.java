@@ -47,10 +47,10 @@ public class ComplainImp implements ComplainDao {
     @Override
     public void updateComp(ComplainVo comp) throws SQLException {
         //更新投诉、申诉
-        String sql = "update complain set id = ?, userID = ?, bookID = ?, description = ?, " +
-                "complainType = ?, state = ?";
-        runner.update(conn, sql, comp.getId(), comp.getUserid(), comp.getBookid(), comp.getDescription(),
-                comp.getComplainType(), comp.getState());
+        String sql = "update complain set userID = ?, bookID = ?, description = ?, " +
+                "complainType = ?, state = ? where id = ?";
+        runner.update(conn, sql, comp.getUserid(), comp.getBookid(), comp.getDescription(),
+                comp.getComplainType(), comp.getState(), comp.getId());
     }
 
     @Override
