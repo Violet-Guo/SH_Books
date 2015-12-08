@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.book.buy.vo.OrderFormVo" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="com.book.buy.vo.UserVo" %>
-<%@ page import="com.book.buy.vo.BookVo" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.book.buy.vo.BuyVo" %>
 <%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
@@ -14,21 +7,7 @@
   Time: 16:52
   To change this template use File | Settings | File Templates.
 --%>
-<%--ceshi--%>
-<%--<%
-    HashMap<Integer, List<OrderFormVo>> orderFormVoMap = new HashMap<>();
-    HashMap<Integer, List<UserVo>> orderFormUserMap = new HashMap<>();
-    HashMap<Integer, List<BookVo>> orderFormBookMap = new HashMap<>();
-    ArrayList<Double> orderPriceList = new ArrayList<>();
-    ArrayList<BuyVo> buyVos = new ArrayList<>();
 
-    request.setAttribute("buyVos",buyVos);
-    request.setAttribute("orderPriceList",orderPriceList);
-    request.setAttribute("orderFormVoMap", orderFormVoMap);
-    request.setAttribute("orderFormUserMap", orderFormUserMap);
-    request.setAttribute("orderFormBookMap", orderFormBookMap);
-%>--%>
-<%--ceshi--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -42,7 +21,7 @@
 <%String state = (String) request.getAttribute("state");%>
 <%
     if (state == null) {
-        state = "";
+        state = "all";
     }
 %>
 <div id="main">
@@ -88,7 +67,7 @@
         <div class="goods-all">
             <ul class="order-head main-head">
                 <c:choose>
-                    <c:when test="${seller.name.equals(user.name)}">
+                    <c:when test="${!seller.name.equals(user.name)}">
                         <li class="user-state buy">买</li>
                     </c:when>
                     <c:otherwise>
@@ -128,7 +107,6 @@
         </c:forEach>
         </div>
     </c:forEach>
-
     <%((Paging)request.getAttribute("paging")).printPage(out);%>
 </div>
 

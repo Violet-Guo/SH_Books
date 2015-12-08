@@ -45,9 +45,9 @@
                     <li><a href="/buycar">购物车</a></li>
                     <li><a href="/order">我的订单</a>
                         <ul>
-                            <li><a href="#">待收货</a></li>
-                            <li><a href="#">待付款</a></li>
-                            <li><a href="#">待评价</a></li>
+                            <li><a href="/order?state=waitsure">待确认</a></li>
+                            <li><a href="/order?state=waitmoney">待付款</a></li>
+                            <li><a href="/order?state=waiteva">待评价</a></li>
                         </ul>
                     </li>
                     <li><a href="/publishedbooks">卖书</a></li>
@@ -66,7 +66,7 @@
     </div>
     <div id="top-search">
         <div>
-            <a href="/"><h1>二手书<span>郑大</span></h1></a>
+            <a href="/" target="_self"><h1>二手书<span>郑大</span></h1></a>
             <form method="get" action="/SearchBook" target="_blank">
                 <input id="search-input" type="text" name="bookName">
                 <input id="submit-button" type="submit">

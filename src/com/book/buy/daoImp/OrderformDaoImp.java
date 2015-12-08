@@ -75,7 +75,13 @@ public class OrderformDaoImp implements OrderformDao{
 		String sql = "select id, userID, orderID, bookiD, bookNum from orderform where orderid = ?";
 		return runner.query(conn, sql, new BeanListHandler<OrderFormVo>(OrderFormVo.class), orderid);
 	}
-	
+
+	@Override
+	public void setOrderNullByOrderID(Integer orderID) throws SQLException {
+		String sql = "update order set orderID=null where orderID=?";
+		runner.update(conn,sql,orderID);
+	}
+
 	@Override
 	public void close(){
 		try{

@@ -25,6 +25,7 @@
 				书名：&nbsp;<input type="text" name="bookName"/>&nbsp;&nbsp;<br/>
 				作者：&nbsp;<input type="text" name ="author"/>&nbsp;&nbsp;<br/>
 				新旧：&nbsp;<select id = "pselect" name = "pselect">
+
 						<option value="10">
 							全新
 						</option>

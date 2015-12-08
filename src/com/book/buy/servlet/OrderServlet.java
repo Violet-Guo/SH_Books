@@ -8,6 +8,7 @@ import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.BuyDaoImpFactory;
 import com.book.buy.factory.OrderformDaoImpFactory;
 import com.book.buy.factory.UserDaoImpFactory;
+import com.book.buy.utils.NewDate;
 import com.book.buy.utils.Paging;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.BuyVo;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,7 +36,7 @@ import java.util.List;
 @WebServlet(name = "OrderServlet", urlPatterns = "/order")
 public class OrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,14 +47,23 @@ public class OrderServlet extends HttpServlet {
             out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
             return;
         }
+        /*Boolean isOrder = (Boolean) request.getAttribute("isOrder");
+        if(isOrder==null)
+            isOrder=false;*/
         BuyDao buyDao = BuyDaoImpFactory.getBuyDaoImp();
         OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
         //---------------获取参数
         String state = request.getParameter("state");
-        if (state == null) {
-            state = "all";
+        /*if (state == null) {
+            if(isOrder) {
+                state="isOrder";
+            }else {
+                state = "all";
+            }
+        }*/
+        if(state==null){
+            state="all";
         }
-
         //--------------下面是对传出的各种状态参数的处理和返回
         //---------------这里进行分页
         Integer count = null;
@@ -75,7 +86,14 @@ public class OrderServlet extends HttpServlet {
                 buyVos = buyDao.getWaitSureByUserID(userVo.getId(),paging.getStart(),paging.getEnd());
             }else if(state.equals("waiteva")){
                 buyVos = buyDao.getWaitEvaByUserID(userVo.getId(),paging.getStart(),paging.getEnd());
-            }
+            }/*else if(state.equals("isOrder")){//------------@import安全漏洞部分
+                Integer orderID = (Integer) request.getAttribute("orderID");
+
+                Double allPrice = buyDao.getBuyPrice(orderID);
+                request.setAttribute("allPrice",allPrice);
+                buyVos = new ArrayList<>();
+                buyVos.add(buyDao.getBuyByOrderID(orderID));
+            }*/
             //通过buy列表获取orderForm
             BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
             UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
@@ -148,7 +166,13 @@ public class OrderServlet extends HttpServlet {
             request.setAttribute("orderFormBookMap", orderFormBookMap);
             request.setAttribute("orderPriceList", orderPriceList);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/order.jsp");
+            RequestDispatcher dispatcher = null;
+            /*if(state.equals("isOrder")){
+                dispatcher = request.getRequestDispatcher("/pages/personPage/isOrder.jsp");
+            }else {
+                dispatcher = request.getRequestDispatcher("/pages/personPage/order.jsp");
+            }*/
+            dispatcher = request.getRequestDispatcher("/pages/personPage/order.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();

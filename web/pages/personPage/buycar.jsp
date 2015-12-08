@@ -74,14 +74,14 @@
             <li class="del-all">
                 <form action="/buycar" method="post">
                     <input type="hidden" name="delAll" value="yes">
-                    <input value="全部删除" type="submit">
+                    <input value="全部删除" type="submit" onclick="return confirm('确认全部删除？');">
                 </form>
             </li>
             <li class="tol-price">共计：<span>${allPrice}</span></li>
             <li class="action-price button">
                 <form action="/buycar" method="post">
                     <input type="hidden" name="buycarSub" value="yes">
-                    <input value="结算" type="submit">
+                    <input value="生成订单" type="submit">
                 </form>
             </li>
         </ul>
