@@ -40,7 +40,7 @@
 
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
     <div class="panel-heading">
-        <h3 class="panel-title">投诉<span id="more"><a id="wm" href="/allcomp">更多</a></span></h3>
+        <h3 class="panel-title">投诉<span id="more"><a id="wm" href="/getallcomp">更多</a></span></h3>
     </div>
     <div class="panel-body">
         <div id="comphead">
@@ -86,7 +86,7 @@
 
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
     <div class="panel-heading">
-        <h3 class="panel-title">申诉<span id="more"><a id="wm" href="/allappeal">更多</a></span></h3>
+        <h3 class="panel-title">申诉<span id="more"><a id="wm" href="/getallappeal">更多</a></span></h3>
     </div>
     <div class="panel-body">
         <div>
@@ -132,7 +132,7 @@
 
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
     <div class="panel-heading">
-        <h3 class="panel-title">用户<span id="more"><a id="wm" href="/allusercomp">更多</a></span></h3>
+        <h3 class="panel-title">用户<span id="more"><a id="wm" href="/getalluser">更多</a></span></h3>
     </div>
         <span class="panel-body">
             <div id="userhead">
@@ -177,7 +177,7 @@
 
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
     <div class="panel-heading">
-        <h3 class="panel-title">反馈<span id="more"><a id="wm" href="/allfedback">更多</a></span></h3>
+        <h3 class="panel-title">反馈<span id="more"><a id="wm" href="/getallfedback">更多</a></span></h3>
     </div>
     <div class="panel-body">
         <div id="feedhead">

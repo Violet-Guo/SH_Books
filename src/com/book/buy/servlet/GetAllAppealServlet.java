@@ -49,7 +49,7 @@ public class GetAllAppealServlet extends HttpServlet {
 
         compdao.close();
 
-        response.sendRedirect("/getallcomp");
+        response.sendRedirect("/allappeal");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

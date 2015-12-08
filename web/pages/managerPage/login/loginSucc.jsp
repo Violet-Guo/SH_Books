@@ -19,7 +19,7 @@
 <body>
     <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
     <div id="loginstate">
-        登陆成功，<a href="/getallappeal">点击跳转到管理员管理主页</a>
+        登陆成功，<a href="/AdminIndex">点击跳转到管理员管理主页</a>
     </div>
     <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>
