@@ -76,3 +76,14 @@
     font-size: 14px;
     font-weight: bolder;
 }
+.order-head li .change-address{
+    color: #ffffff;
+}
+.order-head li .change-address h2{
+    font-size: 15px;
+}
+.order-head .button{
+    padding: 3px 0 3px 0;
+    height: 100%;
+    border-radius: 5px;
+}

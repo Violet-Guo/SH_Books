@@ -93,6 +93,9 @@
     width: 180px;
     height:260px;
 }
+.hotBookDiv a{
+    color: #ffffff;
+}
 .hotBook-title{
     position: absolute;
     display: table;

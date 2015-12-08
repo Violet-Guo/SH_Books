@@ -1,19 +1,10 @@
 package com.book.buy.servlet;
 
-import com.book.buy.dao.BookDao;
-import com.book.buy.dao.BuyDao;
-import com.book.buy.dao.OrderformDao;
-import com.book.buy.dao.UserDao;
-import com.book.buy.factory.BookDaoImpFactory;
-import com.book.buy.factory.BuyDaoImpFactory;
-import com.book.buy.factory.OrderformDaoImpFactory;
-import com.book.buy.factory.UserDaoImpFactory;
+import com.book.buy.dao.*;
+import com.book.buy.factory.*;
 import com.book.buy.utils.NewDate;
 import com.book.buy.utils.Paging;
-import com.book.buy.vo.BookVo;
-import com.book.buy.vo.BuyVo;
-import com.book.buy.vo.OrderFormVo;
-import com.book.buy.vo.UserVo;
+import com.book.buy.vo.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -34,13 +25,6 @@ import java.util.List;
  */
 @WebServlet(name = "BuycarServlet",urlPatterns = "/buycar")
 public class BuycarServlet extends HttpServlet {
-    /*@Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
-
-    }*/
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //-------这里删除商品
         HttpSession session = request.getSession();
@@ -50,6 +34,7 @@ public class BuycarServlet extends HttpServlet {
             out.println("<script>alert('用户登录状态出错，请重新登录');window.location.href='/login'");
             return;
         }
+
         String delNum = request.getParameter("delNum");
         if(delNum!=null){
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
@@ -67,6 +52,7 @@ public class BuycarServlet extends HttpServlet {
             }
             return;
         }
+
         //--------------购物车的提交
         String buycarSub = request.getParameter("buycarSub");
         if(buycarSub!=null&&buycarSub.equals("yes")){
@@ -79,15 +65,51 @@ public class BuycarServlet extends HttpServlet {
             buyVo.setSureTime(null);
             buyVo.setTime(time);
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
+            int orderID = 0;
             try {
                 buyDao.addBuy(buyVo);
-                int id = buyDao.getLastInsertID();
-                orderformDao.updateByuserid(userVo.getId(),id);
+                orderID = buyDao.getLastInsertID();
+                orderformDao.updateByuserid(userVo.getId(), orderID);
 
+                request.setAttribute("isOrder", true);
+                request.setAttribute("orderID", orderID);
+                //------添加一个消息给卖家
+                List<OrderFormVo> orderFormVos = orderformDao.findByOrderID(orderID);
+                if(getEvery(request, userVo, orderFormVos)){
+                    List<UserVo> userVos = (List<UserVo>) request.getAttribute("orderUserVos");
+                    Integer sellerID = 0;
+                    Integer beforeID = 0;
+                    for(int i=0;i<userVos.size();i++){
+                        if((sellerID = userVos.get(i).getId())!=beforeID){
+                            beforeID = sellerID;
+                            //---向sellerID发一条订单消息
+                            InformVo informVo = new InformVo();
+                            informVo.setUserID(sellerID);
+                            informVo.setHasRead(0);
+                            informVo.setNum(1);
+                            informVo.setTime(time);
+                            informVo.setType(1);///----@import这个值要改，获取订单消息后应该点击进入订单页面--通知黎明
+
+                            InformDao informDao = InformDaoImplFactory.getInformDaoImpl();
+                            informDao.addInform(informVo);
+                        }
+                    }
+                }
+
+                request.getRequestDispatcher("/pages/personPage/orderSuccess.jsp").forward(request, response);
                 orderformDao.close();
                 buyDao.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+                //-----------出错回滚
+                if(orderID!=0) {
+                    try {
+                        buyDao.delBuyByOrderID(orderID);
+                        orderformDao.setOrderNullByOrderID(orderID);
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                }
                 out.println("<script>alert('出错，请重试');window.location.href='/buycar';</script>");
             }
             return;
@@ -114,78 +136,138 @@ public class BuycarServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         UserVo userVo = (UserVo) session.getAttribute("user");
+        if(userVo==null){
+            out.print("<script>alert('登陆状态出错，重新登陆');window.location.href='/login';</script>");
+            return;
+        }
 
-        if(userVo!=null){
-            OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
-            List<OrderFormVo> orderFormVos = null;
-            try {
-                orderFormVos = orderformDao.findAllitem(userVo.getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
+        OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
+        List<OrderFormVo> orderFormVos = null;
+        try {
+            orderFormVos = orderformDao.findAllitem(userVo.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //-----分页
+        int everyPageNum = 5;
+        Paging paging = new Paging(everyPageNum,request,orderFormVos.size(),"/buycar?");
+        int thisPage = paging.getThisPage();
+        request.setAttribute("paging",paging);
+        //------------计算结算价格
+        orderFormVos = orderFormVos.subList(paging.getStart(),paging.getEnd());
+        /*BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
+        UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
+        try {
+            Double price = orderformDao.findSumPriceByUserID(userVo.getId());
+            if(price==null){
+                price = 0.0;
             }
-            //-----分页
-            int everyPageNum = 5;
-            Paging paging = new Paging(everyPageNum,request,orderFormVos.size(),"/buycar?");
-            int thisPage = paging.getThisPage();
-            request.setAttribute("paging",paging);
-            //------------计算结算价格
-            orderFormVos = orderFormVos.subList(paging.getStart(),paging.getEnd());
-            BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
-            UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
-            try {
-                Double price = orderformDao.findSumPriceByUserID(userVo.getId());
-                if(price==null){
-                    price = 0.0;
-                }
-                request.setAttribute("allPrice",price);
+            request.setAttribute("allPrice",price);
 
-                ArrayList<UserVo> orderUserVos = new ArrayList<>();
-                ArrayList<BookVo> orderBookVos = new ArrayList<>();
-                int len = orderFormVos.size();
+            ArrayList<UserVo> orderUserVos = new ArrayList<>();
+            ArrayList<BookVo> orderBookVos = new ArrayList<>();
+            int len = orderFormVos.size();
 
-                for(int i=0;i<len;i++){
-                    int bookID = orderFormVos.get(i).getBookID();
-                    BookVo bookVo = bookDao.findById(bookID);
-                    orderBookVos.add(bookVo);
-                    UserVo userVo1 = userDao.findUserById(bookVo.getUserID());
-                    orderUserVos.add(userVo1);
-                }
-                ArrayList<OrderFormVo> orderFormVos1 = new ArrayList<>();
-                ArrayList<UserVo> orderUserVos1 = new ArrayList<>();
-                ArrayList<BookVo> orderBookVos1 = new ArrayList<>();
+            for(int i=0;i<len;i++){
+                int bookID = orderFormVos.get(i).getBookID();
+                BookVo bookVo = bookDao.findById(bookID);
+                orderBookVos.add(bookVo);
+                UserVo userVo1 = userDao.findUserById(bookVo.getUserID());
+                orderUserVos.add(userVo1);
+            }
+            ArrayList<OrderFormVo> orderFormVos1 = new ArrayList<>();
+            ArrayList<UserVo> orderUserVos1 = new ArrayList<>();
+            ArrayList<BookVo> orderBookVos1 = new ArrayList<>();
 
-                String tempName;
-                for(int i=0;i<orderFormVos.size();i++){
-                    tempName = orderUserVos.get(i).getUsername();
-                    for (int h=i;h<orderFormVos.size();h++){
-                        if(orderUserVos.get(h).getUsername().equals(tempName)){
-                            orderFormVos1.add(orderFormVos.get(h));
-                            orderUserVos1.add(orderUserVos.get(h));
-                            orderBookVos1.add(orderBookVos.get(h));
+            String tempName;
+            for(int i=0;i<orderFormVos.size();i++){
+                tempName = orderUserVos.get(i).getUsername();
+                for (int h=i;h<orderFormVos.size();h++){
+                    if(orderUserVos.get(h).getUsername().equals(tempName)){
+                        orderFormVos1.add(orderFormVos.get(h));
+                        orderUserVos1.add(orderUserVos.get(h));
+                        orderBookVos1.add(orderBookVos.get(h));
 
-                            orderFormVos.remove(h);
-                            orderUserVos.remove(h);
-                            orderBookVos.remove(h);
+                        orderFormVos.remove(h);
+                        orderUserVos.remove(h);
+                        orderBookVos.remove(h);
 
-                            i=-1;
-                        }
+                        i=-1;
                     }
                 }
-                request.setAttribute("orderFormVos",orderFormVos1);
-                request.setAttribute("orderUserVos",orderUserVos1);
-                request.setAttribute("orderBookVos",orderBookVos1);
-
-                orderformDao.close();
-                bookDao.close();
-                userDao.close();
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/buycar.jsp");
-                dispatcher.forward(request,response);
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }else{
-            //----------未登录成功或者未登录
-            out.print("<script>alert('登陆有问题,返回登陆页面');window.location.href='/'</script>");
+            request.setAttribute("orderFormVos",orderFormVos1);
+            request.setAttribute("orderUserVos",orderUserVos1);
+            request.setAttribute("orderBookVos",orderBookVos1);
+
+            orderformDao.close();
+            bookDao.close();
+            userDao.close();
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/buycar.jsp");
+            dispatcher.forward(request,response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
+        if(getEvery(request,userVo,orderFormVos)) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/buycar.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+
+    private boolean getEvery(HttpServletRequest request,UserVo userVo,List<OrderFormVo> orderFormVos){
+        BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
+        UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
+        OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
+        try {
+            Double price = orderformDao.findSumPriceByUserID(userVo.getId());
+            if(price==null){
+                price = 0.0;
+            }
+            request.setAttribute("allPrice",price);
+
+            ArrayList<UserVo> orderUserVos = new ArrayList<>();
+            ArrayList<BookVo> orderBookVos = new ArrayList<>();
+            int len = orderFormVos.size();
+
+            for(int i=0;i<len;i++){
+                int bookID = orderFormVos.get(i).getBookID();
+                BookVo bookVo = bookDao.findById(bookID);
+                orderBookVos.add(bookVo);
+                UserVo userVo1 = userDao.findUserById(bookVo.getUserID());
+                orderUserVos.add(userVo1);
+            }
+            ArrayList<OrderFormVo> orderFormVos1 = new ArrayList<>();
+            ArrayList<UserVo> orderUserVos1 = new ArrayList<>();
+            ArrayList<BookVo> orderBookVos1 = new ArrayList<>();
+
+            String tempName;
+            for(int i=0;i<orderFormVos.size();i++){
+                tempName = orderUserVos.get(i).getUsername();
+                for (int h=i;h<orderFormVos.size();h++){
+                    if(orderUserVos.get(h).getUsername().equals(tempName)){
+                        orderFormVos1.add(orderFormVos.get(h));
+                        orderUserVos1.add(orderUserVos.get(h));
+                        orderBookVos1.add(orderBookVos.get(h));
+
+                        orderFormVos.remove(h);
+                        orderUserVos.remove(h);
+                        orderBookVos.remove(h);
+
+                        i=-1;
+                    }
+                }
+            }
+            request.setAttribute("orderFormVos",orderFormVos1);
+            request.setAttribute("orderUserVos",orderUserVos1);
+            request.setAttribute("orderBookVos", orderBookVos1);
+
+            orderformDao.close();
+            bookDao.close();
+            userDao.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
