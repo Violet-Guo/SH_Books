@@ -1,16 +1,12 @@
 package com.book.buy.utils;
 
-import com.sun.deploy.net.HttpRequest;
-import sun.corba.OutputStreamFactory;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Created by chao on 2015/12/3.
+ * changed by violet on 2015/12/9 增加无参数的初始化
  */
 public class Paging {
     private int everyPageNum;
@@ -19,6 +15,10 @@ public class Paging {
     private Integer thisPage;
     private int pageNum;
     private String beforeUrl;
+
+    public Paging(){
+        super();
+    }
 
     public Paging(int everyPageNum, HttpServletRequest request,int allNum,String beforeUrl){
         this.everyPageNum = everyPageNum;
@@ -58,7 +58,7 @@ public class Paging {
                     out.println("<li><a " + (thisPage == i ? "id='thisPage'" : "") + " href='" + beforeUrl + "thisPage=" + i + "'>" + i + "</a></li>");
                 }
                 if (pageNum % 10 > 0 && pageNum / 10 > (thisPage - 1) / 10) {
-                    out.print("<a href='/"+beforeUrl+"thisPage=" + ((((thisPage - 1) / 10) + 1) * 10 + 1) + "'>&gt;&gt;</a>");
+                    out.print("<a href='"+beforeUrl+"?thisPage=" + ((((thisPage - 1) / 10) + 1) * 10 + 1) + "'>&gt;&gt;</a>");
                 }
                 out.println("<li><a href='" + beforeUrl + "thisPage=" + (thisPage + 1) + "'>下一页</a></li>");
                 out.println("</ul>");

@@ -16,6 +16,8 @@ import java.util.List;
  * 15/11/11 修改：添加关于申诉的方法
  * 2015/11/26 修改：添加通过ID查找申诉和投诉的方法
  * 2015/12/4  修改：把申诉和投诉的方法合在了一起
+ * 2015/12/9  修改：getCompByUserid、getCompByState这三个参数修改
+ * complainType：0代表投诉，1代表申诉
  */
 public class ComplainImp implements ComplainDao {
     private QueryRunner runner = null;
@@ -68,17 +70,17 @@ public class ComplainImp implements ComplainDao {
     }
 
     @Override
-    public List<ComplainVo> getCompByUserid(int uid) throws SQLException {
+    public List<ComplainVo> getCompByUserid(int uid, int complainType) throws SQLException {
         String sql = "select id, userID, bookID, description, complainType, " +
-                "state from complain where complainType = 0 and userID = ?";
-        return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), uid);
+                "state from complain where complainType = ? and userID = ?";
+        return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), complainType ,uid);
     }
 
     @Override
-    public List<ComplainVo> getCompByState(int state) throws SQLException {
+    public List<ComplainVo> getCompByState(int state, int complainType) throws SQLException {
         String sql = "select id, userID, bookID, description, complainType, " +
-                "state from complain where complainType = 0 and state = ?";
-        return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), state);
+                "state from complain where complainType = ? and state = ?";
+        return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), complainType, state);
     }
 
     @Override

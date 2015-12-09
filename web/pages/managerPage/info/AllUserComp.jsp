@@ -2,6 +2,7 @@
 <%@ page import="com.book.buy.vo.ComplainVo" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.book.buy.vo.UserVo" %>
+<%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -20,14 +21,19 @@
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=basePath %>css/information.css">
+    <link rel="stylesheet" href="<%=basePath %>css/sellerPublishedBook.css">
     <title></title>
 </head>
 <body>
     <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
     <%
         request.setCharacterEncoding("utf-8");
-        List<UserVo> lis = new ArrayList<>();
-        lis = (ArrayList)request.getSession().getAttribute("allcompuser");
+        List<UserVo> lis = (List)request.getSession().getAttribute("allcompuser");
+        Paging paging = (Paging)request.getSession().getAttribute("paging");
+        String state = (String)request.getParameter("state");
+        if (null == state){
+            state = "";
+        }
     %>
 
     <br>
@@ -36,14 +42,19 @@
             <h3 class="panel-title">用户</h3>
         </div>
         <div class="panel-body">
+            <ul class="allusercomp-top">
+                <li><h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/getallcomp">全部被投诉过的用户</a></h2></li>
+                <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getallcomp?state=yes">正常</a></h2></li>
+                <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getallcomp?state=no">已冻结</a></h2></li>
+            </ul>
+            <br><br><hr><br>
             <div id="userhead">
                 <span id="xuhao">序号</span>
                 <span id="username">用户名</span>
                 <span id="compnum">被投诉次数</span>
                 <span id="userstate">用户状态</span>
             </div>
-            <br>
-            <hr>
+            <br><br>
             <%
                 for (int i = 0; i < lis.size(); i++){
                     UserVo uservo = (UserVo)lis.get(i);
@@ -68,6 +79,7 @@
             <br>
             <%
                 }
+                paging.printPage(out);
             %>
         </div>
     </div>

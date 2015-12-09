@@ -13,38 +13,38 @@
     <link rel="stylesheet" href="<%=basePath %>css/model.css">
     <script type="text/javascript">
         function createXHR() {
-            if (window.XMLHttpRequest) {
-                return new XMLHttpRequest();
+            function createXHR() {
+                if (window.XMLHttpRequest) {
+                    return new XMLHttpRequest();
+                }
+                else if (window.ActiveXObject) {
+                    return new ActiveXObject("Microsoft.XMLHTTP");
+                }
             }
-            else if (window.ActiveXObject) {
-                return new ActiveXObject("Microsoft.XMLHTTP");
-            }
-        }
 
 
-        //将已经删除的行从列表里清除，依据删除的行的id
-        function deleteCurrentRow(obj) {
-            var id = obj.id;
-            var xhr = createXHR();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-                    if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
-                        alert(xhr.responseText);
+//将已经删除的行从列表里清除，依据删除的行的id
+            function deleteCurrentRow(obj) {
+                var id = obj.name;
+                var xhr = createXHR();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+                            alert("删除成功！");
+                            var tr = obj.parentNode.parentNode;
+                            var tbody = tr.parentNode;
+                            tbody.removeChild(tr);
+                            //只剩行首时删除表格
+                            if (tbody.rows.length == 1) {
+                                tbody.parentNode.removeChild(tbody);
+                            }
+                        }
                     }
                 }
-                xhr.open("get", "DeleteWant.do?id=" + id, true);
+                xhr.open("get", "/DeleteWantServlet?id=" + id, true);
                 xhr.send(null);
             }
-            var tr = obj.parentNode.parentNode;
-            var tbody = tr.parentNode;
-            tbody.removeChild(tr);
-            //只剩行首时删除表格
-            if (tbody.rows.length == 1) {
-                tbody.parentNode.removeChild(tbody);
-            }
-            alert("删除成功！");
         }
-
     </script>
     <title>心愿单列表</title>
 </head>
@@ -68,15 +68,11 @@
                 <td><c:out value="${book.publicYear}"></c:out></td>
                 <td><c:out value="${book.pubNumber}"></c:out></td>
                 <td>
-                    <button onclick="window.location.href='AlterWant.jsp?bookname=${book.name}&writer=${book.author}&year=${book.publicYear}&ISBN=${book.pubNumber}&id=${book.id}'"
+                    <button onclick="window.location.href='/alterwant?bookname=${book.name}&writer=${book.author}&year=${book.publicYear}&ISBN=${book.pubNumber}&id=${book.id}'"
                             id="alter" value="<c:out value="${book.id}" />">修改
                     </button>
                 </td>
-                <td>
-                    <button onclick="deleteCurrentRow(this)" id="<c:out value="${book.id}" />"
-                            value="<c:out value="${book.id}" />">删除
-                    </button>
-                </td>
+                <td><button onclick='if(confirm("确认删除？")){deleteCurrentRow(this)}'name="${book.id}" value="删除">删除</button></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -85,12 +81,12 @@
 <br/>
 
 <div id="page">
-    <a href="WantList.jsp?curPage=1">首页</a>
-    <a href="WantList.jsp?curPage=${curpage-1}">上一页</a>
-    <a href="WantList.jsp?curPage=${curpage+1}">下一页</a>
-    <a href="WantList.jsp?curPage=${sessionScope.maxpage}">尾页</a><br/>
+    <a href="/WantListServlet?curPage=1">首页</a>
+    <a href="/WantListServlet?curPage=${sessionScope.curpage-1}">上一页</a>
+    <a href="/WantListServlet?curPage=${sessionScope.curpage+1}">下一页</a>
+    <a href="/WantListServlet?curPage=${sessionScope.maxpage}">尾页</a><br/>
 
-    <div id="count">第<c:out value="${curpage}"></c:out>页/共<c:out value="${sessionScope.maxpage}"></c:out>页</div>
+    <div id="count">第<c:out value="${sessionScope.curpage}"></c:out>页/共<c:out value="${sessionScope.maxpage}"></c:out>页</div>
 </div>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>

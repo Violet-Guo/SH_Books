@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.book.buy.vo.FeedBackVo" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -24,7 +25,8 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-    List<FeedBackVo> lis = (ArrayList)request.getSession().getAttribute("allfeedback");
+    List<FeedBackVo> lis = (List)request.getSession().getAttribute("allfeedback");
+    Paging paing = (Paging)request.getSession().getAttribute("paging");
 %>
 <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
@@ -44,7 +46,7 @@
                 FeedBackVo feed = (FeedBackVo) lis.get(i);
                 String des = feed.getDescription();
                 if (20 < des.length())
-                    des.substring(0, 20);
+                    des = des.substring(0, 20);
         %>
         <div id="feedbody">
             <span id="xuhao"><%=i + 1%>.</span>
@@ -55,6 +57,7 @@
         <br>
         <%
             }
+            paing.printPage(out);
         %>
     </div>
 </div>

@@ -5,8 +5,27 @@
     min-height: 300px;
 }
 
+
 .publishedbook-top li{
     padding-left:20px;
+    padding-right: 20px;
+    float: left;
+}
+
+.allcomp-top li{
+    padding-left: 20px;
+    padding-right: 20px;
+    float: left;
+}
+
+.allappeal-top li{
+    padding-left: 20px;
+    padding-right: 20px;
+    float: left;
+}
+
+.allusercomp-top li{
+    padding-left: 20px;
     padding-right: 20px;
     float: left;
 }
@@ -58,5 +77,10 @@
 
 #edit{
     position: absolute;
-    left: 1050px;
+    left: 1010px;
+}
+
+#del{
+    position: absolute;
+    left: 1100px;
 }
