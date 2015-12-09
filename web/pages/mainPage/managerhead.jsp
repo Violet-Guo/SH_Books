@@ -36,7 +36,7 @@
             </ul>
             <c:if test="${isLogin}">
                 <ul class="top-sell-book">
-                    <li><a style="color: white" href="../managerInfo/managerInfo.jsp">${admin.username}</a></li>
+                    <li><a style="color: white" href="/managerinfo">${admin.username}</a></li>
                 </ul>
             </c:if>
             <c:if test="${!isLogin}">

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 /**
@@ -21,6 +22,14 @@ import java.sql.SQLException;
 public class AddCompServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
+
+        PrintWriter out = response.getWriter();
+
+        UserVo user1 = (UserVo)request.getSession().getAttribute("user");
+        if (user1 == null) {
+            out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
+            return;
+        }
 
         UserVo user = new UserVo();
         user = (UserVo)request.getSession().getAttribute("user");

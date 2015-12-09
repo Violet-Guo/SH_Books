@@ -6,6 +6,7 @@ import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.ComplainDaoImpFactory;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.ComplainVo;
+import com.book.buy.vo.ManagerVo;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,6 +28,13 @@ public class DownBookByAdminServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         String href = "";
+
+        ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
+        if (null == admin){
+            href = "/loginmanager";
+            out.print("<script language='javascript'>alert('登录状态失效，管理员请登陆！');"
+                    + "window.location.href='" + href + "';</script>");
+        }
 
         String bookid = request.getParameter("bookid");
         String compid = request.getParameter("compid");

@@ -30,6 +30,15 @@ public class ManagerIndexServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
 
+        PrintWriter out = response.getWriter();
+        String href = "";
+
+        ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
+        if (null == admin){
+            href = "/loginmanager";
+            out.print("<script language='javascript'>alert('登录状态失效，管理员请登陆！');"
+                    + "window.location.href='" + href + "';</script>");
+        }
 
         List<ComplainVo> complis = new ArrayList<>();
         List<ComplainVo> appeallis = new ArrayList<>();
