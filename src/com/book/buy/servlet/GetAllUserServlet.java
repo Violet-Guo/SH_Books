@@ -28,8 +28,8 @@ public class GetAllUserServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
 
         List<ComplainVo> complis = (List)request.getSession().getAttribute("allcomp");
-        List<BookVo> booklis = new ArrayList<>();
         List<UserVo> userlis = new ArrayList<>();
+        int everyPageNum = 5;
 
 
         UserVo uservo = new UserVo();
@@ -38,7 +38,12 @@ public class GetAllUserServlet extends HttpServlet {
         BookVo bookvo = new BookVo();
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
 
+        String state = (String)request.getParameter("state");
+        if (null == state){
+            state = "all";
+        }
 
+        Paging paging = new Paging();
 
         for (int i = 0; i < complis.size(); i++){
             ComplainVo compvo = (ComplainVo)complis.get(i);
@@ -50,15 +55,28 @@ public class GetAllUserServlet extends HttpServlet {
                     continue;
                 }
                 else {
-                    userlis.add(uservo);
+                    if (state.equals("all")){
+                        userlis.add(uservo);
+                    } else if (state.equals("yes") && uservo.getComplainNum() < 3){
+                        userlis.add(uservo);
+                    } else if (state.equals("no") && uservo.getComplainNum() >= 3){
+                        userlis.add(uservo);
+                    }
+
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
 
-        int everyPageNum = 5;
-        Paging paging = new Paging(everyPageNum,request,userlis.size(),"/getalluser?");
+        if (state.equals("all")){
+            paging = new Paging(everyPageNum,request,userlis.size(),"/getalluser?");
+        } else if (state.equals("yes")){
+            paging = new Paging(everyPageNum,request,userlis.size(),"/getalluser?state=yes&&");
+        } else if (state.equals("no")) {
+            paging = new Paging(everyPageNum,request,userlis.size(),"/getalluser?state=no&&");
+        }
+
         request.getSession().setAttribute("paging", paging);
         userlis = userlis.subList(paging.getStart(),paging.getEnd());
 
@@ -68,7 +86,6 @@ public class GetAllUserServlet extends HttpServlet {
         userdao.close();
 
         response.sendRedirect("/allusercomp");
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

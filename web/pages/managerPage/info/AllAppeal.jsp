@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=basePath %>css/information.css">
+    <link rel="stylesheet" href="<%=basePath %>css/sellerPublishedBook.css">
     <title>申诉列表</title>
 </head>
 <body>
@@ -29,6 +30,10 @@
         List<ComplainVo> lis = new ArrayList<>();
         lis = (List)request.getSession().getAttribute("allappeal");
         Paging paging = (Paging)request.getSession().getAttribute("paging");
+        String state = (String)request.getParameter("state");
+        if(null == state){
+            state = "";
+        }
     %>
 
     <br>
@@ -37,13 +42,18 @@
             <h3 class="panel-title">申诉</h3>
         </div>
         <div class="panel-body">
+            <ul class="allappeal-top">
+                <li><h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/getallappeal">全部申诉</a></h2></li>
+                <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getallappeal?state=yes">已处理</a></h2></li>
+                <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getallappeal?state=no">未处理</a></h2></li>
+            </ul>
+            <br><br><hr><br>
             <div>
                 <span id="xuhao">序号</span>
                 <span id="content">申诉内容</span>
                 <span id="feedtime">申诉状态</span>
             </div>
-            <br>
-            <hr>
+            <br><br>
             <%
                 for (int i = 0; i < lis.size(); i++) {
                     ComplainVo comp = (ComplainVo) lis.get(i);

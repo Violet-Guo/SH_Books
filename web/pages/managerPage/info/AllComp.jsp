@@ -27,6 +27,11 @@
 <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
 <%
     request.setCharacterEncoding("utf-8");
+    String state = (String)request.getParameter("state");
+    if (null == state){
+        state = "";
+    }
+
     List<ComplainVo> lis = (List) request.getSession().getAttribute("allcomp");
     Paging paging = (Paging) request.getSession().getAttribute("paging");
 %>
@@ -39,9 +44,9 @@
     </div>
     <div class="panel-body">
         <ul class="allcomp-top">
-            <li><h2><a href="">全部投诉</a></h2></li>
-            <li><h2><a href="">已处理</a></h2></li>
-            <li><h2><a href="">未处理</a></h2></li>
+            <li><h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/getalluser">全部投诉</a></h2></li>
+            <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getalluser?state=yes">已处理</a></h2></li>
+            <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getalluser?state=no">未处理</a></h2></li>
         </ul>
         <br><br><hr><br>
         <div id="comphead">

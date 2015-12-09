@@ -6,6 +6,7 @@ import java.io.IOException;
 
 /**
  * Created by chao on 2015/12/3.
+ * changed by violet on 2015/12/9 增加无参数的初始化
  */
 public class Paging {
     private int everyPageNum;
@@ -14,6 +15,10 @@ public class Paging {
     private Integer thisPage;
     private int pageNum;
     private String beforeUrl;
+
+    public Paging(){
+        super();
+    }
 
     public Paging(int everyPageNum, HttpServletRequest request,int allNum,String beforeUrl){
         this.everyPageNum = everyPageNum;

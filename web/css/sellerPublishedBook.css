@@ -18,6 +18,18 @@
     float: left;
 }
 
+.allappeal-top li{
+    padding-left: 20px;
+    padding-right: 20px;
+    float: left;
+}
+
+.allusercomp-top li{
+    padding-left: 20px;
+    padding-right: 20px;
+    float: left;
+}
+
 #toph{
     margin: auto;
     width: 1100px;

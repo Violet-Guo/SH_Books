@@ -239,4 +239,12 @@
         <servlet-name>userpublish</servlet-name>
         <url-pattern>/userpublish</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>addappeal</servlet-name>
+        <jsp-file>/pages/serverPage/appeal/addAppeal.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addappeal</servlet-name>
+        <url-pattern>/addAppeal</url-pattern>
+    </servlet-mapping>
 </web-app>

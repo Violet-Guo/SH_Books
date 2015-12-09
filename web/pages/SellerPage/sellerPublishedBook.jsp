@@ -104,7 +104,7 @@
                 <c:if test="${udstate}"><a href="/OffShelvesServlet?bookid=<%=book.getId()%>">下架</a></c:if>
             </span>
             <span id="appeal">
-                <c:if test="${bstate}"><a href="#">申诉</a></c:if>
+                <c:if test="${bstate}"><a href="/addAppeal?bookid=<%=book.getId()%>">申诉</a></c:if>
                 <c:if test="${!bstate}">申诉</c:if>
             </span>
         <span id="edit"><a href="/ModifyBookInfoServlet?bookID=<%=book.getId()%>">编辑</a></span>
