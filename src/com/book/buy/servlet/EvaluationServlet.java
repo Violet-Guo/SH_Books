@@ -1,5 +1,8 @@
 package com.book.buy.servlet;
 
+import com.book.buy.dao.EvaluateDao;
+import com.book.buy.factory.EvaluateDaoImpFactory;
+import com.book.buy.vo.EvaluateVo;
 import com.book.buy.vo.UserVo;
 
 import javax.servlet.ServletException;
@@ -26,8 +29,12 @@ public class EvaluationServlet extends HttpServlet {
         UserVo userVo = (UserVo) session.getAttribute("user");
         if(userVo==null){
             out.print("<script>alert('登陆出现错误,重新登陆');window.location.href='/login';</script>");
-        }else {
-
+            return;
         }
+
+        String sellerID = request.getParameter("sellID");
+        EvaluateDao evaluateDao = EvaluateDaoImpFactory.getEvaluateDaoImp();
+        //evaluateDao.getAllEvaluate();
+        EvaluateVo evaluateVo;
     }
 }

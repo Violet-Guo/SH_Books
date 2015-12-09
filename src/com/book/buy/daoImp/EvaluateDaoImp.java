@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by violet on 2015/11/21.
+ * changed by violet on 2015/12/9 删除orderId
  */
 public class EvaluateDaoImp implements EvaluateDao {
 
@@ -25,16 +26,16 @@ public class EvaluateDaoImp implements EvaluateDao {
 
     @Override
     public List<EvaluateVo> getAllEvaluate(int sellUserID) throws SQLException {
-        String sql = "select UserID, sellUserID, orderID, time, content from evaluate where sellUserID = ?";
+        String sql = "select UserID, sellUserID, time, content from evaluate where sellUserID = ?";
         return runner.query(conn, sql, new BeanListHandler<EvaluateVo>(EvaluateVo.class), sellUserID);
     }
 
     @Override
     public void addEvaluate(EvaluateVo evaluatevo) throws SQLException {
-        String sql = "insert into evaluate(UserID, sellUserID, orderID, time, content) " +
-                "values(?, ?, ?, ?, ?);";
+        String sql = "insert into evaluate(UserID, sellUserID, time, content) " +
+                "values(?, ?, ?, ?);";
         runner.update(conn, sql, evaluatevo.getUserID(), evaluatevo.getSellUserID(),
-                evaluatevo.getOrderID(), evaluatevo.getTime(), evaluatevo.getContent());
+                evaluatevo.getTime(), evaluatevo.getContent());
 
     }
 

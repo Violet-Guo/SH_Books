@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 /**
  * Created by violet on 2015/11/20.
+ * changed by violet on 2015/12/9 删除orderId
  */
 public class EvaluateVo implements Serializable {
     private static final long serialVersionUID = 1L;
     private String userID;
     private String sellUserID;
-    private String orderID;
     private String time;
     private String content;
 
@@ -17,11 +17,10 @@ public class EvaluateVo implements Serializable {
         super();
     }
 
-    public EvaluateVo(String userID, String sellUserID, String orderID, String time, String content){
+    public EvaluateVo(String userID, String sellUserID, String time, String content){
         super();
         this.userID = userID;
         this.sellUserID = sellUserID;
-        this.orderID = orderID;
         this.time = time;
         this.content = content;
 
@@ -47,14 +46,6 @@ public class EvaluateVo implements Serializable {
         this.sellUserID = sellUserID;
     }
 
-    public String getOrderID() {
-        return orderID;
-    }
-
-    public void setOrderID(String orderID) {
-        this.orderID = orderID;
-    }
-
     public String getTime() {
         return time;
     }
@@ -73,7 +64,7 @@ public class EvaluateVo implements Serializable {
 
     @Override
     public String toString(){
-        return "EvaluateVo [userId=" + userID + ", sellUserID=" + sellUserID + ", orderID=" + orderID +
-                ", time=" + time + ", content =" + content + "]";
+        return "EvaluateVo [userId=" + userID + ", sellUserID=" + sellUserID + ", " +
+                "time=" + time + ", content =" + content + "]";
     }
 }
