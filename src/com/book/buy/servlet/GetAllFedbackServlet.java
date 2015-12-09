@@ -2,6 +2,7 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.FeedBackDao;
 import com.book.buy.factory.FeedBackDaoImplFactory;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.FeedBackVo;
 
 import javax.servlet.ServletException;
@@ -30,6 +31,11 @@ public class GetAllFedbackServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        int everyPageNum = 5;
+        Paging paging = new Paging(everyPageNum,request,feedlis.size(),"/getallfedback?");
+        request.getSession().setAttribute("paging", paging);
+        feedlis = feedlis.subList(paging.getStart(),paging.getEnd());
 
         request.getSession().setAttribute("allfeedback", feedlis);
 

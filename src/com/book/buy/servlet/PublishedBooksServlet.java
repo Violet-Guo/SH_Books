@@ -2,6 +2,7 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.factory.BookDaoImpFactory;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.UserVo;
 
@@ -57,6 +58,11 @@ public class PublishedBooksServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        int everyPageNum = 5;
+        Paging paging = new Paging(everyPageNum,request,booklis.size(),"/publishedbooks?");
+        request.getSession().setAttribute("paging", paging);
+        booklis = booklis.subList(paging.getStart(),paging.getEnd());
 
         request.getSession().setAttribute("publishedbook", booklis);
 

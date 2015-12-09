@@ -41,8 +41,6 @@ public class GetAllCompServlet extends HttpServlet {
         request.getSession().setAttribute("paging", paging);
         lis = lis.subList(paging.getStart(),paging.getEnd());
 
-
-
         request.getSession().setAttribute("allcomp", lis);
 
         compdao.close();

@@ -2,6 +2,7 @@
 <%@ page import="com.book.buy.vo.ComplainVo" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.book.buy.vo.UserVo" %>
+<%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -26,8 +27,8 @@
     <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
     <%
         request.setCharacterEncoding("utf-8");
-        List<UserVo> lis = new ArrayList<>();
-        lis = (ArrayList)request.getSession().getAttribute("allcompuser");
+        List<UserVo> lis = (List)request.getSession().getAttribute("allcompuser");
+        Paging paging = (Paging)request.getSession().getAttribute("paging");
     %>
 
     <br>
@@ -68,6 +69,7 @@
             <br>
             <%
                 }
+                paging.printPage(out);
             %>
         </div>
     </div>

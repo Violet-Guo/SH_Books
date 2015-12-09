@@ -2,6 +2,7 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.ComplainDao;
 import com.book.buy.factory.ComplainDaoImpFactory;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.ComplainVo;
 import com.book.buy.vo.ManagerVo;
 
@@ -44,6 +45,11 @@ public class GetAllAppealServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        int everyPageNum = 5;
+        Paging paging = new Paging(everyPageNum,request,lis.size(),"/getallappeal?");
+        request.getSession().setAttribute("paging", paging);
+        lis = lis.subList(paging.getStart(),paging.getEnd());
 
         request.getSession().setAttribute("allappeal", lis);
 

@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.book.buy.vo.ComplainVo" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -26,7 +27,8 @@
     <%
         request.setCharacterEncoding("utf-8");
         List<ComplainVo> lis = new ArrayList<>();
-        lis = (ArrayList)request.getSession().getAttribute("allappeal");
+        lis = (List)request.getSession().getAttribute("allappeal");
+        Paging paging = (Paging)request.getSession().getAttribute("paging");
     %>
 
     <br>
@@ -68,6 +70,7 @@
             <br>
             <%
                 }
+                paging.printPage(out);
             %>
         </div>
     </div>

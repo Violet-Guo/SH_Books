@@ -4,6 +4,7 @@ import com.book.buy.dao.BookDao;
 import com.book.buy.dao.UserDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.UserDaoImpFactory;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.ComplainVo;
 import com.book.buy.vo.UserVo;
@@ -55,6 +56,11 @@ public class GetAllUserServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+
+        int everyPageNum = 5;
+        Paging paging = new Paging(everyPageNum,request,userlis.size(),"/getalluser?");
+        request.getSession().setAttribute("paging", paging);
+        userlis = userlis.subList(paging.getStart(),paging.getEnd());
 
         request.getSession().setAttribute("allcompuser", userlis);
 

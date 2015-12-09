@@ -2,6 +2,7 @@
 <%@ page import="com.book.buy.vo.BookVo" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -31,7 +32,8 @@
         state = "";
     }
 
-    List<BookVo> booklis = (ArrayList) request.getSession().getAttribute("publishedbook");
+    List<BookVo> booklis = (List) request.getSession().getAttribute("publishedbook");
+    Paging paging = (Paging)request.getSession().getAttribute("paging");
 %>
 <div id="publishedbooklist">
     <ul class="publishedbook-top">
@@ -110,6 +112,7 @@
     <br>
     <%
         }
+        paging.printPage(out);
     %>
 </div>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
