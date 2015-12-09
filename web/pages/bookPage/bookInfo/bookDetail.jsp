@@ -34,13 +34,17 @@
 		联系电话：<span class = "booksame" id = "tel">${sessionScope.userVo.phoneNumber}</span><br/>
 	</div>
 	<br/><br/>
-	<input type="number" big="${sessionScope.bookDetils.bookNum}" id="bookNum" value="1" onchange="change()" name="bookNum" /> 本数
+	<form action="/addorder">
+		<input type="number" big="${sessionScope.bookDetils.bookNum}" id="bookNum" value="1" onchange="change()" name="bookNum" /> 本数
 
-	<div id = "bdrightdown">
-		<input id = "pbutton" class="addbuycar" type="button" value="添加到购物车"/>
-		<input id = "pbutton" class="quick" type="button" value="一键下单" bookID="${sessionScope.bookDetils.id}"/>
-	</div>
+		<div id = "bdrightdown">
+			<input id = "pbutton" class="addbuycar" type="button" value="添加到购物车">
+			<input type="hidden" id="bookID" name="bookID" value="${sessionScope.bookDetils.id}">
+			<input type="hidden" name="isQuick" value="yes">
+			<input id = "pbutton" type="submit" value="一键下单"/>
 
+		</div>
+	</form>
 <br/>
 <hr/>
 <br/>

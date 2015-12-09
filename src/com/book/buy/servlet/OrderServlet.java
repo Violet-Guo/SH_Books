@@ -1,19 +1,11 @@
 package com.book.buy.servlet;
 
-import com.book.buy.dao.BookDao;
-import com.book.buy.dao.BuyDao;
-import com.book.buy.dao.OrderformDao;
-import com.book.buy.dao.UserDao;
-import com.book.buy.factory.BookDaoImpFactory;
-import com.book.buy.factory.BuyDaoImpFactory;
-import com.book.buy.factory.OrderformDaoImpFactory;
-import com.book.buy.factory.UserDaoImpFactory;
+import com.book.buy.dao.*;
+import com.book.buy.daoImp.BuyDaoImp;
+import com.book.buy.factory.*;
 import com.book.buy.utils.NewDate;
 import com.book.buy.utils.Paging;
-import com.book.buy.vo.BookVo;
-import com.book.buy.vo.BuyVo;
-import com.book.buy.vo.OrderFormVo;
-import com.book.buy.vo.UserVo;
+import com.book.buy.vo.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,23 +39,33 @@ public class OrderServlet extends HttpServlet {
             out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
             return;
         }
-        /*Boolean isOrder = (Boolean) request.getAttribute("isOrder");
+
+
+        Boolean isOrder = (Boolean) request.getAttribute("isOrder");
+        String strIsBuyer = request.getParameter("isbuyer");
+        Boolean isBuyer = null;
+        if(strIsBuyer==null){
+            isBuyer = (Boolean) session.getAttribute("isbuyer");
+        }else {
+            isBuyer = Boolean.valueOf(strIsBuyer);
+            session.setAttribute("isBuyer",isBuyer);
+        }
+
         if(isOrder==null)
-            isOrder=false;*/
+            isOrder=false;
         BuyDao buyDao = BuyDaoImpFactory.getBuyDaoImp();
         OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
         //---------------获取参数
-        String state = request.getParameter("state");
-        /*if (state == null) {
-            if(isOrder) {
-                state="isOrder";
-            }else {
-                state = "all";
-            }
-        }*/
+        String state;
+        if(!isOrder) {
+            state = request.getParameter("state");
+        }else {
+            state = (String) request.getAttribute("state");
+        }
         if(state==null){
             state="all";
         }
+
         //--------------下面是对传出的各种状态参数的处理和返回
         //---------------这里进行分页
         Integer count = null;
@@ -72,34 +74,64 @@ public class OrderServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Paging paging = new Paging(5, request, count, "/order?state=" + state);
-        request.setAttribute("paging", paging);
+        Paging paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
         try {
             List<BuyVo> buyVos = null;
-            if (state.equals("all")) {
-                //获取buy列表
-                buyVos = buyDao.getBuyByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
-            }else if(state.equals("waitmoney")){
-                buyVos = buyDao.getWaitMoneyByUserID(userVo.getId(),paging.getStart(),paging.getEnd());
-            }else if(state.equals("waitsure")){
-                buyVos = buyDao.getWaitSureByUserID(userVo.getId(),paging.getStart(),paging.getEnd());
-            }else if(state.equals("waiteva")){
-                buyVos = buyDao.getWaitEvaByUserID(userVo.getId(),paging.getStart(),paging.getEnd());
-            }/*else if(state.equals("isOrder")){//------------@import安全漏洞部分
+            if(isBuyer==null && !state.equals("isQuick")){
+                if (state.equals("all")) {
+                    //获取buy列表
+                    buyVos = buyDao.getBuyByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
+                /*}else if(state.equals("waitmoney")){
+                    buyVos = buyDao.getWaitMoneyByUserID(userVo.getId(),paging.getStart(),paging.getEnd());*/
+                }else if(state.equals("waitsure")){
+                    buyVos = buyDao.getWaitSureByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
+                }else if(state.equals("waiteva")) {
+                    buyVos = buyDao.getWaitEvaByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
+                }
+            }else if(isBuyer!=null && !state.equals("isQuick")){
+                //--------这里处理用户点击了切换开关之后的代码
+                if(isBuyer) {
+                    if (state.equals("all")) {
+                        //获取buy列表
+                        buyVos = buyDao.getBuyByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
+                        /*}else if(state.equals("waitmoney")){
+                        buyVos = buyDao.getWaitMoneyByUserID(userVo.getId(),paging.getStart(),paging.getEnd());*/
+                    } else if (state.equals("waitsure")) {
+                        buyVos = buyDao.getWaitSureByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
+                    } else if (state.equals("waiteva")) {
+                        buyVos = buyDao.getWaitEvaByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
+                    }
+                }else{
+                    if (state.equals("all")) {
+                        //获取buy列表
+                        buyVos = buyDao.getBuyByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
+                        /*}else if(state.equals("waitmoney")){
+                        buyVos = buyDao.getWaitMoneyByUserID(userVo.getId(),paging.getStart(),paging.getEnd());*/
+                    }else if(state.equals("waitsure")){
+                        buyVos = buyDao.getWaitSureByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
+                    }else if(state.equals("waiteva")) {
+                        buyVos = buyDao.getWaitEvaByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
+                    }
+                }
+            }else if(state.equals("isQuick")){//------------@import安全漏洞部分
                 Integer orderID = (Integer) request.getAttribute("orderID");
 
                 Double allPrice = buyDao.getBuyPrice(orderID);
+                LocationDao locationDao = LocationDaoImpFactory.getLocationDaoImp();
+                LocationVo locationVo = locationDao.getLocationByuserID(userVo.getId());
+                request.setAttribute("locationVo",locationVo);
                 request.setAttribute("allPrice",allPrice);
                 buyVos = new ArrayList<>();
                 buyVos.add(buyDao.getBuyByOrderID(orderID));
-            }*/
+            }
             //通过buy列表获取orderForm
             BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
             UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
             HashMap<Long, List<OrderFormVo>> orderFormVoMap = new HashMap<>();
             HashMap<Long, List<UserVo>> orderFormUserMap = new HashMap<>();
             HashMap<Long, List<BookVo>> orderFormBookMap = new HashMap<>();
+            HashMap<Long, List<String>> bookStateMap = new HashMap<>();
             ArrayList<Double> orderPriceList = new ArrayList<>();
 
             for (int r = 0; r < buyVos.size(); r++) {
@@ -115,9 +147,9 @@ public class OrderServlet extends HttpServlet {
                 }
                 orderPriceList.add(price);
 
-
                 ArrayList<UserVo> orderUserVos = new ArrayList<>();
                 ArrayList<BookVo> orderBookVos = new ArrayList<>();
+
                 int len = orderFormVos.size();
 
                 for (int i = 0; i < len; i++) {
@@ -167,12 +199,12 @@ public class OrderServlet extends HttpServlet {
             request.setAttribute("orderPriceList", orderPriceList);
 
             RequestDispatcher dispatcher = null;
-            /*if(state.equals("isOrder")){
+            if(isOrder){
                 dispatcher = request.getRequestDispatcher("/pages/personPage/isOrder.jsp");
             }else {
                 dispatcher = request.getRequestDispatcher("/pages/personPage/order.jsp");
-            }*/
-            dispatcher = request.getRequestDispatcher("/pages/personPage/order.jsp");
+            }
+            request.setAttribute("paging", paging);
             dispatcher.forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();

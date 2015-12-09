@@ -2,29 +2,20 @@
  * Created by violet on 2015/12/7.
  */
 $(document).ready(function(){
-    $(".quick").click(function(){
-        var bookID = $(this).attr("bookID");
-        var bookNum = $(".bookNum").val();
-        $.post("/addorder",{
-            bookID:bookID,
-            bookNum:bookNum,
-            isQuick:yes
-        },function(date){
-            if(date==yes){
-                alert("下单成功");
-            }
-        })
-    });
 
     $(".addbuycar").click(function(){
-        var bookID = $(this).attr("bookID");
-        var bookNum = $(".bookNum").val();
+        var bookID = $("#bookID").val();
+        var bookNum = $("#bookNum").val();
         $.post("/addbuycar",{
             bookID:bookID,
             bookNum:bookNum
         },function(date){
-            if(date==yes){
-                alert("添加到购物车成功");
+            if(date=="yes"){
+                if(confirm("添加到购物车成功,去结算？")){
+                    window.location.href='/buycar';
+                }
+            }else if(date=="no"){
+                alert("错误，请重试，或者重新登陆");
             }
         })
     })

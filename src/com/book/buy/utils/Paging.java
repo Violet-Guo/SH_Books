@@ -58,7 +58,7 @@ public class Paging {
                     out.println("<li><a " + (thisPage == i ? "id='thisPage'" : "") + " href='" + beforeUrl + "thisPage=" + i + "'>" + i + "</a></li>");
                 }
                 if (pageNum % 10 > 0 && pageNum / 10 > (thisPage - 1) / 10) {
-                    out.print("<a href='/buycar?thisPage=" + ((((thisPage - 1) / 10) + 1) * 10 + 1) + "'>&gt;&gt;</a>");
+                    out.print("<a href='/"+beforeUrl+"thisPage=" + ((((thisPage - 1) / 10) + 1) * 10 + 1) + "'>&gt;&gt;</a>");
                 }
                 out.println("<li><a href='" + beforeUrl + "thisPage=" + (thisPage + 1) + "'>下一页</a></li>");
                 out.println("</ul>");
