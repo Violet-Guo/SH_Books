@@ -30,7 +30,12 @@
         <div id="menu">
             <c:if test="${isLogin}">
                 <ul class="navigat">
-                    <li><a href="/PersonInfoServlet">${user.username}</a></li>
+                    <li>
+                        <a href="/PersonInfoServlet">${user.username}</a>
+                        <ul>
+                            <li><a href="/cancel">注销</a></li>
+                        </ul>
+                    </li>
                     <li><a href="./InformServlet">消息<%=informVos.size()%></a></li>
                 </ul>
             </c:if>

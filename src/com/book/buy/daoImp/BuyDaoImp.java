@@ -3,6 +3,7 @@ package com.book.buy.daoImp;
 import com.book.buy.dao.BuyDao;
 import com.book.buy.utils.DBUtils;
 import com.book.buy.vo.BuyVo;
+import com.book.buy.vo.UserVo;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -22,6 +23,8 @@ import java.util.List;
 public class BuyDaoImp implements BuyDao {
     private QueryRunner queryRunner;
     private Connection conn;
+    public static final int ISBUYER = 1;
+    public static final int ISSELLER = 0;
     public BuyDaoImp(){
         queryRunner = new QueryRunner();
         conn = DBUtils.getConnection();
@@ -29,9 +32,15 @@ public class BuyDaoImp implements BuyDao {
     @Override
     public void addBuy(BuyVo buyVo) throws SQLException {
         //插入sureTime和moneyTime初始值为空，判断为空那么即为未确认和未付款的状态，但是填写插入时间
-        String sql = "insert into buy (userID,time,sureTime,moneyTime) values(?,?,?,?)";
+        String sql = "insert into buy (userID,time,sureTime,moneyTime,hasEva) values(?,?,?,?,?)";
         //其中的orderID可以自动生成，所以不需要插入，但是插入后需要读出
-        queryRunner.update(conn,sql,buyVo.getUserID(),buyVo.getTime(),buyVo.getSureTime(),buyVo.getMoneyTime());
+        queryRunner.update(conn,sql,buyVo.getUserID(),buyVo.getTime(),buyVo.getSureTime(),buyVo.getMoneyTime(),buyVo.getHasEva());
+    }
+
+    @Override
+    public void updateByOrderID(BuyVo buyVo) throws SQLException {
+        String sql = "update buy set sureTime=?,hasEva=?";
+        queryRunner.update(conn,sql,buyVo.getSureTime(),buyVo.getHasEva());
     }
 
     @Override
@@ -53,9 +62,39 @@ public class BuyDaoImp implements BuyDao {
     }
 
     @Override
+    public List<BuyVo> getBuyByUserID(UserVo userVo, int begin, int count, int state) throws SQLException {
+        String sql = "";
+        if(state==ISBUYER) {
+            sql = "select * from buy b,orderform o,book,`user` u where"
+                    + " b.userID=? and b.orderID=o.orderID and o.bookID=book.id"
+                    + " and book.userID=u.id and u.id!=? order by b.time desc limit ?,?";
+        }else if(state==ISSELLER){
+            sql = "select * from buy b,orderform o,book,`user` u where"
+                    + " b.userID=? and b.orderID=o.orderID and o.bookID=book.id"
+                    + " and book.userID=u.id and u.id=? order by b.time desc limit ?,?";
+        }
+        return queryRunner.query(conn,sql,new BeanListHandler<BuyVo>(BuyVo.class),userVo.getId(),userVo.getId(),begin,count);
+    }
+
+    @Override
     public Long getCountByUserID(int userID) throws SQLException {
         String sql = "select count(*) from buy where userID=?";
         return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userID);
+    }
+
+    @Override
+    public Long getCountByUserID(UserVo userVo, int state) throws SQLException {
+        String sql = "";
+        if(state==ISBUYER) {
+            sql = "select count(*) from buy b,orderform o,book,`user` u where"
+                    + " b.userID=? and b.orderID=o.orderID and o.bookID=book.id"
+                    + " and book.userID=u.id and u.id!=? order by b.time desc limit begin,count";
+        }else if(state==ISSELLER){
+            sql = "select count(*) from buy b,orderform o,book,`user` u where"
+                    + " b.userID=? and b.orderID=o.orderID and o.bookID=book.id"
+                    + " and book.userID=u.id and u.id=? order by b.time desc limit begin,count";
+        }
+        return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userVo.getId(),userVo.getId());
     }
 
     @Override
@@ -63,11 +102,17 @@ public class BuyDaoImp implements BuyDao {
         String sql = "select * from buy where orderID="+orderID;
         return queryRunner.query(conn,sql,new BeanHandler<BuyVo>(BuyVo.class));
     }
-
+    //-----------------waitMoney先省略
     @Override
     public List<BuyVo> getWaitMoneyByUserID(int userID, int begin, int count) throws SQLException {
         String sql = "select * from buy where userID=? and time=moneyTime order by time desc limit ?,?";
         return queryRunner.query(conn,sql,new BeanListHandler<BuyVo>(BuyVo.class),userID,begin,count);
+    }
+
+    @Override
+    public List<BuyVo> getWaitMoneyByUserID(UserVo userVo, int begin, int count, int state) throws SQLException {
+
+        return null;
     }
 
     @Override
@@ -77,15 +122,50 @@ public class BuyDaoImp implements BuyDao {
     }
 
     @Override
+    public Long getWaitMoneyCount(UserVo userVo, int state) throws SQLException {
+        return null;
+    }
+
+    @Override
     public List<BuyVo> getWaitSureByUserID(int userID, int begin, int count) throws SQLException {
         String sql = "select * from buy where userID=? and isNull(sureTime) order by time desc limit ?,?";
         return queryRunner.query(conn,sql,new BeanListHandler<BuyVo>(BuyVo.class),userID,begin,count);
     }
 
     @Override
+    public List<BuyVo> getWaitSureByUserID(UserVo userVo, int begin, int count, int state) throws SQLException {
+        String sql = "";
+        if(state == ISBUYER){
+            sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
+                    +" and b.orderID=o.orderID and ISNULL(b.sureTime) and o.bookID=book.id"
+                    +" and book.userID=u.id and u.id!=? order by b.time desc limit ?,?";
+        }else if(state == ISSELLER){
+            sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
+                    +" and b.orderID=o.orderID and ISNULL(b.sureTime) and o.bookID=book.id"
+                    +" and book.userID=u.id and u.id=? order by b.time desc limit ?,?";
+        }
+        return queryRunner.query(conn,sql,new BeanListHandler<BuyVo>(BuyVo.class),userVo.getId(),userVo.getId(),begin,count);
+    }
+
+    @Override
     public Long getWaitSureCount(int userID) throws SQLException {
         String sql = "select count(*) from buy where userID=? and isNull(sureTime)";
         return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userID);
+    }
+
+    @Override
+    public Long getWaitSureCount(UserVo userVo, int state) throws SQLException {
+        String sql = "";
+        if(state == ISBUYER){
+            sql = "select count(*) from buy b,orderform o,book,`user` u where b.userID=?"
+                    +" and b.orderID=o.orderID and ISNULL(b.sureTime) and o.bookID=book.id"
+                    +" and book.userID=u.id and u.id!=? order by b.time desc limit begin,count";
+        }else if(state == ISSELLER){
+            sql = "select count(*) from buy b,orderform o,book,`user` u where b.userID=?"
+                    +" and b.orderID=o.orderID and ISNULL(b.sureTime) and o.bookID=book.id"
+                    +" and book.userID=u.id and u.id=? order by b.time desc limit begin,count";
+        }
+        return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userVo.getId(),userVo.getId());
     }
 
     @Override
@@ -102,8 +182,38 @@ public class BuyDaoImp implements BuyDao {
 
     @Override
     public List<BuyVo> getWaitEvaByUserID(int userID, int begin, int count) throws SQLException {
-        String sql = "SELECT * from buy b WHERE b.userID=? AND NOT EXISTS(SELECT * FROM evaluate WHERE evaluate.orderID=b.orderID) order by time desc limit ?,?";
+        String sql = "SELECT * from buy b WHERE b.userID=? and !isNull(b.sureTime) AND NOT EXISTS(SELECT * FROM evaluate WHERE evaluate.orderID=b.orderID) order by time desc limit ?,?";
         return queryRunner.query(conn,sql,new BeanListHandler<BuyVo>(BuyVo.class),userID,begin,count);
+    }
+
+    @Override
+    public List<BuyVo> getWaitEvaByUserID(UserVo userVo,int begin,int count,int state) throws SQLException {
+        String sql = "";
+        if(state == ISBUYER){
+            sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
+                    +" and b.orderID=o.orderID and !ISNULL(b.sureTime) and b.hasEva=0 and o.bookID=book.id"
+                    +" and book.userID=u.id and u.id!=? order by b.time desc limit ?,?";
+        }else if(state == ISSELLER){
+            sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
+                    +" and b.orderID=o.orderID and !ISNULL(b.sureTime) and b.hasEva=0 and o.bookID=book.id"
+                    +" and book.userID=u.id and u.id=? order by b.time desc limit ?,?";
+        }
+        return queryRunner.query(conn,sql,new BeanListHandler<BuyVo>(BuyVo.class),userVo.getId(),userVo.getId(),begin,count);
+    }
+
+    @Override
+    public Long getWaitEvaCount(UserVo userVo, int state) throws SQLException {
+        String sql = "";
+        if(state == ISBUYER){
+            sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
+                    +" and b.orderID=o.orderID and !ISNULL(b.sureTime) and b.hasEva=0 and o.bookID=book.id"
+                    +" and book.userID=u.id and u.id!=? order by b.time desc limit begin,count";
+        }else if(state == ISSELLER){
+            sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
+                    +" and b.orderID=o.orderID and !ISNULL(b.sureTime) and b.hasEva=0 and o.bookID=book.id"
+                    +" and book.userID=u.id and u.id=? order by b.time desc limit begin,count";
+        }
+        return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userVo.getId(),userVo.getId());
     }
 
     @Override

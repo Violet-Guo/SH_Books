@@ -7,9 +7,6 @@ import java.io.Serializable;
  * version=1.0
  */
 public class BuyVo implements Serializable {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     private Integer orderID;
@@ -17,6 +14,7 @@ public class BuyVo implements Serializable {
     private String time;
     private String sureTime;
     private String moneyTime;
+    private int hasEva;
 
     public BuyVo() {
 
@@ -87,6 +85,14 @@ public class BuyVo implements Serializable {
     @Override
     public String toString() {
         return "BuyVo [orderID=" + orderID + ", userID=" + userID + ", time=" + time + ", sureTime=" + sureTime
-                + ", moneyTime=" + moneyTime + "]";
+                + ", moneyTime=" + moneyTime + ", hasEva="+hasEva+"]";
+    }
+
+    public int getHasEva() {
+        return hasEva;
+    }
+
+    public void setHasEva(int hasEva) {
+        this.hasEva = hasEva;
     }
 }

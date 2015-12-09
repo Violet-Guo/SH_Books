@@ -13,6 +13,9 @@ html,body{
 a{
     text-decoration: none;
 }
+textarea{
+    resize: none;
+}
 input{
     background: transparent;
 }
@@ -38,10 +41,10 @@ input{
     clear: both;
 }
 .floatLeft{
-    float: left;
+    float: left !important;
 }
 .floatRight{
-    float: right;
+    float: right !important;
 }
 /*------------------------------------------顶部css值*/
 /*-------------------------------顶部*/
