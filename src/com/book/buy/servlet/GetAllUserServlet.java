@@ -27,10 +27,10 @@ public class GetAllUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
 
-        List<ComplainVo> complis = new ArrayList<>();
+        List<ComplainVo> complis = (List)request.getSession().getAttribute("allcomp");
         List<BookVo> booklis = new ArrayList<>();
         List<UserVo> userlis = new ArrayList<>();
-        complis = (ArrayList)request.getSession().getAttribute("allcomp");
+
 
         UserVo uservo = new UserVo();
         UserDao userdao = UserDaoImpFactory.getUserDaoImpl();

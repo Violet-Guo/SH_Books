@@ -5,8 +5,15 @@
     min-height: 300px;
 }
 
+
 .publishedbook-top li{
     padding-left:20px;
+    padding-right: 20px;
+    float: left;
+}
+
+.allcomp-top li{
+    padding-left: 20px;
     padding-right: 20px;
     float: left;
 }

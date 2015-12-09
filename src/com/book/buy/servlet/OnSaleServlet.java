@@ -42,11 +42,13 @@ public class OnSaleServlet extends HttpServlet {
 				bookVo.setState(1);
 			}
 			bookDao.updateBook(bookVo);
+			response.sendRedirect("/publishedbooks");
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

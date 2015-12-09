@@ -33,7 +33,7 @@
     }
 
     List<BookVo> booklis = (List) request.getSession().getAttribute("publishedbook");
-    Paging paging = (Paging)request.getSession().getAttribute("paging");
+    Paging paging = (Paging) request.getSession().getAttribute("paging");
 %>
 <div id="publishedbooklist">
     <ul class="publishedbook-top">
@@ -47,7 +47,8 @@
             <h2><a <%=state.equals("down") ? "class='on'" : ""%> href="/publishedbooks?state=down">已下架的书籍</a></h2>
         </li>
         <li>
-            <h2><a <%=state.equals("managerdown") ? "class='on'" : ""%> href="/publishedbooks?state=managerdown">被管理员下架的书</a></h2>
+            <h2><a <%=state.equals("managerdown") ? "class='on'" : ""%> href="/publishedbooks?state=managerdown">被管理员下架的书</a>
+            </h2>
         </li>
         <li>
             <h2><a <%=state.equals("selled") ? "class='on'" : ""%> href="/publishedbooks?state=selled">已售出的书籍</a></h2>

@@ -61,6 +61,10 @@ public class UpdateServlet extends HttpServlet {
 			Integer size = books.size();
 			bookID_arr = new Integer[size];
 			userID_arr = new Integer[size];
+			if(size <= 0)
+			{
+				response.sendRedirect("/publishedbooks");
+			}
 			for (i=0; i<size; i++){
 				bookVo = (BookVo) books.get(i);
 				bookID_arr[i] = bookVo.getId();

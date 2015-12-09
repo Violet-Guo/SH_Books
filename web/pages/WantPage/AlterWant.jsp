@@ -384,28 +384,27 @@
 <form action="/AlterWantServlet" method="post">
     <input type="hidden" name="id" value="${param.id}">
     <table border="0" align="center" style="font-size:15px">
-        <tr id="bookname" bgcolor="#FFFFCC">
+        <tr id="bookname">
             <td align="right">
-                <div align="center">图书名称:</div>
+                <div align="center">图  书名  称 :</div>
             </td>
             <td align="left"><input type="text" name="name" value="${param.bookname}"></td>
         </tr>
-        <tr id="pubyear" bgcolor="#FFFFCC">
+        <tr id="pubyear">
             <td align="right">
-                <div align="center">出版年月:</div>
+                <div align="center">出  版  年  月 :</div>
             </td>
             <td align="left"><input type="text" value="${param.year}" name="year" onFocus="javascript:vDateType='2'"
                                     onKeyUp="DateFormat(this,this.value,event,false,'2')"
                                     onBlur="DateFormat(this,this.value,event,true,'2')"></td>
-            <td>&nbsp;&nbsp;形如（YYYY-MM-DD）</td>
         </tr>
-        <tr id="writer" bgcolor="#FFFFCC">
+        <tr id="writer">
             <td align="right">
-                <div align="center">图书作者:</div>
+                <div align="center">图  书  作  者 :</div>
             </td>
             <td align="left"><input type="text" value="${param.writer}" name="writer"></td>
         </tr>
-        <tr id="ISBN" bgcolor="#FFFFCC">
+        <tr id="ISBN">
             <td align="right">
                 <div align="center">图书ISBN编号:</div>
             </td>
