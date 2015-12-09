@@ -60,13 +60,15 @@ public class PublishBookServlet extends HttpServlet {
 				}else{
 				    //上传图片
 				    	mark = 0;
-					String filename = item.getName();
-					extName = filename.substring(filename.lastIndexOf("."));
-					newName = UUID.randomUUID().toString();
-					String rootPath = request.getServletContext().getRealPath("/images");
-					newPath = rootPath + "/" + newName + extName;
-					item.write(new File(newPath));
-					request.getSession().setAttribute("newImagePath", newPath);
+					if(item.getSize() != 0) {
+						String filename = item.getName();
+						extName = filename.substring(filename.lastIndexOf("."));
+						newName = UUID.randomUUID().toString();
+						String rootPath = request.getServletContext().getRealPath("/images");
+						newPath = rootPath + "/" + newName + extName;
+						item.write(new File(newPath));
+						request.getSession().setAttribute("newImagePath", newPath);
+					}
 				}
 			}
 			
@@ -131,11 +133,12 @@ public class PublishBookServlet extends HttpServlet {
         		}
         		else
         		{
-        		    Integer bookId = (Integer) request.getSession().getAttribute("changeBookId");
-        		    BookVo bookVo2 = bookDao.findById(bookId);
-        		    bookVo.setId(bookId);
+        		    String bookId = (String) request.getSession().getAttribute("changeBookId");
+					System.out.print(bookId);
+        		    BookVo bookVo2 = bookDao.findById(Integer.parseInt(bookId));
+        		    bookVo.setId(Integer.parseInt(bookId));
         		    if (mark == 1)
-        			bookVo.setImagePath(bookVo2.getImagePath());
+        				bookVo.setImagePath(bookVo2.getImagePath());
         		    bookDao.updateBook(bookVo);
         		    bookDao.close();
 					response.sendRedirect("/ShowBookDetail?bookID=" + bookId);

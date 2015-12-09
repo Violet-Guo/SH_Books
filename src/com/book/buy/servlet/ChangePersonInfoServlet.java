@@ -60,13 +60,15 @@ public class ChangePersonInfoServlet extends HttpServlet {
 				}else{
 				    //上传图片
 				    	mark = 1;
-					String filename = item.getName();
-					extName = filename.substring(filename.lastIndexOf("."));
-					newName = UUID.randomUUID().toString();
-					String rootPath = request.getServletContext().getRealPath("/images");
-					newPath = rootPath + "/" + newName + extName;
-					item.write(new File(newPath));
-					request.getSession().setAttribute("newImagePath", newPath);
+					if(item.getSize() != 0) {
+						String filename = item.getName();
+						extName = filename.substring(filename.lastIndexOf("."));
+						newName = UUID.randomUUID().toString();
+						String rootPath = request.getServletContext().getRealPath("/images");
+						newPath = rootPath + "/" + newName + extName;
+						item.write(new File(newPath));
+						request.getSession().setAttribute("newImagePath", newPath);
+					}
 				}
 			}
 			
