@@ -44,9 +44,9 @@
     </div>
     <div class="panel-body">
         <ul class="allcomp-top">
-            <li><h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/getalluser">全部投诉</a></h2></li>
-            <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getalluser?state=yes">已处理</a></h2></li>
-            <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getalluser?state=no">未处理</a></h2></li>
+            <li><h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/getallcomp">全部投诉</a></h2></li>
+            <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getallcomp?state=yes">已处理</a></h2></li>
+            <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getallcomp?state=no">未处理</a></h2></li>
         </ul>
         <br><br><hr><br>
         <div id="comphead">

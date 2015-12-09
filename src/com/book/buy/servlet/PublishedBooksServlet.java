@@ -25,17 +25,16 @@ public class PublishedBooksServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
 
-        UserVo user = (UserVo)request.getSession().getAttribute("user");
-
-        BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
-        List<BookVo> booklis = new ArrayList<>();
-
         PrintWriter out = response.getWriter();
 
+        UserVo user = (UserVo)request.getSession().getAttribute("user");
         if (user == null) {
             out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
             return;
         }
+
+        BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
+        List<BookVo> booklis = new ArrayList<>();
 
         String state = request.getParameter("state");
         if (state == null) {

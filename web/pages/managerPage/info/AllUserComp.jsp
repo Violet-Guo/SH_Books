@@ -43,9 +43,9 @@
         </div>
         <div class="panel-body">
             <ul class="allusercomp-top">
-                <li><h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/getallcomp">全部被投诉过的用户</a></h2></li>
-                <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getallcomp?state=yes">正常</a></h2></li>
-                <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getallcomp?state=no">已冻结</a></h2></li>
+                <li><h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/getalluser">全部被投诉过的用户</a></h2></li>
+                <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getalluser?state=yes">正常</a></h2></li>
+                <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getalluser?state=no">已冻结</a></h2></li>
             </ul>
             <br><br><hr><br>
             <div id="userhead">
