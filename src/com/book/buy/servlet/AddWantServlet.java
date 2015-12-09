@@ -10,6 +10,7 @@ import com.book.buy.vo.UserVo;
 import com.book.buy.vo.WantVo;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -36,18 +37,24 @@ public class AddWantServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		
+
 		UserVo user = (UserVo)request.getSession().getAttribute("user");
-		
+		PrintWriter out = response.getWriter();
+		if(user==null){
+			out.println("<script>alert('用户登录状态出错，请重新登录');window.location.href='/login';</script>");
+			System.out.print("sdafasdfasf");
+			return;
+		}
+
 		Date now = new Date();
 		String name = request.getParameter("name");
 		String year = request.getParameter("year");
 		String writer = request.getParameter("writer");
 		String ISBN = request.getParameter("ISBN");
 		
-		BookVo book = new BookVo(name, user.getId(), 0, ISBN, 0, year,
+		BookVo book = new BookVo(name, null, user.getId(), ISBN, 0, year,
 		    writer, 0, "", name, 1, (float)0, 0, NewDate.getDate(now), 1);
-		
+			
 		BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
 		WantDao wantDao = WantDaoImpFactory.getWantDao();
 		
@@ -57,7 +64,7 @@ public class AddWantServlet extends HttpServlet {
 			wantDao.addWant(new WantVo(user.getId(), bookid, NewDate.getDateTime(new Date())));
 			bookDao.close();
 			wantDao.close();
-			response.sendRedirect("/view/jsp/WantList.jsp");
+			response.sendRedirect("/WantListServlet");
 		}
 		catch (SQLException e)
 		{

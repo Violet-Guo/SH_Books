@@ -31,9 +31,10 @@ public class DeleteBookServlet extends HttpServlet {
 		Integer bookid = Integer.parseInt(id);
 		
 		BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
-		
+
 		try{
 			bookDao.deleteBookById(bookid);
+			response.sendRedirect("/publishedbooks");
 		}
 		catch (SQLException e)
 		{

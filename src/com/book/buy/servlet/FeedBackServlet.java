@@ -20,18 +20,21 @@ import com.book.buy.factory.InformDaoImplFactory;
 import com.book.buy.utils.NewDate;
 import com.book.buy.vo.FeedBackVo;
 import com.book.buy.vo.InformVo;
+import com.book.buy.vo.UserVo;
 
 /**
  * Servlet implementation class FeedBack
  */
 @WebServlet("/FeedBackServlet")
-public class FeedBackServlet extends HttpServlet {
+public class FeedBackServlet extends HttpServlet 
+{
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public FeedBackServlet() {
+	public FeedBackServlet() 
+	{
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -41,9 +44,9 @@ public class FeedBackServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException 
+	{
 		// TODO Auto-generated method stub
-	
 		
 	}
 
@@ -52,42 +55,41 @@ public class FeedBackServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException 
+	{
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession(true);
-		Integer userId=-1;
+		//Integer userId=-1;
 		String description=null;
-		
-		 try {
-			userId=Integer.parseInt(request.getParameter("userId"));//用户名
-			description=request.getParameter("description");//反馈信息
-		} catch (NumberFormatException e1) {
-			// TODO Auto-generated catch block
-			String href="./controlCenter";
-			  out.print("<script language='javascript'>alert('输入有误！');window.location.href='"
-						+ href + "';</script>");
-			  out.flush();
-				out.close();
+		UserVo userVo=new UserVo();
+		userVo=(UserVo)session.getAttribute("user");
+		if(userVo==null){
+			out.print("<script>alert('你的登陆状态出错');window.location.href='./login';</script>");
+			return;
 		}
-		
-		if(description==""){String href="./controlCenter";out.print("<script language='javascript'>alert('输入有误！');window.location.href='"
+		int userId=userVo.getId();	 
+		description=request.getParameter("description");//反馈信息
+		if(description=="")
+			{
+				//description输入为空
+				String href="./feedback";out.print("<script language='javascript'>alert('oops！输入不能为空哦~');window.location.href='"
 				+ href + "';</script>");
-		 out.flush();
-			out.close();}
-		  String date = NewDate.getDate(new Date());
-		  
-		 
-	       FeedBackVo feedBackVo = new FeedBackVo(userId,description,date);
-		 FeedBackDao FeedBackDaoImpl = FeedBackDaoImplFactory.getFeedBackDaoImpl();
-		try {
+				 out.close();
+				  out.flush();
+			}
+		String date = NewDate.getDate(new Date());
+	    FeedBackVo feedBackVo = new FeedBackVo(userId,description,date);
+		FeedBackDao FeedBackDaoImpl = FeedBackDaoImplFactory.getFeedBackDaoImpl();
+		try 
+		{
 		 FeedBackDaoImpl.addFeedBack(feedBackVo);
-		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 		 

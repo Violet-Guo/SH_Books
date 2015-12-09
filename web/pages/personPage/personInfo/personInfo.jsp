@@ -21,9 +21,9 @@
 		<h3><strong>账号管理</strong></h3>
 		<ul>
 			<li><a href="#">个人资料</a></li>
-			<li><a href="./InformServlet">消息（${sessionScope.num }）</a></li>
-			<li><a href="#">心愿书籍</a></li>
-			<li><a href="#">已发布图书</a></li>
+			<li><a href="/InformServlet">消息（${sessionScope.num }）</a></li>
+			<li><a href="/WantListServlet">心愿书籍</a></li>
+			<li><a href="/publishedbooks">已发布图书</a></li>
 		</ul>
 	</div>
 	<div id = "irighttop">
@@ -34,7 +34,7 @@
 		</ul>
 	</div>
 	<div id = "irightcenter">
-		<input id = "pbutton" type="button" value="修改个人信息" onclick="window.location='./changePersonInfo.jsp'"/>
+		<input id = "pbutton" type="button" value="修改个人信息" onclick="window.location='/changePersonInfo'"/>
 	</div>
 	<div id = "irightbutton">
 		<div>
@@ -52,7 +52,7 @@
 			&nbsp;&nbsp;暂无
 		</c:if>
 		<c:if test="${sessionScope.location != null }">
-			&nbsp;&nbsp;${sessionScope.location.dorName} ${sessionScope.location.floorNum}楼  ${sessionScope.location.dorNum}室<br>
+			&nbsp;&nbsp;${sessionScope.location.dorName} ${sessionScope.location.dorNum}楼  ${sessionScope.location.floorNum}室<br>
 		</c:if>
 	</div>
 </div>

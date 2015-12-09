@@ -2,6 +2,7 @@
 <%@ page import="com.book.buy.vo.BookVo" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
   User: violet
@@ -31,7 +32,8 @@
         state = "";
     }
 
-    List<BookVo> booklis = (ArrayList) request.getSession().getAttribute("publishedbook");
+    List<BookVo> booklis = (List) request.getSession().getAttribute("publishedbook");
+    Paging paging = (Paging) request.getSession().getAttribute("paging");
 %>
 <div id="publishedbooklist">
     <ul class="publishedbook-top">
@@ -45,7 +47,8 @@
             <h2><a <%=state.equals("down") ? "class='on'" : ""%> href="/publishedbooks?state=down">已下架的书籍</a></h2>
         </li>
         <li>
-            <h2><a <%=state.equals("managerdown") ? "class='on'" : ""%> href="/publishedbooks?state=managerdown">被管理员下架的书</a></h2>
+            <h2><a <%=state.equals("managerdown") ? "class='on'" : ""%> href="/publishedbooks?state=managerdown">被管理员下架的书</a>
+            </h2>
         </li>
         <li>
             <h2><a <%=state.equals("selled") ? "class='on'" : ""%> href="/publishedbooks?state=selled">已售出的书籍</a></h2>
@@ -65,6 +68,7 @@
         <span id="bstate"><strong>书籍状态</strong></span>
         <span id="appeal"><strong>申诉</strong></span>
         <span id="edit"><strong>编辑书籍</strong></span>
+        <span id="del"><strong>删除书籍</strong></span>
     </div>
     <br>
     <%
@@ -96,18 +100,20 @@
                 <c:if test="${bstate}">被管理员下架</c:if>
             </span>
             <span id="bstate">
-                <c:if test="${!udstate}"><a href="#">上架</a></c:if>
-                <c:if test="${udstate}"><a href="#">下架</a></c:if>
+                <c:if test="${!udstate}"><a href="/OnSaleServlet?bookid=<%=book.getId()%>">上架</a></c:if>
+                <c:if test="${udstate}"><a href="/OffShelvesServlet?bookid=<%=book.getId()%>">下架</a></c:if>
             </span>
             <span id="appeal">
-                <c:if test="${bstate}"><a href="#">申诉</a></c:if>
+                <c:if test="${bstate}"><a href="/addAppeal?bookid=<%=book.getId()%>">申诉</a></c:if>
                 <c:if test="${!bstate}">申诉</c:if>
             </span>
         <span id="edit"><a href="/ModifyBookInfoServlet?bookID=<%=book.getId()%>">编辑</a></span>
+        <span id="del"><a href="/DeleteBookServlet?bookid=<%=book.getId()%>">删除书籍</a></span>
     </div>
     <br>
     <%
         }
+        paging.printPage(out);
     %>
 </div>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>

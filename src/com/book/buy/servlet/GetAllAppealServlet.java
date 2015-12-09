@@ -2,6 +2,7 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.ComplainDao;
 import com.book.buy.factory.ComplainDaoImpFactory;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.ComplainVo;
 import com.book.buy.vo.ManagerVo;
 
@@ -26,8 +27,14 @@ public class GetAllAppealServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
 
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
+        int everyPageNum = 5;
         PrintWriter out = response.getWriter();
         String href = "";
+
+        String state = (String)request.getParameter("state");
+        if (null == state){
+            state = "all";
+        }
 
         if (null == admin){
             href = "/loginmanager";
@@ -36,14 +43,28 @@ public class GetAllAppealServlet extends HttpServlet {
         }
 
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
+        Paging paging = new Paging();
 
         List<ComplainVo> lis = new ArrayList<>();
 
         try {
-            lis = compdao.getAllAppeal();
+            if (state.equals("all")){
+                lis = compdao.getAllAppeal();
+                paging = new Paging(everyPageNum,request,lis.size(),"/getallappeal?");
+            } else if (state.equals("yes")){
+                lis = compdao.getCompByState(1, 1);
+                paging = new Paging(everyPageNum,request,lis.size(),"/getallappeal?state=yes&&");
+            } else if (state.equals("no")){
+                lis = compdao.getCompByState(0, 1);
+                paging = new Paging(everyPageNum,request,lis.size(),"/getallappeal?state=no&&");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        request.getSession().setAttribute("paging", paging);
+        lis = lis.subList(paging.getStart(),paging.getEnd());
 
         request.getSession().setAttribute("allappeal", lis);
 

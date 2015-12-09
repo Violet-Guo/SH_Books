@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 /**
@@ -20,6 +21,8 @@ import java.sql.SQLException;
 public class AddAppealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
+        PrintWriter out = response.getWriter();
+        String href = "";
 
         UserVo user = new UserVo();
         user = (UserVo)request.getSession().getAttribute("user");
@@ -40,7 +43,9 @@ public class AddAppealServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect("");
+        href = "/addAppeal";
+        out.print("<script language='javascript'>alert('发布申诉成功');"
+                + "window.location.href='" + href + "';</script>");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -5,6 +5,7 @@ import com.book.buy.factory.ComplainDaoImpFactory;
 import com.book.buy.utils.Paging;
 import com.book.buy.vo.ComplainVo;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,18 +27,32 @@ public class GetAllCompServlet extends HttpServlet {
 
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
         ComplainVo compvo = new ComplainVo();
+        int everyPageNum = 5;
 
         List<ComplainVo> lis = new ArrayList<>();
+        Paging paging = new Paging();
+
+        String state = (String)request.getParameter("state");
+        if (null == state){
+            state = "all";
+        }
 
         try {
-            lis = compdao.getAllComp();
+            if (state.equals("all")){
+                lis = compdao.getAllComp();
+                paging = new Paging(everyPageNum,request,lis.size(),"/getallcomp?");
+            } else if (state.equals("yes")){
+                lis = compdao.getCompByState(1, 0);
+                paging = new Paging(everyPageNum,request,lis.size(),"/getallcomp?state=yes&&");
+            } else if (state.equals("no")) {
+                lis = compdao.getCompByState(0, 0);
+                paging = new Paging(everyPageNum,request,lis.size(),"/getallcomp?state=no&&");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        int everyPageNum = 5;
-        Paging paging = new Paging(everyPageNum,request,lis.size(),"/buycar?");
-        int thisPage = paging.getThisPage();
+
         request.getSession().setAttribute("paging", paging);
         lis = lis.subList(paging.getStart(),paging.getEnd());
 

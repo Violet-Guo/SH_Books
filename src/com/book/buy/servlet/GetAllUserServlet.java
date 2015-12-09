@@ -4,6 +4,7 @@ import com.book.buy.dao.BookDao;
 import com.book.buy.dao.UserDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.UserDaoImpFactory;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.ComplainVo;
 import com.book.buy.vo.UserVo;
@@ -26,10 +27,10 @@ public class GetAllUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
 
-        List<ComplainVo> complis = new ArrayList<>();
-        List<BookVo> booklis = new ArrayList<>();
+        List<ComplainVo> complis = (List)request.getSession().getAttribute("allcomp");
         List<UserVo> userlis = new ArrayList<>();
-        complis = (ArrayList)request.getSession().getAttribute("allcomp");
+        int everyPageNum = 5;
+
 
         UserVo uservo = new UserVo();
         UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
@@ -37,7 +38,12 @@ public class GetAllUserServlet extends HttpServlet {
         BookVo bookvo = new BookVo();
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
 
+        String state = (String)request.getParameter("state");
+        if (null == state){
+            state = "all";
+        }
 
+        Paging paging = new Paging();
 
         for (int i = 0; i < complis.size(); i++){
             ComplainVo compvo = (ComplainVo)complis.get(i);
@@ -49,12 +55,30 @@ public class GetAllUserServlet extends HttpServlet {
                     continue;
                 }
                 else {
-                    userlis.add(uservo);
+                    if (state.equals("all")){
+                        userlis.add(uservo);
+                    } else if (state.equals("yes") && uservo.getComplainNum() < 3){
+                        userlis.add(uservo);
+                    } else if (state.equals("no") && uservo.getComplainNum() >= 3){
+                        userlis.add(uservo);
+                    }
+
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
+        if (state.equals("all")){
+            paging = new Paging(everyPageNum,request,userlis.size(),"/getalluser?");
+        } else if (state.equals("yes")){
+            paging = new Paging(everyPageNum,request,userlis.size(),"/getalluser?state=yes&&");
+        } else if (state.equals("no")) {
+            paging = new Paging(everyPageNum,request,userlis.size(),"/getalluser?state=no&&");
+        }
+
+        request.getSession().setAttribute("paging", paging);
+        userlis = userlis.subList(paging.getStart(),paging.getEnd());
 
         request.getSession().setAttribute("allcompuser", userlis);
 
@@ -62,7 +86,6 @@ public class GetAllUserServlet extends HttpServlet {
         userdao.close();
 
         response.sendRedirect("/allusercomp");
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

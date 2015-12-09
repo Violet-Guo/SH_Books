@@ -58,7 +58,7 @@
                 ComplainVo comp = (ComplainVo) lis1.get(i);
                 String des = comp.getDescription();
                 if (des.length() > 20)
-                    des.substring(0, 20);
+                    des = des.substring(0, 20);
         %>
         <div id="compbody">
             <span id="xuhao"><%=i + 1%></span>
@@ -104,7 +104,7 @@
                 ComplainVo comp = (ComplainVo) lis2.get(i);
                 String des = comp.getDescription();
                 if (des.length() > 20)
-                    des.substring(0, 20);
+                    des = des.substring(0, 20);
         %>
         <div>
             <span id="xuhao"><%=i + 1%></span>
@@ -195,7 +195,7 @@
                 FeedBackVo feed = (FeedBackVo) lis4.get(i);
                 String des = feed.getDescription();
                 if (20 < des.length())
-                    des.substring(0, 20);
+                    des = des.substring(0, 20);
         %>
         <div id="feedbody">
             <span id="xuhao"><%=i + 1%>.</span>

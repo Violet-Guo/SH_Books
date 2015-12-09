@@ -1,15 +1,17 @@
 package com.book.buy.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.book.buy.dao.BookDao;
-import com.book.buy.factory.BookDaoImpFactory;
+
+import com.book.buy.dao.WantDao;
+import com.book.buy.factory.WantDaoImpFactory;
+import com.book.buy.vo.UserVo;
+
 import java.sql.SQLException;
 
 /**
@@ -24,21 +26,19 @@ public class DeleteWantServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
 		String id = request.getParameter("id");
 	    Integer bookid = Integer.parseInt(id);
+	    UserVo user = (UserVo)request.getSession().getAttribute("user");
 	    
-	    BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
+	    WantDao wantDao = WantDaoImpFactory.getWantDao();
 	    
 	    try{
-	    	bookDao.deleteBookById(bookid);
-	    	bookDao.close();
-	    	out.print("1");
+	    	wantDao.delWant(user.getId(), bookid);
+	    	wantDao.close();
 	    	}
 	    catch(SQLException e)
 	    {
 	    	e.printStackTrace();
-	    	out.println("0");
 	    }
 	}
 

@@ -184,11 +184,67 @@
         <url-pattern>/compdetil</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>fedbackdetil</servlet-name>
-        <jsp-file>/pages/managerPage/info/FedbackDetil.jsp</jsp-file>
+        <servlet-name>wantpage</servlet-name>
+        <jsp-file>/pages/WantPage/AddWant.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>fedbackdetil</servlet-name>
-        <url-pattern>/fedbackdetil</url-pattern>
+        <servlet-name>wantpage</servlet-name>
+        <url-pattern>/wantpage</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>wantlist</servlet-name>
+        <jsp-file>/pages/WantPage/WantList.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wantlist</servlet-name>
+        <url-pattern>/wantlist</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>alterwant</servlet-name>
+        <jsp-file>/pages/WantPage/AlterWant.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>alterwant</servlet-name>
+        <url-pattern>/alterwant</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>userdelete</servlet-name>
+        <jsp-file>/pages/UserOperation/UserDelete.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userdelete</servlet-name>
+        <url-pattern>/userdelete</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>useroffshelves</servlet-name>
+        <jsp-file>/pages/UserOperation/UserOffShelves.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>useroffshelves</servlet-name>
+        <url-pattern>/useroffshelves</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>useronshelves</servlet-name>
+        <jsp-file>/pages/UserOperation/UserOnShelves.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>useronshelves</servlet-name>
+        <url-pattern>/useronshelves</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>userpublish</servlet-name>
+        <jsp-file>/pages/UserOperation/UserPublish.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userpublish</servlet-name>
+        <url-pattern>/userpublish</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>addappeal</servlet-name>
+        <jsp-file>/pages/serverPage/appeal/addAppeal.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addappeal</servlet-name>
+        <url-pattern>/addAppeal</url-pattern>
     </servlet-mapping>
 </web-app>

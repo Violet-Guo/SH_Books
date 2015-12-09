@@ -5,6 +5,7 @@ import com.book.buy.utils.DBUtils;
 import com.book.buy.vo.EvaluateVo;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,8 +26,14 @@ public class EvaluateDaoImp implements EvaluateDao {
     }
 
     @Override
+<<<<<<< HEAD
     public List<EvaluateVo> getAllEvaluate(int sellUserID) throws SQLException {
         String sql = "select UserID, sellUserID, time, content from evaluate where sellUserID = ?";
+=======
+    public List<EvaluateVo> getAllEvaluate(int sellUserID, int begin, int count) throws SQLException {
+        String sql = "select UserID, sellUserID, time, content from evaluate where sellUserID = ? " +
+                "limit ?, ?";
+>>>>>>> 83f09849b7eca9cc118c4473c8036da868843d6d
         return runner.query(conn, sql, new BeanListHandler<EvaluateVo>(EvaluateVo.class), sellUserID);
     }
 
@@ -37,6 +44,12 @@ public class EvaluateDaoImp implements EvaluateDao {
         runner.update(conn, sql, evaluatevo.getUserID(), evaluatevo.getSellUserID(),
                 evaluatevo.getTime(), evaluatevo.getContent());
 
+    }
+
+    @Override
+    public long getEvaBySellAndUser(int sellUserID, int userID) throws SQLException {
+        String sql = "select count(*) from evaluate where sellUserID = ? and userID = ?";
+        return (long) runner.query(conn, sql, new ScalarHandler(), sellUserID, userID);
     }
 
 

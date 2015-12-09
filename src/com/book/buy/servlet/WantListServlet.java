@@ -48,20 +48,17 @@ public class WantListServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		UserVo user = (UserVo)request.getSession().getAttribute("user");
-		String curpage1 = request.getParameter("curpage");  //获取当前页页码
-	     
+		String curpage1 = request.getParameter("curPage");  //获取当前页页码
 		if (curpage1 == null){
 	    	curpage = 1;
-	        request.setAttribute("curpage",curpage);  //设置curPage对象
 	       }
 	    else {
 	        curpage = Integer.parseInt(curpage1);
 	        if (curpage < 1){
 	        	curpage = 1;
 	       }
-	            request.setAttribute("curgage",curpage);
 	    }
-		
+
 		WantVo wantVo = new WantVo();
 		BookVo bookVo = new BookVo();
 		Integer userID = user.getId();
@@ -78,24 +75,27 @@ public class WantListServlet extends HttpServlet {
 				wantVo = (WantVo) wants.get(i);
 				bookid_arr[i] = wantVo.getBookID();
 			}
-			
+			books.clear();
 			if(curpage < maxpage){
 				for (i= (curpage-1)*5; i<(5*curpage); i++){
 				bookVo = bookDao.findById(bookid_arr[i]);
 			    books.add(bookVo);
+			    request.getSession().setAttribute("books", books);
 				}
 			}
-			else{
-				for (i= (curpage-1)*5; i<(size-(curpage-1)*5);i++){
+			else if (curpage >= maxpage){
+				curpage = maxpage;
+				for (i= (maxpage-1)*5; i<size;i++){
 					bookVo = bookDao.findById(bookid_arr[i]);
 				    books.add(bookVo);
+				    request.getSession().setAttribute("books", books);
 				}
 			}
-			request.getSession().setAttribute("books", books);
 			request.getSession().setAttribute("maxpage", maxpage);
+			request.getSession().setAttribute("curpage",curpage);
 			bookDao.close();
 			wantDao.close();
-			response.sendRedirect("/sh_books/view/jsp/WantList?curpage="+ curpage + ".jsp");
+			request.getRequestDispatcher("/wantlist?curpage="+ curpage + ".jsp").forward(request, response);
 		}
 		catch (SQLException e)
 		{

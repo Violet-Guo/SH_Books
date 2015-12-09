@@ -39,6 +39,7 @@ public class OffShelvesServlet extends HttpServlet {
 			bookVo = bookDao.findById(bookid);
 			bookVo.setState(0);
 			bookDao.updateBook(bookVo);
+			response.sendRedirect("/publishedbooks");
 		}
 		catch(SQLException e)
 		{

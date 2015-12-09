@@ -31,7 +31,7 @@ public class BuycarServlet extends HttpServlet {
         UserVo userVo = (UserVo) session.getAttribute("user");
         PrintWriter out = response.getWriter();
         if(userVo==null){
-            out.println("<script>alert('用户登录状态出错，请重新登录');window.location.href='/login'");
+            out.println("<script>alert('用户登录状态出错，请重新登录');window.location.href='/login'</script>");
             return;
         }
 
@@ -151,7 +151,6 @@ public class BuycarServlet extends HttpServlet {
         //-----分页
         int everyPageNum = 5;
         Paging paging = new Paging(everyPageNum,request,orderFormVos.size(),"/buycar?");
-        int thisPage = paging.getThisPage();
         request.setAttribute("paging",paging);
         //------------计算结算价格
         orderFormVos = orderFormVos.subList(paging.getStart(),paging.getEnd());

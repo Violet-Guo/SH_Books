@@ -15,6 +15,7 @@ import com.book.buy.utils.NewDate;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.UserVo;
 
+
 /**
  * 修改心愿单
  */
@@ -31,8 +32,8 @@ public class AlterWantServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		
 		UserVo user = (UserVo)request.getSession().getAttribute("user");
+		
 		String id = request.getParameter("id");
 		bookID = Integer.parseInt(id);
 		String name = request.getParameter("name");
@@ -42,7 +43,7 @@ public class AlterWantServlet extends HttpServlet {
 		Date now = new Date();
 		
 		
-		BookVo book = new BookVo(bookID, name, user.getId(), 0, ISBN, 0, year,
+		BookVo book = new BookVo(bookID, name, null, user.getId(), ISBN, 0, year,
 			    writer, 0, "", name, 1, (float)0, 0, NewDate.getDate(now), 1);
 		
 		BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
@@ -50,7 +51,7 @@ public class AlterWantServlet extends HttpServlet {
 		try {
 			bookDao.updateBook(book);
 			bookDao.close();
-			response.sendRedirect("/sh_books/WantListServlet");
+			response.sendRedirect("/WantListServlet");
 		} 
 		catch (Exception e) 
 		{

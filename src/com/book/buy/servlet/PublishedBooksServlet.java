@@ -2,6 +2,7 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.factory.BookDaoImpFactory;
+import com.book.buy.utils.Paging;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.UserVo;
 
@@ -24,17 +25,16 @@ public class PublishedBooksServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
 
-        UserVo user = (UserVo)request.getSession().getAttribute("user");
-
-        BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
-        List<BookVo> booklis = new ArrayList<>();
-
         PrintWriter out = response.getWriter();
 
+        UserVo user = (UserVo)request.getSession().getAttribute("user");
         if (user == null) {
             out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
             return;
         }
+
+        BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
+        List<BookVo> booklis = new ArrayList<>();
 
         String state = request.getParameter("state");
         if (state == null) {
@@ -57,6 +57,11 @@ public class PublishedBooksServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        int everyPageNum = 5;
+        Paging paging = new Paging(everyPageNum,request,booklis.size(),"/publishedbooks?");
+        request.getSession().setAttribute("paging", paging);
+        booklis = booklis.subList(paging.getStart(),paging.getEnd());
 
         request.getSession().setAttribute("publishedbook", booklis);
 

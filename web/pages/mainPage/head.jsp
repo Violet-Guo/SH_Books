@@ -55,7 +55,7 @@
                             <li><a href="/order?state=waiteva">待评价</a></li>
                         </ul>
                     </li>
-                    <li><a href="/publishedbooks">卖书</a></li>
+                    <li><a href="/GetMajorServlet">卖书</a></li>
                 </c:if>
 
                 <li>
