@@ -1,8 +1,12 @@
 package com.book.buy.servlet;
 
+import com.book.buy.dao.BuyDao;
 import com.book.buy.dao.EvaluateDao;
+import com.book.buy.daoImp.BuyDaoImp;
+import com.book.buy.factory.BuyDaoImpFactory;
 import com.book.buy.factory.EvaluateDaoImpFactory;
 import com.book.buy.utils.NewDate;
+import com.book.buy.vo.BuyVo;
 import com.book.buy.vo.EvaluateVo;
 import com.book.buy.vo.UserVo;
 
@@ -30,10 +34,12 @@ public class AddEvaServlet extends HttpServlet {
         }
         String strUserID = request.getParameter("userID");
         String content = request.getParameter("content");
-        Integer userID = Integer.valueOf(strUserID);
+        String strOrderID = request.getParameter("orderID");
+        Integer orderID = Integer.valueOf(strOrderID);
+        Integer sellID = Integer.valueOf(strUserID);
 
         EvaluateDao evaluateDao = EvaluateDaoImpFactory.getEvaluateDaoImp();
-
+        BuyDao buyDao = BuyDaoImpFactory.getBuyDaoImp();
         EvaluateVo evaluateVo = new EvaluateVo();
         Date date = new Date();
         String time = NewDate.getDateTime(date);
@@ -44,8 +50,16 @@ public class AddEvaServlet extends HttpServlet {
         evaluateVo.setUserID(userVo.getId()+"");
 
         try {
-
+            Long num = evaluateDao.getEvaBySellAndUser(sellID,userVo.getId());
+            if(num!=0){
+                out.print("have");
+                return;
+            }
+            //---------------评价@import全部评价完才能提交，否则不提交
             evaluateDao.addEvaluate(evaluateVo);
+            BuyVo buyVo = buyDao.getBuyByOrderID(orderID);
+            buyVo.setHasEva(1);
+            buyDao.updateByOrderID(buyVo);
             out.print("yes");
         } catch (SQLException e) {
             e.printStackTrace();

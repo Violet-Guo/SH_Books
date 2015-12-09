@@ -182,7 +182,7 @@ public class BuyDaoImp implements BuyDao {
 
     @Override
     public List<BuyVo> getWaitEvaByUserID(int userID, int begin, int count) throws SQLException {
-        String sql = "SELECT * from buy b WHERE b.userID=? and !isNull(b.sureTime) AND NOT EXISTS(SELECT * FROM evaluate WHERE evaluate.orderID=b.orderID) order by time desc limit ?,?";
+        String sql = "SELECT * from buy b WHERE b.userID=? and !isNull(b.sureTime) AND b.hasEva=0 order by time desc limit ?,?";
         return queryRunner.query(conn,sql,new BeanListHandler<BuyVo>(BuyVo.class),userID,begin,count);
     }
 
