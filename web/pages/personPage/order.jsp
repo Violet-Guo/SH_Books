@@ -56,12 +56,6 @@
         <li>
             <h2><a <%=state.equals("all") ? "class='on'" : ""%> href="/order">全部订单</a></h2>
         </li>
-        <%-- <li>
-             <h2><a <%=state.equals("waitmoney") ? "class='on'" : ""%> href="/order?state=waitmoney">待付款</a></h2>
-         </li>--%>
-        <%--<li <%=state.equals("waitgoods")?"class='on'":""%>>
-            <h2><a href="/order?state=waitgoods">待发货</a></h2>
-        </li>--%>
         <li>
             <h2><a <%=state.equals("waitsure") ? "class='on'" : ""%> href="/order?state=waitsure">待确认</a></h2>
         </li>
@@ -106,7 +100,8 @@
                                 <input type="button" id="${buyVo.orderID}" onclick="sure(this)" value="确认收货">
                             </c:if>
                             <c:if test="${buyVo.sureTime!=null&&buyVo.hasEva==0}">
-                                <form method="get" action="/evaluation">
+                                <form method="get" action="/order">
+                                    <input type="hidden" name="isEva" value="true">
                                     <input type="hidden" name="orderID" value="${buyVo.orderID}">
                                     <input type="submit" id="${buyVo.orderID}" value="去评价">
                                 </form>

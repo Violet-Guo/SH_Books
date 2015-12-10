@@ -43,6 +43,11 @@ public class OrderServlet extends HttpServlet {
 
         Boolean isOrder = (Boolean) request.getAttribute("isOrder");
         String strIsBuyer = request.getParameter("isbuyer");
+        String strIsEva = request.getParameter("isEva");
+        Boolean isEva = false;
+        if(strIsEva!=null){
+            isEva = Boolean.valueOf(strIsEva);
+        }
         Boolean isBuyer = null;
         if(strIsBuyer==null){
             isBuyer = (Boolean) session.getAttribute("isbuyer");
@@ -57,11 +62,17 @@ public class OrderServlet extends HttpServlet {
         OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
         //---------------获取参数
         String state;
+        //-----------------如果是订单
         if(!isOrder) {
             state = request.getParameter("state");
         }else {
             state = (String) request.getAttribute("state");
         }
+        //----如果是评价
+        if(isEva){
+            state="isQuick";
+        }
+        //--------------如果状态是空设为all
         if(state==null){
             state="all";
         }
@@ -116,6 +127,10 @@ public class OrderServlet extends HttpServlet {
                 }
             }else if(state.equals("isQuick")){//------------@import安全漏洞部分
                 Integer orderID = (Integer) request.getAttribute("orderID");
+                if(orderID==null){
+                    String strOrderID = request.getParameter("orderID");
+                    orderID = Integer.valueOf(strOrderID);
+                }
 
                 Double allPrice = buyDao.getBuyPrice(orderID);
                 LocationDao locationDao = LocationDaoImpFactory.getLocationDaoImp();
@@ -201,6 +216,8 @@ public class OrderServlet extends HttpServlet {
             RequestDispatcher dispatcher = null;
             if(isOrder){
                 dispatcher = request.getRequestDispatcher("/pages/personPage/isOrder.jsp");
+            }else if(isEva){
+                dispatcher = request.getRequestDispatcher("/pages/personPage/evaluation.jsp");
             }else {
                 dispatcher = request.getRequestDispatcher("/pages/personPage/order.jsp");
             }

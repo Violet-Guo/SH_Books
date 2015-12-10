@@ -1,4 +1,4 @@
-#main{
+/*#main{
     width: 1100px;
     margin:0 auto;
     height:500px;
@@ -66,4 +66,24 @@
 .eva-photo-div h3{
     margin-top: 10px;
     text-align: center;
+}*/
+.sell-head{
+    line-height: 40px;
+}
+.content{
+    height: 40px;
+    line-height: 40px;
+}
+.content input[name="content"]{
+    padding-left: 5px;
+    margin-top: 2px;
+    outline-color: #5725a2;
+    outline-style: dashed;
+    outline-width: 1px;
+    height: 35px;
+    width: 700px;
+    background: antiquewhite;
+}
+.sell-head .button{
+    padding:0 5px;
 }
