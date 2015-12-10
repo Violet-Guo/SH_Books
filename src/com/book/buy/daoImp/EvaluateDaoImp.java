@@ -29,7 +29,7 @@ public class EvaluateDaoImp implements EvaluateDao {
     public List<EvaluateVo> getAllEvaluate(int sellUserID, int begin, int count) throws SQLException {
         String sql = "select UserID, sellUserID, time, content from evaluate where sellUserID = ? " +
                 "limit ?, ?";
-        return runner.query(conn, sql, new BeanListHandler<EvaluateVo>(EvaluateVo.class), sellUserID);
+        return runner.query(conn, sql, new BeanListHandler<EvaluateVo>(EvaluateVo.class), sellUserID,begin,count);
     }
 
     @Override

@@ -32,6 +32,18 @@ public class CharSet implements Filter {
 	    req.setCharacterEncoding("UTF-8");
 	    res.setCharacterEncoding("UTF-8");
 	    res.setContentType("text/html;charset=UTF-8");
+
+		/*//----------宋超添加-----每次安全的请求需要一个唯一识别码,所以在过滤器添加
+		Integer sign = (Integer) req.getSession().getAttribute("sign");
+		if(sign==null) {
+			req.getSession().setAttribute("sign", 0);
+		}else{
+			System.out.println("sign changed");
+			sign ++;
+			req.getSession().setAttribute("sign",sign);
+		}
+		//---------宋超添加----End*/
+
 	    chain.doFilter(request, response);
 	}
 

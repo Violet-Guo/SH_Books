@@ -87,3 +87,6 @@
     height: 100%;
     border-radius: 5px;
 }
+.order-head .all-action{
+    background: red !important;
+}

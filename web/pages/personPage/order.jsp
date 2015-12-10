@@ -92,23 +92,43 @@
                     </c:choose>
                     <li>时间：${buyVo.time}</li>
                     <li>订单号：${buyVo.orderID}</li>
-                        <li class="goods-sure">
-                            <c:if test="${buyVo.sureTime==null}">
-                                <input type="button" id="${buyVo.orderID}" onclick="sure(this)" value="确认收货">
-                            </c:if>
-                            <c:if test="${buyVo.sureTime!=null&&buyVo.hasEva==0}">
-                                <form method="get" action="/order">
-                                    <input type="hidden" name="isEva" value="true">
-                                    <input type="hidden" name="orderID" value="${buyVo.orderID}">
-                                    <input type="submit" id="${buyVo.orderID}" value="去评价">
-                                </form>
-                            </c:if>
-                            <c:if test="${buyVo.hasEva==1}">
-                                <span>已评价</span>
-                            </c:if>
-                        </li>
-
+                    <li class="goods-sure">
+                        <c:if test="${buyVo.sureTime==null}">
+                            <input type="button" id="${buyVo.orderID}" onclick="sure(this)" value="确认收货">
+                        </c:if>
+                        <c:if test="${buyVo.sureTime!=null&&buyVo.hasEva==0}">
+                            <form method="get" action="/order">
+                                <input type="hidden" name="isEva" value="true">
+                                <input type="hidden" name="orderID" value="${buyVo.orderID}">
+                                <input type="submit" id="${buyVo.orderID}" value="去评价">
+                            </form>
+                        </c:if>
+                        <c:if test="${buyVo.hasEva==1}">
+                            <span>已评价</span>
+                        </c:if>
+                    </li>
                     <li class="all-price">总价：<span>${orderPriceList.get(status.count-1)}</span></li>
+                    <c:if test="${buyVo.hasEva==1}">
+                        <li class="all-action button floatRight" type="${buyVo.orderID}" onclick="delorder(this)">删除</li>
+                        <script>
+                            //----------订单删除动画还没加@impotr
+                            function delorder(li){
+                                if(!confirm("确认删除?")){
+                                    return;
+                                }
+                                var orderID = $(li).attr("type");
+                                $.post("/delorder",{
+                                    orderID:orderID
+                                },function(date){
+                                    if(date=="yes"){
+                                        alert("删除成功");
+                                    }else{
+                                        alert("删除失败,请重试");
+                                    }
+                                });
+                            }
+                        </script>
+                    </c:if>
                 </ul>
                     <%--@import这里获取不到值--%>
                 <c:set value="${orderFormVoMap[statusStr]}" var="orderFormVos" scope="page"/>
@@ -128,9 +148,6 @@
                         </li>
                         <li class="goods-price">${book.price}元</li>
                         <li class="goods-num">${orderFormVo.bookNum}</li>
-                        <c:if test="${buyVo.hasEva==1}">
-                            <li class="goods-action">删除</li>
-                        </c:if>
                     </ul>
                 </c:forEach>
             </div>

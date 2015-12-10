@@ -18,7 +18,13 @@ $(document).ready(function () {
                 if(confirm("您还没有登陆,是否登陆")){
                     window.location.href="/login";
                 }
-            } else {
+            } else if(date == "happen") {
+                if(confirm("这本书已经在您的购物车里了,是否去看?")){
+                    window.location.href="/buycar";
+                }
+            }else if(date=="overnum"){
+                alert("您添加的书的数量和你购物车里此书的数量总数大于此书的数量,请重新选择数量");
+            }else {
                 alert("错误，请重试，或者重新登陆");
             }
         })

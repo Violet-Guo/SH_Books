@@ -34,10 +34,10 @@ public class EvaluationServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         UserVo userVo = (UserVo) session.getAttribute("user");
-        if(userVo==null){
+        /*if(userVo==null){
             out.print("<script>alert('登陆出现错误,重新登陆');window.location.href='/login';</script>");
             return;
-        }
+        }*/
 
         String strSellerID = request.getParameter("sellID");
         Integer sellerID = Integer.valueOf(strSellerID);

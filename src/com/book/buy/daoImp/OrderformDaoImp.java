@@ -33,7 +33,13 @@ public class OrderformDaoImp implements OrderformDao{
 		String sql = "delete from orderform where userID = ?";
 		runner.update(conn, sql, userID);
 	}
-	
+
+	@Override
+	public void delOrderformByOrderID(Integer orderID) throws SQLException {
+		String sql = "delete from orderform where orderID = ?";
+		runner.update(conn,sql,orderID);
+	}
+
 	@Override
 	public void updateOrderform(OrderFormVo orderform) throws SQLException{
 		String sql = "update orderform set userID = ?, orderId = ?, bookID = ?, bookNum = ? where userID = ? and bookID = ?";
@@ -42,7 +48,7 @@ public class OrderformDaoImp implements OrderformDao{
 	
 	@Override
 	public OrderFormVo findByuseridandbookid(Integer userID, Integer bookID) throws SQLException{
-		String sql = "select id, userID, orderId, bookID, bookNum from orderform where userID = ? and bookID = ?";
+		String sql = "select id, userID, orderId, bookID, bookNum from orderform where userID = ? and bookID = ? and isNull(orderID)";
 		return runner.query(conn, sql, new BeanHandler<OrderFormVo>(OrderFormVo.class), userID, bookID);
 	}
 	
