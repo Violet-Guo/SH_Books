@@ -27,7 +27,7 @@
         <%--<li>
             <h2>地址：${locationVo.dorName}${locationVo.dorNum}楼${locationVo.floorNum}</h2>
         </li>--%>
-        <li class="button"><a href="/changePersonInfo" class="change-address"><h2>修改地址</h2></a></li>
+<%--        <li class="button"><a href="/changePersonInfo" class="change-address"><h2>修改地址</h2></a></li>--%>
         <%//-------@import更改地址的链接不一定正确%>
     </ul>
     <hr/>

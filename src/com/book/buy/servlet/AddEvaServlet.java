@@ -59,7 +59,7 @@ public class AddEvaServlet extends HttpServlet {
             evaluateDao.addEvaluate(evaluateVo);
             BuyVo buyVo = buyDao.getBuyByOrderID(orderID);
             buyVo.setHasEva(1);
-            buyDao.updateByOrderID(buyVo);
+            buyDao.updateByOrderID(buyVo,orderID);
             out.print("yes");
         } catch (SQLException e) {
             e.printStackTrace();

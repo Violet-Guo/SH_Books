@@ -38,9 +38,9 @@ public class BuyDaoImp implements BuyDao {
     }
 
     @Override
-    public void updateByOrderID(BuyVo buyVo) throws SQLException {
-        String sql = "update buy set sureTime=?,hasEva=?";
-        queryRunner.update(conn,sql,buyVo.getSureTime(),buyVo.getHasEva());
+    public void updateByOrderID(BuyVo buyVo,int orderID) throws SQLException {
+        String sql = "update buy set sureTime=?,hasEva=? where orderID=?";
+        queryRunner.update(conn,sql,buyVo.getSureTime(),buyVo.getHasEva(),orderID);
     }
 
     @Override

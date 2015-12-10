@@ -26,7 +26,6 @@
         function sure(inp) {
             var orderID = $(inp).attr("id");
             var isSure = "yes";
-            alert("post");
             $.post("/addorder", {
                 orderID: orderID,
                 isSure: isSure
@@ -75,7 +74,6 @@
         <li class="goods-price">价格</li>
         <li class="goods-num">数量</li>
         <li class="goods-action">操作</li>
-        <li class="goods-state">状态</li>
     </ul>
     <div id="forReplace">
         <c:forEach items="${buyVos}" var="buyVo" varStatus="status">
@@ -94,7 +92,6 @@
                     </c:choose>
                     <li>时间：${buyVo.time}</li>
                     <li>订单号：${buyVo.orderID}</li>
-                    <c:if test="${!state.equals('waiteva')}">
                         <li class="goods-sure">
                             <c:if test="${buyVo.sureTime==null}">
                                 <input type="button" id="${buyVo.orderID}" onclick="sure(this)" value="确认收货">
@@ -110,7 +107,7 @@
                                 <span>已评价</span>
                             </c:if>
                         </li>
-                    </c:if>
+
                     <li class="all-price">总价：<span>${orderPriceList.get(status.count-1)}</span></li>
                 </ul>
                     <%--@import这里获取不到值--%>
@@ -131,12 +128,18 @@
                         </li>
                         <li class="goods-price">${book.price}元</li>
                         <li class="goods-num">${orderFormVo.bookNum}</li>
-                        <li class="goods-action">删除</li>
-                        <li class="goods-state">已确认</li>
+                        <c:if test="${buyVo.hasEva==1}">
+                            <li class="goods-action">删除</li>
+                        </c:if>
                     </ul>
                 </c:forEach>
             </div>
         </c:forEach>
+        <c:if test="${buyVos.size()==0}">
+            <div class="center-alert">
+                订单是空的哦!
+            </div>
+        </c:if>
         <%((Paging) request.getAttribute("paging")).printPage(out);%>
     </div>
 </div>

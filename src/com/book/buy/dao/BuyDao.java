@@ -18,7 +18,7 @@ public interface BuyDao {
      */
     public void addBuy(BuyVo buyVo) throws SQLException;
 
-    public void updateByOrderID(BuyVo buyVo) throws SQLException;
+    public void updateByOrderID(BuyVo buyVo,int orderID) throws SQLException;
 
     /**
      * 按照OrderId删除

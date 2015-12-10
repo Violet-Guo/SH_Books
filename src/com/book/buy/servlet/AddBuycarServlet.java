@@ -23,8 +23,9 @@ public class AddBuycarServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         UserVo userVo = (UserVo) request.getSession().getAttribute("user");
         if(userVo==null){
-            out.print("<script>alert('登录状态出错，重新登录');window.location.href='/login';</script>");
+            out.print("login");
             return;
+
         }
         String strBookID = request.getParameter("bookID");
         Integer bookID = Integer.valueOf(strBookID);

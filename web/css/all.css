@@ -34,6 +34,9 @@ input{
     outline: none;
     cursor: pointer;
 }
+.button a,input[type="button"] a,input[type="submit"] a{
+    color: #fff;
+}
 .button:active,input[type="button"]:active,input[type="submit"]:active{
     background: #909FFF;
 }
@@ -45,6 +48,13 @@ input{
 }
 .floatRight{
     float: right !important;
+}
+/*在中间部分的提示语句用这个class*/
+.center-alert{
+    width:100%;
+    margin-top: 100px;
+    text-align: center;
+    font-size: 16px;;
 }
 #main,.main{
     width: 1100px;
@@ -156,6 +166,7 @@ input{
     background: #902BF5;
     line-height: normal;
     font-size: 12px;
+    border:none;
 }
 
 #foot{

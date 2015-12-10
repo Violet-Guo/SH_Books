@@ -136,7 +136,7 @@ public class AddOrderServlet extends HttpServlet {
             buyVo.setSureTime(time);
             buyVo.setHasEva(0);
             try {
-                buyDao.updateByOrderID(buyVo);
+                buyDao.updateByOrderID(buyVo,orderID);
                 buyDao.close();
                 out.print("yes");
             } catch (SQLException e) {

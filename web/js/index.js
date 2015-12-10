@@ -16,28 +16,34 @@ function setTopPop(){
     $("#major-all li").each(function(index){
         if(index==0||index==$("#major-all li").length-1){
             $(this).mouseover(function() {
-                var wid = $(this).css("width");
+                //var wid = $(this).css("width");
+                var wid = width/num;
                 wid = parseFloat(wid);
                 $(this).width(wid - 5);
                 $(this).height($(this).height() + 5);
             });
             $(this).mouseout(function() {
-                var wid = $(this).css("width");
+                //var wid = $(this).css("width");
+                var wid = width/num;
                 wid = parseFloat(wid);
-                $(this).width(wid + 5);
+                //$(this).width(wid + 5);
+                $(this).width(wid);
                 $(this).height($(this).height() - 5);
             })
         }else{
             $(this).mouseover(function() {
-                var wid = $(this).css("width");
+                //var wid = $(this).css("width");
+                var wid = width/num;
                 wid = parseFloat(wid);
                 $(this).width(wid - 10);
                 $(this).height($(this).height() + 5);
             });
             $(this).mouseout(function() {
-                var wid = $(this).css("width");
+                //var wid = $(this).css("width");
+                var wid = width/num;
                 wid = parseFloat(wid);
-                $(this).width(wid + 10);
+                //$(this).width(wid + 10);
+                $(this).width(wid);
                 $(this).height($(this).height() - 5);
             })
         }
