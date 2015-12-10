@@ -54,4 +54,7 @@ function judgeOver(inp){
         alert("只有"+num+"本");
         $(inp).val(num);
     }
+    if(nowNum<=0){
+        $(inp).val(1);
+    }
 }
