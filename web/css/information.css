@@ -8,7 +8,7 @@
 
 #xuhao{
     position: absolute;
-    left: 150px;
+    left: 165px;
 }
 
 #username{
@@ -34,4 +34,8 @@
 #feedtime{
     position: absolute;
     left: 500px;
+}
+
+#loginstate{
+    min-height: 500px;
 }

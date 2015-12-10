@@ -14,6 +14,7 @@
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/managerloginstate.css">
+    <link rel="stylesheet" href="<%=basePath %>css/managerloginstate.css">
     <title>登陆失败</title>
 </head>
 <body>

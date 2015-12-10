@@ -28,7 +28,7 @@
     <div id="top-navigat">
         <div id="menu">
             <ul class="navigat">
-                <li><a style="color: white" href="/AdminIndex">管理员主页</a></li>
+                <li><a style="color: white" href="/AdminIndex">主页</a></li>
                 <li><a style="color: white" href="/getallcomp">投诉</a></li>
                 <li><a style="color: white" href="/getallappeal">申诉</a></li>
                 <li><a style="color: white" href="/getalluser">用户</a></li>

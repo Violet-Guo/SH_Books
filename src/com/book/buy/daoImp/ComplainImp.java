@@ -33,10 +33,6 @@ public class ComplainImp implements ComplainDao {
         //添加投诉
         String sql = "insert into complain(userID, bookID, description, complainType) values(?, ?, ?, ?)";
         runner.update(conn, sql, comp.getUserid(), comp.getBookid(), comp.getDescription(), 0);
-
-        //user表中的complainNum加1
-        String sql1 = "update user set complainNum = complainNum+1";
-        runner.update(conn, sql1);
     }
 
     @Override
@@ -58,15 +54,27 @@ public class ComplainImp implements ComplainDao {
     @Override
     public List<ComplainVo> getAllComp() throws SQLException {
         String sql = "select id, userID, bookID, description, complainType, " +
-                "state from complain where complainType = 0";
+                "state from complain where complainType = 0 order by id desc";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class));
+    }
+
+    @Override
+    public List<ComplainVo> getAllComp(int begin, int count) throws SQLException {
+        String sql = "";
+        return null;
     }
 
     @Override
     public List<ComplainVo> getAllAppeal() throws SQLException {
         String sql = "select id, userID, bookID, description, complainType, " +
-                "state from complain where complainType = 1";
+                "state from complain where complainType = 1 order by id desc";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class));
+    }
+
+    @Override
+    public List<ComplainVo> getAllAppeal(int begin, int count) throws SQLException {
+        String sql = "";
+        return null;
     }
 
     @Override

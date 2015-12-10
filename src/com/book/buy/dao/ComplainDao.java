@@ -38,7 +38,17 @@ public interface ComplainDao{
     /**
      * 显示所有的投诉
      */
+    public List<ComplainVo> getAllComp(int begin, int count) throws SQLException;
+
+    /**
+     * 显示所有的申诉
+     */
     public List<ComplainVo> getAllAppeal() throws SQLException;
+
+    /**
+     * 显示所有的申诉
+     */
+    public List<ComplainVo> getAllAppeal(int begin, int count) throws SQLException;
 
     /**
      * 根据用户ID查找投诉、申诉
