@@ -60,8 +60,9 @@ public class ComplainImp implements ComplainDao {
 
     @Override
     public List<ComplainVo> getAllComp(int begin, int count) throws SQLException {
-        String sql = "";
-        return null;
+        String sql = "select id, userID, bookID, description, complainType, " +
+                "state from complain where complainType = 0 order by id desc limit ?, ?";
+        return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), begin, count);
     }
 
     @Override
@@ -73,22 +74,40 @@ public class ComplainImp implements ComplainDao {
 
     @Override
     public List<ComplainVo> getAllAppeal(int begin, int count) throws SQLException {
-        String sql = "";
-        return null;
+        String sql = "select id, userID, bookID, description, complainType, " +
+                "state from complain where complainType = 1 order by id desc limit ?, ?";
+        return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), begin, count);
     }
 
     @Override
     public List<ComplainVo> getCompByUserid(int uid, int complainType) throws SQLException {
         String sql = "select id, userID, bookID, description, complainType, " +
-                "state from complain where complainType = ? and userID = ?";
+                "state from complain where complainType = ? and userID = ? order by id desc";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), complainType ,uid);
+    }
+
+    @Override
+    public List<ComplainVo> getCompByUserid(int uid, int complainType, int begin, int count) throws SQLException {
+        String sql = "select id, userID, bookID, description, complainType, " +
+                "state from complain where complainType = ? and userID = ? " +
+                "order by id desc limit ?, ?";
+        return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), complainType ,uid, begin, count);
     }
 
     @Override
     public List<ComplainVo> getCompByState(int state, int complainType) throws SQLException {
         String sql = "select id, userID, bookID, description, complainType, " +
-                "state from complain where complainType = ? and state = ?";
+                "state from complain where complainType = ? and state = ? order by id desc";
         return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), complainType, state);
+    }
+
+    @Override
+    public List<ComplainVo> getCompByState(int state, int complainType, int begin, int count) throws SQLException {
+        String sql = "select id, userID, bookID, description, complainType, " +
+                "state from complain where complainType = ? and state = ? " +
+                "order by id desc limit ?, ?";
+        return runner.query(conn, sql, new BeanListHandler<ComplainVo>(ComplainVo.class), complainType, state, begin, count);
+
     }
 
     @Override

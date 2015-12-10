@@ -29,6 +29,7 @@ public class changeManagerInfoServlet extends HttpServlet {
             href = "/loginmanager";
             out.print("<script language='javascript'>alert('登录状态失效，管理员请登陆！');"
                     + "window.location.href='" + href + "';</script>");
+            return;
         }
 
         String oldpass = request.getParameter("oldpass");
@@ -42,14 +43,17 @@ public class changeManagerInfoServlet extends HttpServlet {
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('原密码不能为空');"
                     + "window.location.href='" + href + "';</script>");
+            return;
         } else if (null == newpass1){
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('新密码不能为空');"
                     + "window.location.href='" + href + "';</script>");
+            return;
         } else if (null == newpass2){
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('新密码不能为空');"
                     + "window.location.href='" + href + "';</script>");
+            return;
         } else if (oldpass.equals(admin.getPassword())){
             if (newpass1.equals(newpass2)){
                 admin.setPassword(newpass1);
@@ -63,16 +67,19 @@ public class changeManagerInfoServlet extends HttpServlet {
                 href = "/managerinfo";
                 out.print("<script language='javascript'>alert('修改成功');"
                         + "window.location.href='" + href + "';</script>");
+                return;
 
             } else {
                 href = "/changepassadmin";
                 out.print("<script language='javascript'>alert('两个新密码不一致');"
                         + "window.location.href='" + href + "';</script>");
+                return;
             }
         } else {
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('原密码不正确');"
                     + "window.location.href='" + href + "';</script>");
+            return;
         }
     }
 

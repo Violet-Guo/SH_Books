@@ -47,7 +47,8 @@ public class AddCompServlet extends HttpServlet {
         UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
         int compnum = 0;   //被投诉者被投诉的次数
 
-        int bookid = Integer.parseInt(request.getParameter("bookid"));
+        String id = (String)request.getParameter("bookid");
+        int bookid = Integer.parseInt(id);
         String complain = request.getParameter("comp");
 
         compvo.setUserid(user.getId());
@@ -72,7 +73,7 @@ public class AddCompServlet extends HttpServlet {
         userdao.close();
         bookdao.close();
 
-        response.sendRedirect("serverPage/state/addCompSucc.jsp");
+        response.sendRedirect("/addComp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

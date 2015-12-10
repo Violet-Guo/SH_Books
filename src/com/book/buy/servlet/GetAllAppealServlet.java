@@ -34,6 +34,7 @@ public class GetAllAppealServlet extends HttpServlet {
             href = "/loginmanager";
             out.print("<script language='javascript'>alert('登录状态失效，管理员请登陆！');"
                     + "window.location.href='" + href + "';</script>");
+            return;
         }
 
         int everyPageNum = 5;

@@ -89,7 +89,7 @@
     %>
     <div id="body">
         <span id="num"><%=i + 1%></span>
-        <span id="bname"><a href="/bookDetail?bookID=<%=book.getId()%>"><%=book.getName()%>
+        <span id="bname"><a href="/ShowBookDetail?bookID=<%=book.getId()%>"><%=book.getName()%>
         </a></span>
         <span id="bauther"><%=book.getAuthor()%></span>
         <span id="oldgrade"><%=book.getOldGrade()%></span>

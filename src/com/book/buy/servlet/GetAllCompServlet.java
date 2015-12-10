@@ -35,6 +35,7 @@ public class GetAllCompServlet extends HttpServlet {
             href = "/loginmanager";
             out.print("<script language='javascript'>alert('登录状态失效，管理员请登陆！');"
                     + "window.location.href='" + href + "';</script>");
+            return;
         }
 
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
