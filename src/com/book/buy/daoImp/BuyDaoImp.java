@@ -88,11 +88,11 @@ public class BuyDaoImp implements BuyDao {
         if(state==ISBUYER) {
             sql = "select count(*) from buy b,orderform o,book,`user` u where"
                     + " b.userID=? and b.orderID=o.orderID and o.bookID=book.id"
-                    + " and book.userID=u.id and u.id!=? order by b.time desc limit begin,count";
+                    + " and book.userID=u.id and u.id!=? order by b.time desc";
         }else if(state==ISSELLER){
             sql = "select count(*) from buy b,orderform o,book,`user` u where"
                     + " b.userID=? and b.orderID=o.orderID and o.bookID=book.id"
-                    + " and book.userID=u.id and u.id=? order by b.time desc limit begin,count";
+                    + " and book.userID=u.id and u.id=? order by b.time desc";
         }
         return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userVo.getId(),userVo.getId());
     }
@@ -115,6 +115,7 @@ public class BuyDaoImp implements BuyDao {
         return null;
     }
 
+    //----------不用的方法---
     @Override
     public Long getWaitMoneyCount(int userID) throws SQLException {
         String sql = "select count(*) from buy where userID=? and time=moneyTime";
@@ -125,6 +126,7 @@ public class BuyDaoImp implements BuyDao {
     public Long getWaitMoneyCount(UserVo userVo, int state) throws SQLException {
         return null;
     }
+    //-----------END
 
     @Override
     public List<BuyVo> getWaitSureByUserID(int userID, int begin, int count) throws SQLException {
@@ -159,11 +161,11 @@ public class BuyDaoImp implements BuyDao {
         if(state == ISBUYER){
             sql = "select count(*) from buy b,orderform o,book,`user` u where b.userID=?"
                     +" and b.orderID=o.orderID and ISNULL(b.sureTime) and o.bookID=book.id"
-                    +" and book.userID=u.id and u.id!=? order by b.time desc limit begin,count";
+                    +" and book.userID=u.id and u.id!=? order by b.time desc";
         }else if(state == ISSELLER){
             sql = "select count(*) from buy b,orderform o,book,`user` u where b.userID=?"
                     +" and b.orderID=o.orderID and ISNULL(b.sureTime) and o.bookID=book.id"
-                    +" and book.userID=u.id and u.id=? order by b.time desc limit begin,count";
+                    +" and book.userID=u.id and u.id=? order by b.time desc";
         }
         return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userVo.getId(),userVo.getId());
     }
@@ -207,11 +209,11 @@ public class BuyDaoImp implements BuyDao {
         if(state == ISBUYER){
             sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
                     +" and b.orderID=o.orderID and !ISNULL(b.sureTime) and b.hasEva=0 and o.bookID=book.id"
-                    +" and book.userID=u.id and u.id!=? order by b.time desc limit begin,count";
+                    +" and book.userID=u.id and u.id!=? order by b.time desc";
         }else if(state == ISSELLER){
             sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
                     +" and b.orderID=o.orderID and !ISNULL(b.sureTime) and b.hasEva=0 and o.bookID=book.id"
-                    +" and book.userID=u.id and u.id=? order by b.time desc limit begin,count";
+                    +" and book.userID=u.id and u.id=? order by b.time desc";
         }
         return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userVo.getId(),userVo.getId());
     }

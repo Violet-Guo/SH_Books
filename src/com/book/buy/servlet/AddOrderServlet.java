@@ -45,9 +45,10 @@ public class AddOrderServlet extends HttpServlet {
             out.print("<script>alert('登陆状态出错，重新登陆');window.location.href='/login';</script>");
             return;
         }
+        //-------------如果是一键下单，那么从这里处理
         String isQuick = request.getParameter("isQuick");
         if(isQuick!=null&&isQuick.equals("yes")){
-            //---------------一键下单
+            //---------------一键下单-----获取参数
             String strBookID = request.getParameter("bookID");
             Integer bookID = Integer.valueOf(strBookID);
             String strBookNum = request.getParameter("bookNum");
@@ -61,8 +62,15 @@ public class AddOrderServlet extends HttpServlet {
                 BookVo bookVo = null;
                 try {
                     bookVo = bookDao.findById(bookID);
+                    //-----如果书的卖家id和用户id一样，说明用户在买自己发布的书籍---不允许
+                    if(bookVo.getUserID()==userVo.getId()){
+                        out.print("<script>alert('你不能买自己发布的书');window.location.href='/ShowBookDetail?bookID="+bookID+"'</script>");
+                        return;
+                    }
+                    //-----------------如果书籍数量小于买家需要的数量---不允许
                     if(bookVo.getBookNum()<bookNum){
                         out.print("<script>alert('数量大于最大数量,请重新下单');window.location.href='/ShowBookDetail?bookID="+bookID+"'</script>");
+                        return;
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -81,7 +89,7 @@ public class AddOrderServlet extends HttpServlet {
 
                 //-----------重要：这里先生成订单
                 try {
-                    //---------往数据库里插入
+                    //---------往数据库里插入----先插入buy表，生成orderID
                     buyDao.addBuy(buyVo);
                     Integer orderID = buyDao.getLastInsertID();
                     orderFormVo.setOrderId(orderID);
@@ -90,11 +98,12 @@ public class AddOrderServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 try {
+                    //---------把生成的orderID插入order表---完成一个订单
                     orderformDao.addOrderform(orderFormVo);
                     request.setAttribute("orderID", orderFormVo.getOrderId());
                     request.setAttribute("isOrder",true);
                     request.setAttribute("state","isQuick");
-                    //-------购买成功之后--书的数量减掉数量
+                    //-------购买成功之后--书的数量减掉购买数量
                     bookVo.setBookNum(bookVo.getBookNum()-bookNum);
                     bookDao.updateBook(bookVo);
 
@@ -110,6 +119,7 @@ public class AddOrderServlet extends HttpServlet {
                     try {
                         BuyDao buyDao1 = BuyDaoImpFactory.getBuyDaoImp();
                         buyDao1.delBuyByOrderID(buyVo.getOrderID());
+                        buyDao1.close();
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
@@ -120,9 +130,10 @@ public class AddOrderServlet extends HttpServlet {
             return;
         }
 
+        //----------确认收货再这里处理请求
         String strIsSure = request.getParameter("isSure");
-        if(strIsSure.equals("yes")){
-            //---------确认收货
+        if (strIsSure.equals("yes")){
+
             Date date = new Date();
             String time = NewDate.getDateTime(date);
             String strOrderID = request.getParameter("orderID");

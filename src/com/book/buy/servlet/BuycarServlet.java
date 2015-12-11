@@ -35,20 +35,25 @@ public class BuycarServlet extends HttpServlet {
             return;
         }
 
+        //----------------删除购物车
         String delNum = request.getParameter("delNum");
         if(delNum!=null){
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
             try {
                 int id = Integer.valueOf(delNum);
+                //-----------------------判断这个id的购物车是否属于这个用户
+                OrderFormVo orderFormVo =  orderformDao.findOrderByID(id);
+                if(orderFormVo.getUserID()!=userVo.getId()){
+                    out.print("no");
+                    return;
+                }
+                //--------------End
                 orderformDao.delOrderformByid(id);
+                orderformDao.close();
                 out.print("yes");
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            try {
-                orderformDao.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                out.print("no");
             }
             return;
         }
@@ -100,7 +105,7 @@ public class BuycarServlet extends HttpServlet {
                 List<OrderFormVo> orderFormVos = orderformDao.findByOrderID(orderID);
                 if(getEvery(request, userVo, orderFormVos)){
                     List<UserVo> userVos = (List<UserVo>) request.getAttribute("orderUserVos");
-                    Integer sellerID = 0;
+                    Integer sellerID;
                     Integer beforeID = 0;
                     for(int i=0;i<userVos.size();i++){
                         if((sellerID = userVos.get(i).getId())!=beforeID){
@@ -124,7 +129,7 @@ public class BuycarServlet extends HttpServlet {
                 buyDao.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                //-----------出错回滚
+                //-----------出错回滚-----------
                 if(orderID!=0) {
                     try {
                         buyDao.delBuyByOrderID(orderID);
@@ -177,70 +182,25 @@ public class BuycarServlet extends HttpServlet {
         request.setAttribute("paging",paging);
         //------------计算结算价格
         orderFormVos = orderFormVos.subList(paging.getStart(),paging.getEnd());
-        /*BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
-        UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
-        try {
-            Double price = orderformDao.findSumPriceByUserID(userVo.getId());
-            if(price==null){
-                price = 0.0;
-            }
-            request.setAttribute("allPrice",price);
-
-            ArrayList<UserVo> orderUserVos = new ArrayList<>();
-            ArrayList<BookVo> orderBookVos = new ArrayList<>();
-            int len = orderFormVos.size();
-
-            for(int i=0;i<len;i++){
-                int bookID = orderFormVos.get(i).getBookID();
-                BookVo bookVo = bookDao.findById(bookID);
-                orderBookVos.add(bookVo);
-                UserVo userVo1 = userDao.findUserById(bookVo.getUserID());
-                orderUserVos.add(userVo1);
-            }
-            ArrayList<OrderFormVo> orderFormVos1 = new ArrayList<>();
-            ArrayList<UserVo> orderUserVos1 = new ArrayList<>();
-            ArrayList<BookVo> orderBookVos1 = new ArrayList<>();
-
-            String tempName;
-            for(int i=0;i<orderFormVos.size();i++){
-                tempName = orderUserVos.get(i).getUsername();
-                for (int h=i;h<orderFormVos.size();h++){
-                    if(orderUserVos.get(h).getUsername().equals(tempName)){
-                        orderFormVos1.add(orderFormVos.get(h));
-                        orderUserVos1.add(orderUserVos.get(h));
-                        orderBookVos1.add(orderBookVos.get(h));
-
-                        orderFormVos.remove(h);
-                        orderUserVos.remove(h);
-                        orderBookVos.remove(h);
-
-                        i=-1;
-                    }
-                }
-            }
-            request.setAttribute("orderFormVos",orderFormVos1);
-            request.setAttribute("orderUserVos",orderUserVos1);
-            request.setAttribute("orderBookVos",orderBookVos1);
-
-            orderformDao.close();
-            bookDao.close();
-            userDao.close();
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/buycar.jsp");
-            dispatcher.forward(request,response);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
         if(getEvery(request,userVo,orderFormVos)) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/personPage/buycar.jsp");
             dispatcher.forward(request, response);
         }
     }
 
+    /**
+     * 获取每一个order对应的book和user同时存到列表里在jsp页面取出
+     * @param request
+     * @param userVo
+     * @param orderFormVos
+     * @return
+     */
     private boolean getEvery(HttpServletRequest request,UserVo userVo,List<OrderFormVo> orderFormVos){
         BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
         UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
         OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
         try {
+            //-----------计算整个购物车的总价格
             Double price = orderformDao.findSumPriceByUserID(userVo.getId());
             if(price==null){
                 price = 0.0;
@@ -251,6 +211,7 @@ public class BuycarServlet extends HttpServlet {
             ArrayList<BookVo> orderBookVos = new ArrayList<>();
             int len = orderFormVos.size();
 
+            //-------循环获取bookList和userList
             for(int i=0;i<len;i++){
                 int bookID = orderFormVos.get(i).getBookID();
                 BookVo bookVo = bookDao.findById(bookID);
@@ -262,6 +223,7 @@ public class BuycarServlet extends HttpServlet {
             ArrayList<UserVo> orderUserVos1 = new ArrayList<>();
             ArrayList<BookVo> orderBookVos1 = new ArrayList<>();
 
+            //--------------对信息进行整合，相同的卖家排一起，方便jsp页面取卖家信息
             String tempName;
             for(int i=0;i<orderFormVos.size();i++){
                 tempName = orderUserVos.get(i).getUsername();

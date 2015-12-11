@@ -31,7 +31,7 @@ public interface EvaluateDao {
     /**
      * 得到卖家的评价数量
      */
-    public long getCountBySellerID(int sellerID) throws SQLException;
+    public Long getCountBySellerID(int sellerID) throws SQLException;
 
     /**
      * 关闭连接

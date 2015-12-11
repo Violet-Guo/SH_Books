@@ -35,6 +35,12 @@ public class OrderformDaoImp implements OrderformDao{
 	}
 
 	@Override
+	public OrderFormVo findOrderByID(Integer id) throws SQLException {
+		String sql = "select * from orderform where id=?";
+		return runner.query(conn,sql,new BeanHandler<OrderFormVo>(OrderFormVo.class),id);
+	}
+
+	@Override
 	public void delOrderformByOrderID(Integer orderID) throws SQLException {
 		String sql = "delete from orderform where orderID = ?";
 		runner.update(conn,sql,orderID);

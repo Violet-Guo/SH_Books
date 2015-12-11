@@ -30,6 +30,7 @@ public class AddBuycarServlet extends HttpServlet {
             return;
 
         }
+        //---------------商品添加到购物车
         String strBookID = request.getParameter("bookID");
         Integer bookID = Integer.valueOf(strBookID);
         String strBookNum = request.getParameter("bookNum");
@@ -40,12 +41,6 @@ public class AddBuycarServlet extends HttpServlet {
         OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
 
         try {
-            /*OrderFormVo orderFormVoT = orderformDao.findByuseridandbookid(userVo.getId(),bookID);
-            if(orderFormVoT!=null){
-                //-----已经购买过这本书
-                out.print("happen");
-                return;
-            }*/
             //-----判断购物车内是否有此商品,若有更改数量,若无,添加商品,判断数量是否超过
             BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
             BookVo bookVo = bookDao.findById(bookID);
@@ -67,6 +62,7 @@ public class AddBuycarServlet extends HttpServlet {
                 orderFormVoTem.setBookNum(bookNum+orderFormVoTem.getBookNum());
                 orderformDao.updateOrderform(orderFormVoTem);
             }else {
+                //----购物车没有这个商品，那么添加
                  orderformDao.addOrderform(orderFormVo);
             }
             orderformDao.close();

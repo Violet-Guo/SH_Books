@@ -41,6 +41,7 @@ public class OrderServlet extends HttpServlet {
         }
 
 
+        //------------有种情况会经过这个servlet 一键下单 评价 同时要区分买家，卖家的情况，在用户点击买家卖家进行切换的时候，需要这个类进行处理
         Boolean isOrder = (Boolean) request.getAttribute("isOrder");
         String strIsBuyer = request.getParameter("isbuyer");
         String strIsEva = request.getParameter("isEva");
@@ -78,55 +79,76 @@ public class OrderServlet extends HttpServlet {
         }
 
         //--------------下面是对传出的各种状态参数的处理和返回
-        //---------------这里进行分页
+        //---------------这里进行分页------不同的情况下有不同的页面数量，需要分别获取
         Integer count = null;
-        try {
-            count = buyDao.getCountByUserID(userVo.getId()).intValue();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        Paging paging = new Paging(5, request, count, "/order?state=" + state+"&");
+        int everypagenum = 5;
+        Paging paging = null;
 
         try {
             List<BuyVo> buyVos = null;
             if(isBuyer==null && !state.equals("isQuick")){
-                if (state.equals("all")) {
+                if (state.equals("all")) {//----------全部订单
                     //获取buy列表
+                    //-----获取数量--进行分页
+                    count = buyDao.getCountByUserID(userVo.getId()).intValue();
+                    paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                     buyVos = buyDao.getBuyByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
-                /*}else if(state.equals("waitmoney")){
-                    buyVos = buyDao.getWaitMoneyByUserID(userVo.getId(),paging.getStart(),paging.getEnd());*/
-                }else if(state.equals("waitsure")){
+                }else if(state.equals("waitsure")){//--------待确认订单
+                    //-----获取数量--进行分页
+                    count = buyDao.getWaitSureCount(userVo.getId()).intValue();
+                    paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                     buyVos = buyDao.getWaitSureByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
-                }else if(state.equals("waiteva")) {
+                }else if(state.equals("waiteva")) {//----------待评价订单
+                    //-----获取数量--进行分页
+                    count = buyDao.getWaitEvaCount(userVo.getId()).intValue();
+                    paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                     buyVos = buyDao.getWaitEvaByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
                 }
             }else if(isBuyer!=null && !state.equals("isQuick")){
                 //--------这里处理用户点击了切换开关之后的代码
-                if(isBuyer) {
+                if(isBuyer) {//--------买家
                     if (state.equals("all")) {
                         //获取buy列表
+                        count = buyDao.getCountByUserID(userVo,BuyDaoImp.ISBUYER).intValue();
+                        paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                         buyVos = buyDao.getBuyByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
-                        /*}else if(state.equals("waitmoney")){
-                        buyVos = buyDao.getWaitMoneyByUserID(userVo.getId(),paging.getStart(),paging.getEnd());*/
                     } else if (state.equals("waitsure")) {
+                        count = buyDao.getWaitSureCount(userVo,BuyDaoImp.ISBUYER).intValue();
+                        paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                         buyVos = buyDao.getWaitSureByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
                     } else if (state.equals("waiteva")) {
+                        count = buyDao.getWaitEvaCount(userVo, BuyDaoImp.ISBUYER).intValue();
+                        paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                         buyVos = buyDao.getWaitEvaByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
                     }
-                }else{
+                }else{//----------卖家
                     if (state.equals("all")) {
                         //获取buy列表
+                        count = buyDao.getCountByUserID(userVo, BuyDaoImp.ISSELLER).intValue();
+                        paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                         buyVos = buyDao.getBuyByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
-                        /*}else if(state.equals("waitmoney")){
-                        buyVos = buyDao.getWaitMoneyByUserID(userVo.getId(),paging.getStart(),paging.getEnd());*/
                     }else if(state.equals("waitsure")){
+                        count = buyDao.getWaitSureCount(userVo, BuyDaoImp.ISSELLER).intValue();
+                        paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                         buyVos = buyDao.getWaitSureByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
                     }else if(state.equals("waiteva")) {
+                        count = buyDao.getWaitEvaCount(userVo, BuyDaoImp.ISSELLER).intValue();
+                        paging = new Paging(5, request, count, "/order?state=" + state+"&");
+
                         buyVos = buyDao.getWaitEvaByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
                     }
                 }
-            }else if(state.equals("isQuick")){//------------@import安全漏洞部分
+            }else if(state.equals("isQuick")){//--------一键下单部分
                 Integer orderID = (Integer) request.getAttribute("orderID");
+                paging = new Paging(5, request, 1, "/order?state=" + state+"&");
                 if(orderID==null){
                     String strOrderID = request.getParameter("orderID");
                     orderID = Integer.valueOf(strOrderID);
@@ -146,9 +168,9 @@ public class OrderServlet extends HttpServlet {
             HashMap<Long, List<OrderFormVo>> orderFormVoMap = new HashMap<>();
             HashMap<Long, List<UserVo>> orderFormUserMap = new HashMap<>();
             HashMap<Long, List<BookVo>> orderFormBookMap = new HashMap<>();
-            HashMap<Long, List<String>> bookStateMap = new HashMap<>();
             ArrayList<Double> orderPriceList = new ArrayList<>();
 
+            //-----------对这个用户获取的buyMap进行整理，获取用户，书 和order，然后进行整合，多个商品一个卖家进行整合
             for (int r = 0; r < buyVos.size(); r++) {
 
                 List<OrderFormVo> orderFormVos = orderformDao.findByOrderID(buyVos.get(r).getOrderID());
@@ -213,6 +235,7 @@ public class OrderServlet extends HttpServlet {
             request.setAttribute("orderFormBookMap", orderFormBookMap);
             request.setAttribute("orderPriceList", orderPriceList);
 
+            //-------------不同的情况下跳转到不同的页面
             RequestDispatcher dispatcher = null;
             if(isOrder){
                 dispatcher = request.getRequestDispatcher("/pages/personPage/isOrder.jsp");
