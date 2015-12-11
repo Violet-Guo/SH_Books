@@ -66,7 +66,7 @@ public class OrderformDaoImp implements OrderformDao{
 
 	@Override
 	public void  updateByuserid(Integer userID, Integer orderID) throws SQLException {
-		String sql = "update orderform set orderID = ? where userID = ?";
+		String sql = "update orderform set orderID = ? where userID = ? and isNull(orderID)";
 		runner.update(conn, sql , orderID, userID);	
 	}
 	

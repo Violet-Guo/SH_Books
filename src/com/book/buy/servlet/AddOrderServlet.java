@@ -94,9 +94,13 @@ public class AddOrderServlet extends HttpServlet {
                     request.setAttribute("orderID", orderFormVo.getOrderId());
                     request.setAttribute("isOrder",true);
                     request.setAttribute("state","isQuick");
+                    //-------购买成功之后--书的数量减掉数量
+                    bookVo.setBookNum(bookVo.getBookNum()-bookNum);
+                    bookDao.updateBook(bookVo);
 
                     buyDao.close();
                     orderformDao.close();
+                    bookDao.close();
 
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/order");
                     dispatcher.forward(request,response);
@@ -115,36 +119,6 @@ public class AddOrderServlet extends HttpServlet {
             }
             return;
         }
-
-
-
-        /*String boolIsOrder = (String) request.getAttribute("isOrder");
-        Boolean isOrder = Boolean.valueOf(boolIsOrder);
-        if(isOrder!=null&&isOrder){
-            BuyDao buyDao = BuyDaoImpFactory.getBuyDaoImp();
-            BuyVo buyVo = new BuyVo();
-            buyVo.setUserID(userVo.getId());
-            Date date = new Date();
-            String time = NewDate.getDateTime(date);//获取时间
-            buyVo.setMoneyTime(time);
-            buyVo.setSureTime(null);
-            buyVo.setTime(time);
-            OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
-            try {
-                buyDao.addBuy(buyVo);
-                int orderID = buyDao.getLastInsertID();
-                orderformDao.updateByuserid(userVo.getId(), orderID);
-
-                orderformDao.close();
-                buyDao.close();
-
-
-                //request.getRequestDispatcher("/order").forward(request,response);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                out.println("<script>alert('出错，请重试');window.location.href='/buycar';</script>");
-            }
-        }*/
 
         String strIsSure = request.getParameter("isSure");
         if(strIsSure.equals("yes")){
