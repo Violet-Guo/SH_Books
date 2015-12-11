@@ -19,6 +19,11 @@ textarea{
 input{
     background: transparent;
 }
+#thisPage{
+    background: #902BF5;
+    border-color: #902BF5  !important;
+    color: #fff !important;
+}
 #main{
     min-height: 400px;
 }

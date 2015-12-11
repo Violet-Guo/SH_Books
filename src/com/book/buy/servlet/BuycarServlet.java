@@ -114,9 +114,9 @@ public class BuycarServlet extends HttpServlet {
                             InformVo informVo = new InformVo();
                             informVo.setUserID(sellerID);
                             informVo.setHasRead(0);
-                            informVo.setNum(1);
+                            informVo.setNum(orderID);
                             informVo.setTime(time);
-                            informVo.setType(1);///----@import这个值要改，获取订单消息后应该点击进入订单页面--通知黎明
+                            informVo.setType(2);///---获取订单消息后应该点击进入订单页面
 
                             InformDao informDao = InformDaoImplFactory.getInformDaoImpl();
                             informDao.addInform(informVo);
