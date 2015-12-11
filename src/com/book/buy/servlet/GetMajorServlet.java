@@ -28,6 +28,7 @@ public class GetMajorServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
+	    //获取专业Dao
 	    MajorDao majorDao = MajorDaoImpFactory.getmajordaoimpl();
 	    List<MajorVo> list = null;
 	    //获取专业列表
@@ -37,12 +38,13 @@ public class GetMajorServlet extends HttpServlet {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
-	     request.getSession().setAttribute("bookVo", null);
+	    //设置图书信息为空，专业列表和跳转用途
+	    request.getSession().setAttribute("bookVo", null);
 	    request.getSession().setAttribute("major", list);
-	    request.getSession().setAttribute("method", 2);
-	    
+	    request.getSession().setAttribute("method", 2); //表示为增加图书
+	    //关闭流
 	    majorDao.close();
-	    
+	    //跳转到增加图书页面
 	    response.sendRedirect("/publishPage");
 	}
 

@@ -30,23 +30,27 @@ public class PersonInfoServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
+	    //获取session中登陆的user的个人信息
 	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
 	    //UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
 	    request.getSession().setAttribute("user", userVo);
+	    //获取用户dao
 	    LocationDao locationDao = LocationDaoImpFactory.getLocationDaoImp();
 	    LocationVo locationVo = null;
-	    //获取num
+	    //获取消息dao获取用户所拥有的的消息个数(num)
 	    InformDao InformDaoImpl = InformDaoImplFactory.getInformDaoImpl();
 	    try {
+		//获取消息个数
 		Integer num = InformDaoImpl.count(userVo.getId()).size();
 		request.getSession().setAttribute("num", num);
+		//获取用户住址
 		locationVo = locationDao.getLocationByuserID(userVo.getId());
 		request.getSession().setAttribute("location", locationVo);
 	    } catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
-	    
+	    //关闭数据流和跳转操作
 	    locationDao.close();
 	    response.sendRedirect("/personInfo");
 	}

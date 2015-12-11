@@ -29,6 +29,7 @@ public class DownBookByAdminServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //校验管理员登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -37,9 +38,11 @@ public class DownBookByAdminServlet extends HttpServlet {
             return;
         }
 
+        //获得jsp页面传来的参数
         String bookid = request.getParameter("bookid");
         String compid = request.getParameter("compid");
 
+        //把参数转换成int型
         int bid = Integer.parseInt(bookid);
         int cid = Integer.parseInt(compid);
 
@@ -48,6 +51,7 @@ public class DownBookByAdminServlet extends HttpServlet {
         ComplainVo compvo = new ComplainVo();
         BookVo bookvo = new BookVo();
 
+        //根据参数从数据库中取出对应的书籍和投诉信息，进行修改和update
         try {
             bookvo = bookdao.findById(bid);
             compvo = compdao.getCompById(cid);

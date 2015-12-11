@@ -31,6 +31,7 @@ public class ModifyBookInfoServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
+	    //获取修改图书的ID
 	    String bookID = request.getParameter("bookID");
 	    //String bookID = "1";
 	    BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
@@ -47,12 +48,13 @@ public class ModifyBookInfoServlet extends HttpServlet {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
+	    //设置session中的相应的值（图书信息，专业信息，修改图书的id）
 	    request.getSession().setAttribute("bookVo", bookVo);
 	    request.getSession().setAttribute("major", list);
 	    request.getSession().setAttribute("changeBookId", bookID);
 	    //设置标识符（1表示修改图书）
 	    request.getSession().setAttribute("method", 1);
-	    
+	    //关闭流
 	    bookDao.close();
 	    majorDao.close();
 	    

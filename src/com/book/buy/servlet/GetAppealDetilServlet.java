@@ -31,6 +31,7 @@ public class GetAppealDetilServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //校验管理员的登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -39,6 +40,7 @@ public class GetAppealDetilServlet extends HttpServlet {
             return;
         }
 
+        //拿到jsp中传来的appid的值，并将其转换为int
         String appid = request.getParameter("appid");
         int id = Integer.parseInt(appid);
 
@@ -50,6 +52,7 @@ public class GetAppealDetilServlet extends HttpServlet {
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
 
+        //查找到申诉的详情，被申诉的书籍和人
         try {
             compvo = compdao.getCompById(id);
             uservo = userdao.findUserById(compvo.getUserid());
@@ -58,6 +61,7 @@ public class GetAppealDetilServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        //把拿到的数据放在session中
         request.getSession().setAttribute("appealdetil", compvo);
         request.getSession().setAttribute("appealuser", uservo);
         request.getSession().setAttribute("appealbook", bookvo);

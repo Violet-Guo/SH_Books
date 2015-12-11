@@ -168,6 +168,14 @@
         <url-pattern>/allfedback</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>fedbackdetil</servlet-name>
+        <jsp-file>/pages/managerPage/info/FedbackDetil.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fedbackdetil</servlet-name>
+        <url-pattern>/fedbackdetil</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>appealdetil</servlet-name>
         <jsp-file>/pages/managerPage/info/AppealDetil.jsp</jsp-file>
     </servlet>

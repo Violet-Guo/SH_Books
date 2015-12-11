@@ -28,6 +28,7 @@ public class GetFedbackDetilServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //管理员登陆信息校验
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -36,6 +37,7 @@ public class GetFedbackDetilServlet extends HttpServlet {
             return;
         }
 
+        //获得jsp页面传来的参数
         String userid = (String)request.getParameter("userid");
         String time = (String)request.getParameter("time");
         int id = Integer.parseInt(userid);
@@ -45,6 +47,7 @@ public class GetFedbackDetilServlet extends HttpServlet {
         FeedBackDao feddao = FeedBackDaoImplFactory.getFeedBackDaoImpl();
         UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
 
+        //在数据库中根据id和time来查找具体的反馈
         try {
             fed = feddao.findbyut(id, time);
             user = userdao.findUserById(id);
@@ -52,6 +55,7 @@ public class GetFedbackDetilServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        //把查找到的结果放在session中
         request.getSession().setAttribute("feddetil", fed);
         request.getSession().setAttribute("feduser", user);
 

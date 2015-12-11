@@ -28,6 +28,7 @@ public class GetAllFedbackServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //校验管理员登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -39,12 +40,14 @@ public class GetAllFedbackServlet extends HttpServlet {
         FeedBackDao feeddao = FeedBackDaoImplFactory.getFeedBackDaoImpl();
         List<FeedBackVo> feedlis = new ArrayList<>();
 
+        //从数据库中拿出来所有的反馈信息
         try {
             feedlis = feeddao.showFeedBack();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        //分页
         int everyPageNum = 5;
         Paging paging = new Paging(everyPageNum,request,feedlis.size(),"/getallfedback?");
         request.getSession().setAttribute("paging", paging);

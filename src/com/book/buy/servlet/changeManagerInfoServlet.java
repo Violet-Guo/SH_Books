@@ -24,6 +24,7 @@ public class changeManagerInfoServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //验证管理员登陆状态
         ManagerVo admin1 = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin1){
             href = "/loginmanager";
@@ -32,6 +33,7 @@ public class changeManagerInfoServlet extends HttpServlet {
             return;
         }
 
+        //从jsp页面获得密码信息
         String oldpass = request.getParameter("oldpass");
         String newpass1 = request.getParameter("newpass1");
         String newpass2 = request.getParameter("newpass2");
@@ -39,6 +41,7 @@ public class changeManagerInfoServlet extends HttpServlet {
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         ManagerDao admindao = ManagerDaoImpFactory.getManagerDaoImp();
 
+        //在后台对密码进行判断
         if (null == oldpass){
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('原密码不能为空');"
@@ -54,8 +57,9 @@ public class changeManagerInfoServlet extends HttpServlet {
             out.print("<script language='javascript'>alert('新密码不能为空');"
                     + "window.location.href='" + href + "';</script>");
             return;
-        } else if (oldpass.equals(admin.getPassword())){
-            if (newpass1.equals(newpass2)){
+        } else if (oldpass.equals(admin.getPassword())){     //原始密码与数据库中原始密码相同
+
+            if (newpass1.equals(newpass2)){          //两次输入的新密码相同
                 admin.setPassword(newpass1);
 
                 try {
@@ -69,13 +73,13 @@ public class changeManagerInfoServlet extends HttpServlet {
                         + "window.location.href='" + href + "';</script>");
                 return;
 
-            } else {
+            } else {                                  //两次输入的新密码不通
                 href = "/changepassadmin";
                 out.print("<script language='javascript'>alert('两个新密码不一致');"
                         + "window.location.href='" + href + "';</script>");
                 return;
             }
-        } else {
+        } else {                               //原始密码与数据库中原始密码不相同
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('原密码不正确');"
                     + "window.location.href='" + href + "';</script>");
