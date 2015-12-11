@@ -65,14 +65,37 @@ public class BuycarServlet extends HttpServlet {
             buyVo.setSureTime(null);
             buyVo.setTime(time);
             OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
+            BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
             int orderID = 0;
             try {
+                //----------判断数的数量是否超过
+                List<OrderFormVo> orderFormVosT = orderformDao.findAllitem(userVo.getId());
+                BookVo bookVo;
+                for(int i=0;i<orderFormVosT.size();i++){
+                    bookVo = bookDao.findById(orderFormVosT.get(i).getBookID());
+                    if(bookVo.getBookNum()<orderFormVosT.get(i).getBookNum()){
+                        //------这里代表买书的数量已经大于卖书的数量
+                        if(bookVo.getBookNum()==0){
+                            out.print("<script>alert('您的书" + bookVo.getName() + "已经卖光了，请删除后再提交购物车');window.location.href='/buycar';</script>");
+                        }else {
+                            out.print("<script>alert('您的书" + bookVo.getName() + "超过总数量，请更改数量后提交');window.location.href='/buycar';</script>");
+                        }
+                        return;
+                    }
+                }
+                //-------------END
                 buyDao.addBuy(buyVo);
                 orderID = buyDao.getLastInsertID();
                 orderformDao.updateByuserid(userVo.getId(), orderID);
 
                 request.setAttribute("isOrder", true);
                 request.setAttribute("orderID", orderID);
+                //-----------买书之后减掉书的数量
+                for(int i=0;i<orderFormVosT.size();i++){
+                    bookVo = bookDao.findById(orderFormVosT.get(i).getBookID());
+                    bookVo.setBookNum(bookVo.getBookNum()-orderFormVosT.get(i).getBookNum());
+                    bookDao.updateBook(bookVo);
+                }
                 //------添加一个消息给卖家
                 List<OrderFormVo> orderFormVos = orderformDao.findByOrderID(orderID);
                 if(getEvery(request, userVo, orderFormVos)){
