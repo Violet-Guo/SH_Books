@@ -34,6 +34,7 @@ public class EvaluationServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         UserVo userVo = (UserVo) session.getAttribute("user");
+        //---------允许非登录用户看到评价
         /*if(userVo==null){
             out.print("<script>alert('登陆出现错误,重新登陆');window.location.href='/login';</script>");
             return;
@@ -42,8 +43,13 @@ public class EvaluationServlet extends HttpServlet {
         String strSellerID = request.getParameter("sellID");
         Integer sellerID = Integer.valueOf(strSellerID);
         EvaluateDao evaluateDao = EvaluateDaoImpFactory.getEvaluateDaoImp();
-        Paging paging = new Paging(15,request,50,"/evaluation?");
+
         try {
+            //----------获取评价的总数
+            Long evanumL = evaluateDao.getCountBySellerID(sellerID);
+            Integer evanum = evanumL.intValue();
+            Paging paging = new Paging(15,request,evanum,"/evaluation?");
+
             UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
             UserVo sellerVo = userDao.findUserById(sellerID);
             List<EvaluateVo> evaluateVos = evaluateDao.getAllEvaluate(sellerID, paging.getStart(), paging.getEnd());

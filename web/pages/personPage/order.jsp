@@ -35,7 +35,7 @@
                     $(inp).val("去评价");
                     $(inp).removeAttr("onclick");
                     $(inp).click(function () {
-                        window.location.href = '/evaluation?orderID=' + orderID;
+                        window.location.href = '/order?orderID=' + orderID + "&isEva=true";
                     });
                 }
             });
@@ -123,20 +123,21 @@
                     </li>
                     <li class="all-price">总价：<span>${orderPriceList.get(status.count-1)}</span></li>
                     <c:if test="${buyVo.hasEva==1}">
-                        <li class="all-action button floatRight" type="${buyVo.orderID}" onclick="delorder(this)">删除</li>
+                        <li class="all-action button floatRight" type="${buyVo.orderID}" onclick="delorder(this)">删除
+                        </li>
                         <script>
                             //----------订单删除动画还没加@impotr
-                            function delorder(li){
-                                if(!confirm("确认删除?")){
+                            function delorder(li) {
+                                if (!confirm("确认删除?")) {
                                     return;
                                 }
                                 var orderID = $(li).attr("type");
-                                $.post("/delorder",{
-                                    orderID:orderID
-                                },function(date){
-                                    if(date=="yes"){
+                                $.post("/delorder", {
+                                    orderID: orderID
+                                }, function (date) {
+                                    if (date == "yes") {
                                         alert("删除成功");
-                                    }else{
+                                    } else {
                                         alert("删除失败,请重试");
                                     }
                                 });

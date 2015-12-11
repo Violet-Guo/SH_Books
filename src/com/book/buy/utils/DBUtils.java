@@ -1,6 +1,7 @@
 package com.book.buy.utils;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -20,7 +21,7 @@ public class DBUtils {
 
     public static Connection getConnection() {
 
-        //利用C3P0创建数据源
+        /*//利用C3P0创建数据源
         try {
             if ( conn == null || conn.isClosed()){
                 if (ds == null)
@@ -29,8 +30,28 @@ public class DBUtils {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-
+        }*/
+/*        try {
+            if (conn == null || conn.isClosed()) {*/
+                try {
+                    Class.forName("org.gjt.mm.mysql.Driver");
+                } catch (ClassNotFoundException e) {
+                    System.out.println("Error: unable to load driver class!");
+                    e.printStackTrace();
+                }
+                try {
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sh_books", "root", "19930926");
+                } catch (SQLException e) {
+                    System.out.println("Error: unable to get connection!");
+                    e.printStackTrace();
+                }
+            /*}
+            if (conn == null || conn.isClosed()) {
+                getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
         return conn;
     }
 }

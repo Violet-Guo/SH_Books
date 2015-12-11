@@ -20,6 +20,13 @@ public interface OrderformDao
     public void delOrderformByUserID(Integer userID) throws SQLException;
 
     /**
+     * 通过id找到orderform
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    public OrderFormVo findOrderByID(Integer id) throws SQLException;
+    /**
      * 删除订单,通过orderID
      * @param orderID
      * @throws SQLException
