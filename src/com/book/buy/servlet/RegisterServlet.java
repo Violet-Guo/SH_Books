@@ -90,18 +90,11 @@ public class RegisterServlet extends HttpServlet {
             
             //获取页面
             //post提交数据获取去文本			
-            try {
-		document = Jsoup.connect(sUrl).data(map).post();
-            } catch (Exception e) {
-        	// 无法连接网络，此处写处理代码
-        	boolean isAvailable = false;
-        	e.printStackTrace();
-            }
-            
-            Element e = document.getElementsByTag("p").get(1);
-            String line = e.text();
+            document = Jsoup.connect(sUrl).data(map).post();
+            Element ele = document.getElementsByTag("font").get(1);
+            String line = ele.text();
             //判断页面上是否出现了一下的错误信息
-            cuowu = line.indexOf("系统没有找到你的信息，原因可能如下：");
+            cuowu = line.indexOf("1、你不是郑州大学学生！ 　 2、你输入的学号、密码或年级不正确！");
             if(cuowu != -1){
                 href += "/register";
                 //错误时判断是否密码为空
@@ -114,6 +107,12 @@ public class RegisterServlet extends HttpServlet {
                             + "window.location.href='"+ href + "';</script>");
     	    }
             else{
+        	if(username == null || username.equals("")){
+        	    href += "/register";
+        	    out.print("<script language='javascript'>alert('用户名不能为空！！！');"
+                            + "window.location.href='"+ href + "';</script>");
+        	    return;
+        	}
         	//正确的获取到页面后获取学生信息
                 Integer index1 = line.indexOf("专业：");
                 Integer index2 = line.indexOf("学期");
@@ -132,9 +131,9 @@ public class RegisterServlet extends HttpServlet {
                     try {
                         //按照院系，专业，年级拿到对应的专业对象
                         majorVo = majorDao.getMajorByAll(yuanxi, zhuanye, (Integer.parseInt(xueqi) + 1) / 2);
-                    } catch (SQLException e2) {
+                    } catch (SQLException e) {
                         // TODO Auto-generated catch block
-                        e2.printStackTrace();
+                        e.printStackTrace();
                     }
                     //获取系统时间并格式化
                     String time = NewDate.getDateTime(new Date());
@@ -145,9 +144,9 @@ public class RegisterServlet extends HttpServlet {
                     try {
                         //增加用户完成验证
                         userDao.addUser(userVo);
-                    } catch (SQLException e1) {
+                    } catch (SQLException e) {
                         // TODO Auto-generated catch block
-                        e1.printStackTrace();
+                        e.printStackTrace();
                     }
                     //关闭数据流
                     majorDao.close();

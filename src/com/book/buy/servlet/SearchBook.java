@@ -32,7 +32,7 @@ public class SearchBook extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 	//获取分页信息，获取是搜索方式
-        String fanye = request.getParameter("fenye");
+        String fenye = request.getParameter("fenye");
         String majorName = request.getParameter("majorName");
         String bookName = request.getParameter("bookName");
         String method = request.getParameter("method");
@@ -51,13 +51,13 @@ public class SearchBook extends HttpServlet {
             majorDao.close();
         }
         //如果专业名或者是在专业名条件下搜索的图书或者是在该条件下进行翻页的则是按照ClickSearch处理
-        if (majorName != null || (fanye != null && fanye.equals("leibie")))
+        if (majorName != null || (fenye != null && fenye.equals("leibie")))
             ClickSearch(request, response, majorName);
         //如果是按照图书名称搜索或者是在该条件下进行翻页的则按照NameSearch处理
-        else if (bookName != null || (fanye != null && fanye.equals("mingzi")))
+        else if (bookName != null || (fenye != null && fenye.equals("mingzi")))
             NameSearch(request, response, bookName);
         //如果存在method参数则说明是按照条件去点击进行拼接的搜索或者在此条件下的翻页都按照PartSearch处理
-        else if (method != null || (fanye != null && fanye.equals("bufen")))
+        else if (method != null || (fenye != null && fenye.equals("bufen")))
             PartSearch(request, response, method);
         //最终跳回到图书列表页面
         response.sendRedirect("/bookList");
@@ -71,6 +71,8 @@ public class SearchBook extends HttpServlet {
     //点击专业进行类别的搜索
     protected void ClickSearch(HttpServletRequest request, HttpServletResponse response, String majorName)
             throws ServletException, IOException {
+	//设置是由类别进行的搜索，翻页也将由此方法完成
+	request.getSession().setAttribute("fenye", "leibie");
 	//如果是按照点击主页上的学生的院系专业进行搜索的操作
         if (majorName != null) {
             //如果专业不是为空的话则需要设置图书列表显示上的专业名和显示的专业名都为获取到的专业
@@ -84,8 +86,6 @@ public class SearchBook extends HttpServlet {
         }
         //获取专业名称
         majorName = (String) request.getSession().getAttribute("majorName");
-        //设置是由类别进行的搜索，翻页也将由此方法完成
-        request.getSession().setAttribute("fanye", "leibie");
         //获取图书Dao
         BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
         //下面一段是进行分页的处理
@@ -134,7 +134,7 @@ public class SearchBook extends HttpServlet {
     protected void NameSearch(HttpServletRequest request, HttpServletResponse response, String bookName)
             throws ServletException, IOException {
 	//设置按照图书名称进行搜索时的翻页操作是按照此方法进行处理的
-        request.getSession().setAttribute("fanye", "mingzi");
+        request.getSession().setAttribute("fenye", "mingzi");
         if (bookName != null) {
             //如果bookName不为空则需要设置页面上
             request.getSession().setAttribute("bookName", bookName);
@@ -192,7 +192,7 @@ public class SearchBook extends HttpServlet {
     protected void PartSearch(HttpServletRequest request, HttpServletResponse response, String method)
             throws ServletException, IOException {
 	//设置当点击分页时如果是按照拼接的部分条件进行的搜索的话则设置该条件，让该类来处理分页操作
-        request.getSession().setAttribute("fanye", "bufen");
+        request.getSession().setAttribute("fenye", "bufen");
         //获取当前的数据信息
         String majorName1 = request.getParameter("majorNamet");
         String nianji1 = request.getParameter("nianji");
