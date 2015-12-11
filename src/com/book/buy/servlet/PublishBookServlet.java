@@ -81,7 +81,7 @@ public class PublishBookServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	    //获取参数
-	    newPath = "/SH_Books/images/" + newName + extName;
+	    newPath = "/images/" + newName + extName;
 	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
 	    //UserVo userVo = new UserVo(1, "nihao", "./sdf", "nihao", 1, "nihao", "nihao", "nihao", 0);
 	    String name = (String) request.getAttribute("bookName");

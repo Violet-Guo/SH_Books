@@ -89,14 +89,14 @@ public class RegisterServlet extends HttpServlet {
             String line = e.text();
             
             cuowu = line.indexOf("系统没有找到你的信息，原因可能如下：");
-            if(cuowu == -1){
-        	href += "/register";
-        	if(mima == null || mima.equals(""))
-        	    out.print("<script language='javascript'>alert('请输入密码！！！');"
-    		    	+ "window.location.href='"+ href + "';</script>");
-        	else
-        	    out.print("<script language='javascript'>alert('用户不存在！！！');"
-        		    	+ "window.location.href='"+ href + "';</script>");
+            if(cuowu != -1){
+                href += "/register";
+                if(mima == null || mima.equals(""))
+                    out.print("<script language='javascript'>alert('请输入密码！！！');"
+                        + "window.location.href='"+ href + "';</script>");
+                else
+                    out.print("<script language='javascript'>alert('用户不存在！！！');"
+                            + "window.location.href='"+ href + "';</script>");
     	    }
             else{
     

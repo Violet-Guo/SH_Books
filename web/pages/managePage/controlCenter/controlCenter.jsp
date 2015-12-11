@@ -12,32 +12,37 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="<%=basePath %>css/all.css">
 
-<title>管理中心</title>
+<title>服务中心</title>
 </head>
 
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
 <% 
-Integer userID = new Integer(-1);
-// UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
-UserVo userVo=new UserVo();
-userVo=(UserVo)session.getAttribute("user");
-//userID=userVo.getId();
-//session.setAttribute("userID", userID);
-session.setAttribute("user",userVo);
-InformDao InformDaoImpl = InformDaoImplFactory.getInformDaoImpl();
-List<InformVo> informs = null;
-InformVo informvo=new InformVo();
-try {
+	Integer userID = new Integer(-1);
+ 	//UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
+	UserVo userVo=new UserVo();
+	int num=0;
+	userVo=(UserVo)session.getAttribute("user");
+	if(userVo!=null)
+{
+	userID=userVo.getId();
+	//session.setAttribute("userID", userID);
+	session.setAttribute("user",userVo);
+	InformDao InformDaoImpl = InformDaoImplFactory.getInformDaoImpl();
+	List<InformVo> informs = null;
+	InformVo informvo=new InformVo();
+	try {
 	
-	informs=(List<InformVo>)InformDaoImpl.count(userID);
-	//System.out.println(informs);
-} catch (SQLException e) {
+		informs=(List<InformVo>)InformDaoImpl.count(userID);
+		//System.out.println(informs);
+	} catch (SQLException e) {
 	// TODO Auto-generated catch block
 	e.printStackTrace();
+	}
+
+	num=informs.size();
 }
 
-int num=informs.size();
 %>
 <br><br><br><br><br>
                      <H1 align="center"><a href="./feedback">反馈</a>
