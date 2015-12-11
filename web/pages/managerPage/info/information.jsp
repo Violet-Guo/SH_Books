@@ -19,7 +19,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
-    <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath %>css/panel.css">
     <link rel="stylesheet" href="<%=basePath %>css/information.css">
     <title>管理员主页</title>
 </head>

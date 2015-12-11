@@ -21,7 +21,15 @@ import java.sql.SQLException;
 public class AddAppealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
+
         PrintWriter out = response.getWriter();
+
+        UserVo user1 = (UserVo)request.getSession().getAttribute("user");
+        if (user1 == null) {
+            out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
+            return;
+        }
+
         String href = "";
 
         UserVo user = new UserVo();

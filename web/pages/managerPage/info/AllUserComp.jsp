@@ -19,7 +19,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
-    <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath %>css/panel.css">
     <link rel="stylesheet" href="<%=basePath %>css/information.css">
     <link rel="stylesheet" href="<%=basePath %>css/sellerPublishedBook.css">
     <title></title>
@@ -47,7 +47,7 @@
                 <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getalluser?state=yes">正常</a></h2></li>
                 <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getalluser?state=no">已冻结</a></h2></li>
             </ul>
-            <br><br><hr><br>
+            <br><br><hr>
             <div id="userhead">
                 <span id="xuhao">序号</span>
                 <span id="username">用户名</span>

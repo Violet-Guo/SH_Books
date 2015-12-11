@@ -21,7 +21,7 @@
 <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
     <div id="managerInfo">
         <p>管理员帐号：${admin.username}</p><br>
-        <input id="sbutton" type="submit" value="修改密码" onclick="window.location='./changeManagerInfo.jsp'"/>
+        <input id="sbutton" type="submit" value="修改密码" onclick="window.location='/changepassadmin'"/>
     </div>
     <br>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>

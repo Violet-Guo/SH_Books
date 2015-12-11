@@ -28,7 +28,7 @@
     <div id="top-navigat">
         <div id="menu">
             <ul class="navigat">
-                <li><a style="color: white" href="/AdminIndex">管理员主页</a></li>
+                <li><a style="color: white" href="/AdminIndex">主页</a></li>
                 <li><a style="color: white" href="/getallcomp">投诉</a></li>
                 <li><a style="color: white" href="/getallappeal">申诉</a></li>
                 <li><a style="color: white" href="/getalluser">用户</a></li>
@@ -36,7 +36,8 @@
             </ul>
             <c:if test="${isLogin}">
                 <ul class="top-sell-book">
-                    <li><a style="color: white" href="../managerInfo/managerInfo.jsp">${admin.username}</a></li>
+                    <li><a style="color: white" href="/managerinfo">${admin.username}</a></li>
+                    <li><a style="color: white" href="/quitadmin">注销</a></li>
                 </ul>
             </c:if>
             <c:if test="${!isLogin}">

@@ -247,4 +247,20 @@
         <servlet-name>addappeal</servlet-name>
         <url-pattern>/addAppeal</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>managerinfo</servlet-name>
+        <jsp-file>/pages/managerPage/managerInfo/managerInfo.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>managerinfo</servlet-name>
+        <url-pattern>/managerinfo</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>changepassadmin</servlet-name>
+        <jsp-file>/pages/managerPage/managerInfo/changeManagerInfo.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changepassadmin</servlet-name>
+        <url-pattern>/changepassadmin</url-pattern>
+    </servlet-mapping>
 </web-app>

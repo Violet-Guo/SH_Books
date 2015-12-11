@@ -18,7 +18,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
-    <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath %>css/panel.css">
     <link rel="stylesheet" href="<%=basePath %>css/information.css">
     <link rel="stylesheet" href="<%=basePath %>css/sellerPublishedBook.css">
     <title>申诉列表</title>
@@ -47,7 +47,7 @@
                 <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getallappeal?state=yes">已处理</a></h2></li>
                 <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getallappeal?state=no">未处理</a></h2></li>
             </ul>
-            <br><br><hr><br>
+            <br><br><hr>
             <div>
                 <span id="xuhao">序号</span>
                 <span id="content">申诉内容</span>

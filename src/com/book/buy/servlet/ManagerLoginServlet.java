@@ -36,9 +36,10 @@ public class ManagerLoginServlet extends HttpServlet {
             mvo = mdao.getPwdByName(username);
             if (null == mvo) {
                 //提示不是管理员
-                href = "/pages/managerPage/login/loginManager.jsp";
+                href = "/loginmanager";
                 out.print("<script language='javascript'>alert('该用户不是管理员');"
                         + "window.location.href='" + href + "';</script>");
+                return;
             } else {
                 if (pwd.equals(mvo.getPassword())) {
                     request.getSession().setAttribute("admin", mvo);
@@ -47,18 +48,16 @@ public class ManagerLoginServlet extends HttpServlet {
 
                     response.sendRedirect("pages/managerPage/login/loginSucc.jsp");
                 } else {
-                    href = "";
-                    out.print("<script language='javascript'>alert('该用户不存在！请先注册！！！');"
+                    href = "/loginmanager";
+                    out.print("<script language='javascript'>alert('管理员密码错误！');"
                             + "window.location.href='" + href + "';</script>");
                     mdao.close();
-                    response.sendRedirect("pages/managerPage/login/loginFailure.jsp");
+                    return;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

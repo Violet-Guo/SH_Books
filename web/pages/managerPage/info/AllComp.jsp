@@ -18,7 +18,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
-    <link rel="stylesheet" href="<%=basePath %>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath %>css/panel.css">
     <link rel="stylesheet" href="<%=basePath %>css/information.css">
     <link rel="stylesheet" href="<%=basePath %>css/sellerPublishedBook.css">
     <title>投诉列表</title>
@@ -48,7 +48,7 @@
             <li><h2><a <%=state.equals("ye") ? "class='on'" : ""%> href="/getallcomp?state=yes">已处理</a></h2></li>
             <li><h2><a <%=state.equals("no") ? "class='on'" : ""%> href="/getallcomp?state=no">未处理</a></h2></li>
         </ul>
-        <br><br><hr><br>
+        <br><br><hr>
         <div id="comphead">
             <span id="xuhao">序号</span>
             <span id="content">投诉内容</span>

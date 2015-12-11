@@ -5,6 +5,7 @@ import com.book.buy.dao.UserDao;
 import com.book.buy.factory.FeedBackDaoImplFactory;
 import com.book.buy.factory.UserDaoImpFactory;
 import com.book.buy.vo.FeedBackVo;
+import com.book.buy.vo.ManagerVo;
 import com.book.buy.vo.UserVo;
 
 import javax.servlet.ServletException;
@@ -27,13 +28,13 @@ public class GetFedbackDetilServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
-        UserVo admin = (UserVo)request.getSession().getAttribute("admin");
+        ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
             out.print("<script language='javascript'>alert('登录状态失效，管理员请登陆！');"
                     + "window.location.href='" + href + "';</script>");
+            return;
         }
-
 
         String userid = (String)request.getParameter("userid");
         String time = (String)request.getParameter("time");
