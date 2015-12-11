@@ -36,7 +36,7 @@ public class AlterWantServlet extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		bookID = Integer.parseInt(id);
-		String name = request.getParameter("name");
+		String name = request.getParameter("bookname");
 		String year = request.getParameter("year");
 		String writer = request.getParameter("writer");
 		String ISBN = request.getParameter("ISBN");

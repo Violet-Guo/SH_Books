@@ -12,44 +12,51 @@
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/model.css">
     <script type="text/javascript">
-        function createXHR() {
-            function createXHR() {
-                if (window.XMLHttpRequest) {
-                    return new XMLHttpRequest();
-                }
-                else if (window.ActiveXObject) {
-                    return new ActiveXObject("Microsoft.XMLHTTP");
-                }
+        function createXHR()
+        {
+            if(window.XMLHttpRequest)
+            {
+                return new XMLHttpRequest();
             }
+            else if(window.ActiveXObject)
+            {
+                return new ActiveXObject("Microsoft.XMLHTTP");
+            }
+        }
 
 
-//将已经删除的行从列表里清除，依据删除的行的id
-            function deleteCurrentRow(obj) {
-                var id = obj.name;
-                var xhr = createXHR();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4) {
-                        if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
-                            alert("删除成功！");
-                            var tr = obj.parentNode.parentNode;
-                            var tbody = tr.parentNode;
-                            tbody.removeChild(tr);
-                            //只剩行首时删除表格
-                            if (tbody.rows.length == 1) {
-                                tbody.parentNode.removeChild(tbody);
-                            }
+        //将已经删除的行从列表里清除，依据删除的行的id
+        function deleteCurrentRow(obj){
+            var id = obj.name;
+            var xhr=createXHR();
+            xhr.onreadystatechange=function()
+            {
+                if(xhr.readyState==4)
+                {
+                    if(xhr.status>=200&&xhr.status<300||xhr.status==304)
+                    {
+                        alert("删除成功！");
+                        var tr=obj.parentNode.parentNode;
+                        var tbody=tr.parentNode;
+                        tbody.removeChild(tr);
+                        //只剩行首时删除表格
+                        if(tbody.rows.length==1) {
+                            tbody.parentNode.removeChild(tbody);
                         }
                     }
                 }
-                xhr.open("get", "/DeleteWantServlet?id=" + id, true);
-                xhr.send(null);
             }
+            xhr.open("get","/DeleteWantServlet?id="+id,true);
+            xhr.send(null);
         }
     </script>
     <title>心愿单列表</title>
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
+<br>
+<div id="title"><h1>我的心愿单</h1></div>
+<br><br>
 <div id="wanttable">
     <table id="wantlist" width="500" border="1" height="40">
         <tbody>
@@ -72,13 +79,13 @@
                             id="alter" value="<c:out value="${book.id}" />">修改
                     </button>
                 </td>
-                <td><button onclick='if(confirm("确认删除？")){deleteCurrentRow(this)}'name="${book.id}" value="删除">删除</button></td>
+                <td><button onclick='if(confirm("确认删除？")){deleteCurrentRow(this)}' name="${book.id}" value="del">删除</button></td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
-<br/>
+<br><br><br>
 
 <div id="page">
     <a href="/WantListServlet?curPage=1">首页</a>

@@ -46,7 +46,7 @@ public class UpdateServlet extends HttpServlet {
 		String bookname = request.getParameter("bookname");
 		String author = request.getParameter("author");
 		String bookID = request.getParameter("bookID");
-		System.out.println();
+
 		Integer bookid = Integer.parseInt(bookID);
 		String now = NewDate.getDateTime(new Date());
 		
@@ -61,7 +61,7 @@ public class UpdateServlet extends HttpServlet {
 			Integer size = books.size();
 			bookID_arr = new Integer[size];
 			userID_arr = new Integer[size];
-			if(size <= 0)
+			if(size == 0)
 			{
 				response.sendRedirect("/publishedbooks");
 			}
@@ -69,9 +69,14 @@ public class UpdateServlet extends HttpServlet {
 				bookVo = (BookVo) books.get(i);
 				bookID_arr[i] = bookVo.getId();
 			}
+
+			Integer[] bookids = new Integer[size-1];
+			for (i=0; i<(size-1); i++){
+				bookids[i] = bookID_arr[i];
+			}
 			
 			for (i=0; i<size; i++){
-				wantVo = wantDao.findBybookid(bookID_arr[i]);
+				wantVo = wantDao.findBybookid(bookids[i]);
 				userID_arr[i] = wantVo.getUserID();
 			}
 			

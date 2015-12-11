@@ -83,7 +83,7 @@ public class WantListServlet extends HttpServlet {
 			    request.getSession().setAttribute("books", books);
 				}
 			}
-			else if (curpage >= maxpage){
+			else if (maxpage != 0 && curpage >= maxpage){
 				curpage = maxpage;
 				for (i= (maxpage-1)*5; i<size;i++){
 					bookVo = bookDao.findById(bookid_arr[i]);
@@ -91,6 +91,9 @@ public class WantListServlet extends HttpServlet {
 				    request.getSession().setAttribute("books", books);
 				}
 			}
+			if(maxpage == 0)
+			request.getSession().setAttribute("maxpage", 1);
+			else
 			request.getSession().setAttribute("maxpage", maxpage);
 			request.getSession().setAttribute("curpage",curpage);
 			bookDao.close();

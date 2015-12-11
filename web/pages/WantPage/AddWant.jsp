@@ -373,25 +373,32 @@
             }
             return false;
         }
+        function check(x,y,z)
+        {
+            if(x == "" || y == "" || z == "")
+                alert("请输入完整信息");
+        }
     </script>
-    <link rel="stylesheet" href="<%=basePath %>/view/css/model.css">
+    <link rel="stylesheet" href="<%=basePath %>css/all.css">
+    <link rel="stylesheet" href="<%=basePath %>css/model.css">
     <title>添加心愿单</title>
 </head>
 <body>
+<jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
+<br>
 <div id="title"><h1>添加心愿单</h1></div>
 <br><br>
-
-<form action="/sh_books/AddWantServlet" method="post">
+<form action="/AddWantServlet" method="post">
     <table border="0" align="center" style="font-size:15px">
         <tr id="bookname">
             <td align="right">
-                <div align="center">图 书 名 称 :</div>
+                <div align="center">图  书  名  称 :</div>
             </td>
-            <td align="left"><input type="text" name="name"></td>
+            <td align="left"><input type="text" id="bookname" name="bookname" autofocus="autofocus"></td>
         </tr>
         <tr id="pubyear">
             <td align="right">
-                <div align="center">出 版 年 月 :</div>
+                <div align="center">出  版  年  月 :</div>
             </td>
             <td align="left"><input type="text" name="year" onFocus="javascript:vDateType='2'"
                                     onKeyUp="DateFormat(this,this.value,event,false,'2')"
@@ -399,21 +406,22 @@
         </tr>
         <tr id="writer">
             <td align="right">
-                <div align="center">图 书 作 者 :</div>
+                <div align="center">图  书  作  者 :</div>
             </td>
-            <td align="left"><input type="text" name="writer"></td>
+            <td align="left"><input type="text" id="writer" name="writer"></td>
         </tr>
         <tr id="ISBN">
             <td align="right">
                 <div align="center">图书ISBN编号:</div>
             </td>
-            <td align="left"><input type="text" name="ISBN"></td>
+            <td align="left"><input type="text" id="ISBN" name="ISBN"></td>
         </tr>
     </table>
     <div id="formbutton">
-        <input type="submit" name="submit" value="提交">
+        <input type="submit" name="submit" value="提交" onclick="return check(bookname.value, writer.value, ISBN.value)">
         <input type="reset" name="reset" value="重置">
     </div>
+    <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </form>
 </body>
 </html>

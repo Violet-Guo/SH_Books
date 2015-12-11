@@ -373,6 +373,12 @@
             }
             return false;
         }
+
+    function check(x,y,z)
+    {
+        if(x == "" || y == "" || z == "")
+        alert("请输入完整信息");
+    }
     </script>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/model.css">
@@ -380,21 +386,23 @@
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
+<br>
 <div id="title"><h1>修改心愿单</h1></div>
+<br><br>
 <form action="/AlterWantServlet" method="post">
     <input type="hidden" name="id" value="${param.id}">
     <table border="0" align="center" style="font-size:15px">
         <tr id="bookname">
             <td align="right">
-                <div align="center">图  书名  称 :</div>
+                <div align="center">图  书  名  称 :</div>
             </td>
-            <td align="left"><input type="text" name="name" value="${param.bookname}"></td>
+            <td align="left"><input type="text" id="bookname" name="bookname" value="${param.bookname}" autofocus="autofocus"></td>
         </tr>
         <tr id="pubyear">
             <td align="right">
                 <div align="center">出  版  年  月 :</div>
             </td>
-            <td align="left"><input type="text" value="${param.year}" name="year" onFocus="javascript:vDateType='2'"
+            <td align="left"><input type="text" id="year" value="${param.year}" name="year" onFocus="javascript:vDateType='2'"
                                     onKeyUp="DateFormat(this,this.value,event,false,'2')"
                                     onBlur="DateFormat(this,this.value,event,true,'2')"></td>
         </tr>
@@ -402,17 +410,17 @@
             <td align="right">
                 <div align="center">图  书  作  者 :</div>
             </td>
-            <td align="left"><input type="text" value="${param.writer}" name="writer"></td>
+            <td align="left"><input type="text" id="writer" value="${param.writer}" name="writer"></td>
         </tr>
         <tr id="ISBN">
             <td align="right">
                 <div align="center">图书ISBN编号:</div>
             </td>
-            <td align="left"><input type="text" name="ISBN" value="${param.ISBN}"></td>
+            <td align="left"><input type="text" id="ISBN" name="ISBN" value="${param.ISBN}"></td>
         </tr>
     </table>
     <div id="formbutton">
-        <input type="submit" name="submit" value="提交">
+        <input type="submit" name="submit" value="提交" onclick="return check(bookname.value, writer.value, ISBN.value)">
         <input type="reset" name="reset" value="重置">
     </div>
     <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
