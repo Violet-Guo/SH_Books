@@ -166,7 +166,7 @@ public class BookDaoImpl implements BookDao{
 		throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
 			+ " imagePath, description, bookNum, price, canBargain, time, state from book where name = ? and author = ?"
-			+ " limit ?, ?";
+			+ " order by id asc limit ?, ?";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), name, author,
 		    start, length);
 	}

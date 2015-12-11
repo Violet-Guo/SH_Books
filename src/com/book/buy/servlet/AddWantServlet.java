@@ -47,7 +47,7 @@ public class AddWantServlet extends HttpServlet {
 		}
 
 		Date now = new Date();
-		String name = request.getParameter("name");
+		String name = request.getParameter("bookname");
 		String year = request.getParameter("year");
 		String writer = request.getParameter("writer");
 		String ISBN = request.getParameter("ISBN");

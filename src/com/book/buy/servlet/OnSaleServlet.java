@@ -37,7 +37,7 @@ public class OnSaleServlet extends HttpServlet {
 		
 		try{
 			bookVo = bookDao.findById(bookid);
-			if(bookVo.getState() == 0)
+			if(bookVo.getState() != 3)
 			{
 				bookVo.setState(1);
 			}
