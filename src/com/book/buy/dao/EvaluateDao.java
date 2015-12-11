@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Created by violet on 2015/11/20.
  * changed by violet on 2015/12/9 添加接口：getEvaBySellAndUser
+ * changed by violet on 2015/12/11 添加得到一个卖家的评价数量的方法
  */
 public interface EvaluateDao {
 
@@ -26,4 +27,14 @@ public interface EvaluateDao {
      * 查找是否有这个评价存在
      */
     public long getEvaBySellAndUser(int sellUserID, int userID) throws SQLException;
+
+    /**
+     * 得到卖家的评价数量
+     */
+    public long getCountBySellerID(int sellerID) throws SQLException;
+
+    /**
+     * 关闭连接
+     */
+    public void close();
 }
