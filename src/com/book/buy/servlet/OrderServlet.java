@@ -51,7 +51,7 @@ public class OrderServlet extends HttpServlet {
         }
         Boolean isBuyer = null;
         if(strIsBuyer==null){
-            isBuyer = (Boolean) session.getAttribute("isbuyer");
+            isBuyer = (Boolean) session.getAttribute("isuyer");
         }else {
             isBuyer = Boolean.valueOf(strIsBuyer);
             session.setAttribute("isBuyer",isBuyer);

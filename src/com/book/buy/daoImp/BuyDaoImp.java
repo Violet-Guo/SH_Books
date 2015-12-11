@@ -207,11 +207,11 @@ public class BuyDaoImp implements BuyDao {
     public Long getWaitEvaCount(UserVo userVo, int state) throws SQLException {
         String sql = "";
         if(state == ISBUYER){
-            sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
+            sql = "select count(*) from buy b,orderform o,book,`user` u where b.userID=?"
                     +" and b.orderID=o.orderID and !ISNULL(b.sureTime) and b.hasEva=0 and o.bookID=book.id"
                     +" and book.userID=u.id and u.id!=? order by b.time desc";
         }else if(state == ISSELLER){
-            sql = "select * from buy b,orderform o,book,`user` u where b.userID=?"
+            sql = "select count(*) from buy b,orderform o,book,`user` u where b.userID=?"
                     +" and b.orderID=o.orderID and !ISNULL(b.sureTime) and b.hasEva=0 and o.bookID=book.id"
                     +" and book.userID=u.id and u.id=? order by b.time desc";
         }
@@ -220,7 +220,7 @@ public class BuyDaoImp implements BuyDao {
 
     @Override
     public Long getWaitEvaCount(int userID) throws SQLException {
-        String sql = "SELECT count(*) from buy b WHERE b.userID=? AND NOT EXISTS(SELECT * FROM evaluate WHERE evaluate.orderID=b.orderID)";
+        String sql = "SELECT count(*) from buy b WHERE b.userID=? AND b.hasEva=0";
         return (Long) queryRunner.query(conn,sql,new ScalarHandler(),userID);
     }
 
