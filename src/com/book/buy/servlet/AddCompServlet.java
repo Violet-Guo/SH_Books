@@ -29,6 +29,7 @@ public class AddCompServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
 
         PrintWriter out = response.getWriter();
+        String href = "";
 
         UserVo user1 = (UserVo)request.getSession().getAttribute("user");
         if (user1 == null) {
@@ -73,7 +74,9 @@ public class AddCompServlet extends HttpServlet {
         userdao.close();
         bookdao.close();
 
-        response.sendRedirect("/addComp");
+        href = "/ShowBookDetail?bookID=";
+        out.print("<script language='javascript'>alert('发布投诉成功');"
+                + "window.location.href='" + href + "" + id +"';</script>");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
