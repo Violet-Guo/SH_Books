@@ -12,6 +12,7 @@
 <html>
 <head>
     <title>二手书网</title>
+    <meta name="renderer" content="webkit"/>
     <meta content="text/html">
     <base target="_blank">
     <link type="text/css" rel="stylesheet" href="../../css/all.css">

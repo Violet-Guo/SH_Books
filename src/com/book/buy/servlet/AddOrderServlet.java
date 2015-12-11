@@ -1,10 +1,13 @@
 package com.book.buy.servlet;
 
+import com.book.buy.dao.BookDao;
 import com.book.buy.dao.BuyDao;
 import com.book.buy.dao.OrderformDao;
+import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.BuyDaoImpFactory;
 import com.book.buy.factory.OrderformDaoImpFactory;
 import com.book.buy.utils.NewDate;
+import com.book.buy.vo.BookVo;
 import com.book.buy.vo.BuyVo;
 import com.book.buy.vo.OrderFormVo;
 import com.book.buy.vo.UserVo;
@@ -30,6 +33,13 @@ public class AddOrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
+        //-----------这里判断是否是一个请求被错误多次提交
+        /*Integer beforSign = (Integer) session.getAttribute("beforSign");
+        Integer sign = (Integer) session.getAttribute("sign");
+        if(beforSign==sign){
+            out.print("<script>alert('您已经提交过请求了,返回重新提交');</script>");
+            return;
+        }*/
         UserVo userVo = (UserVo) session.getAttribute("user");
         if(userVo==null){
             out.print("<script>alert('登陆状态出错，重新登陆');window.location.href='/login';</script>");
@@ -43,6 +53,20 @@ public class AddOrderServlet extends HttpServlet {
             String strBookNum = request.getParameter("bookNum");
             Integer bookNum = Integer.valueOf(strBookNum);
             if(bookID!=null){
+                //-----------判断书的数量是否大于最大数量
+                BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
+                OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
+                BuyDao buyDao = BuyDaoImpFactory.getBuyDaoImp();
+
+                BookVo bookVo = null;
+                try {
+                    bookVo = bookDao.findById(bookID);
+                    if(bookVo.getBookNum()<bookNum){
+                        out.print("<script>alert('数量大于最大数量,请重新下单');window.location.href='/ShowBookDetail?bookID="+bookID+"'</script>");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 OrderFormVo orderFormVo = new OrderFormVo();
                 orderFormVo.setBookID(bookID);
                 orderFormVo.setBookNum(bookNum);
@@ -55,8 +79,6 @@ public class AddOrderServlet extends HttpServlet {
                 buyVo.setTime(time);
                 buyVo.setMoneyTime(time);
 
-                OrderformDao orderformDao = OrderformDaoImpFactory.getOrderformDao();
-                BuyDao buyDao = BuyDaoImpFactory.getBuyDaoImp();
                 //-----------重要：这里先生成订单
                 try {
                     //---------往数据库里插入
@@ -136,7 +158,7 @@ public class AddOrderServlet extends HttpServlet {
             buyVo.setSureTime(time);
             buyVo.setHasEva(0);
             try {
-                buyDao.updateByOrderID(buyVo);
+                buyDao.updateByOrderID(buyVo,orderID);
                 buyDao.close();
                 out.print("yes");
             } catch (SQLException e) {

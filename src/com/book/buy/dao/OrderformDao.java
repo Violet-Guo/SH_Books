@@ -18,7 +18,13 @@ public interface OrderformDao
      * 删除购物车item  
      */
     public void delOrderformByUserID(Integer userID) throws SQLException;
-    
+
+    /**
+     * 删除订单,通过orderID
+     * @param orderID
+     * @throws SQLException
+     */
+    public void delOrderformByOrderID(Integer orderID) throws SQLException;
     /** 
      * 更新购物车item数据  
      */

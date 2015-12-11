@@ -18,7 +18,7 @@
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
 <div id = "bdtop">
 	<div id = "bdhead">
-		<a href="#">查看买家评价</a>
+		<a href="/evaluation?sellID=${sessionScope.userVo.id}">查看买家评价</a>
 	</div>
 	<div id = "bdleft">
 		<img id = "dbleftimage" alt="暂时没有图片" src="${sessionScope.bookDetils.imagePath}">
