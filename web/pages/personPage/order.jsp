@@ -94,14 +94,28 @@
                     <li>订单号：${buyVo.orderID}</li>
                     <li class="goods-sure">
                         <c:if test="${buyVo.sureTime==null}">
-                            <input type="button" id="${buyVo.orderID}" onclick="sure(this)" value="确认收货">
+                            <c:choose>
+                                <c:when test="${!seller.name.equals(user.name)}">
+                                    <input type="button" id="${buyVo.orderID}" onclick="sure(this)" value="确认收货">
+                                </c:when>
+                                <c:otherwise>
+                                    <span>待买家确认</span>
+                                </c:otherwise>
+                            </c:choose>
                         </c:if>
                         <c:if test="${buyVo.sureTime!=null&&buyVo.hasEva==0}">
-                            <form method="get" action="/order">
-                                <input type="hidden" name="isEva" value="true">
-                                <input type="hidden" name="orderID" value="${buyVo.orderID}">
-                                <input type="submit" id="${buyVo.orderID}" value="去评价">
-                            </form>
+                            <c:choose>
+                                <c:when test="${!seller.name.equals(user.name)}">
+                                    <form method="get" action="/order">
+                                        <input type="hidden" name="isEva" value="true">
+                                        <input type="hidden" name="orderID" value="${buyVo.orderID}">
+                                        <input type="submit" id="${buyVo.orderID}" value="去评价">
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <span>待买家评价</span>
+                                </c:otherwise>
+                            </c:choose>
                         </c:if>
                         <c:if test="${buyVo.hasEva==1}">
                             <span>已评价</span>
