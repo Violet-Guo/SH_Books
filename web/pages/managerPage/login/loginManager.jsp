@@ -15,6 +15,7 @@
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/managerLogin.css">
+    <script src="<%=basePath %>js/jquery.min.js"></script>
     <title>管理员登陆</title>
 </head>
 <body>
@@ -25,7 +26,22 @@
             <div id="loginbody">
                 帐号：<input type="text" name="username"><br>
                 密码：<input type="password" name="pwd"><br>
-                <input type="submit" id="sbutton" value="提交">
+                <script>
+                    function judge(){
+                        var username = $("input[name='username']").val();
+                        var pwd = $("input[name='pwd']").val();
+                        if(username == ""){
+                            alert("用户名不能为空！");
+                            return false;
+                        }
+                        if(pwd == ""){
+                            alert("密码不能为空！");
+                            return false;
+                        }
+                        return true;
+                    }
+                </script>
+                <input type="submit" onclick="return judge()" id="sbutton" value="提交">
                 <input type="reset" id="rbutton" value="重置">
             </div>
         </form>

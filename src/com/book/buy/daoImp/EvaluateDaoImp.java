@@ -47,5 +47,20 @@ public class EvaluateDaoImp implements EvaluateDao {
         return (long) runner.query(conn, sql, new ScalarHandler(), sellUserID, userID);
     }
 
+    @Override
+    public long getCountBySellerID(int sellerID) throws SQLException {
+        String sql = "select count(*) from evaluate where sellerUserID = ?";
+        return (long) runner.query(conn, sql, new ScalarHandler(), sellerID);
+    }
+
+    @Override
+    public void close() {
+        try {
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

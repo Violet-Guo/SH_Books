@@ -13,6 +13,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
+    <link rel="stylesheet" href="<%=basePath %>css/information.css">
     <link rel="stylesheet" href="<%=basePath %>css/managerloginstate.css">
     <title>登陆成功</title>
 </head>

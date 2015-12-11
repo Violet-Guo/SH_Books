@@ -9,7 +9,7 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 
-    String bookid = request.getParameter("");
+    String bookid = request.getParameter("bookid");
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
