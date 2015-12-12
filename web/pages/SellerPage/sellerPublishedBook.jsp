@@ -89,7 +89,14 @@
     %>
     <div id="body">
         <span id="num"><%=i + 1%></span>
-        <span id="bname"><a href="/ShowBookDetail?bookID=<%=book.getId()%>"><%=book.getName()%>
+        <span id="bname"><a href="/ShowBookDetail?bookID=<%=book.getId()%>">
+            <%
+                String bookname = book.getName();
+                if (bookname.length() > 5){
+                    bookname = bookname.substring(0, 5);
+                }
+            %>
+            <%=bookname%>
         </a></span>
         <span id="bauther"><%=book.getAuthor()%></span>
         <span id="oldgrade"><%=book.getOldGrade()%></span>

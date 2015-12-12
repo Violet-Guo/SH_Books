@@ -46,13 +46,13 @@
 		用户名：&nbsp;&nbsp;${sessionScope.user.username}<br/>
 		密&nbsp;码：&nbsp;&nbsp;**********<br/>
 		电&nbsp;话：&nbsp;&nbsp;${sessionScope.user.phoneNumber}<br/>
-		QQ：&nbsp;&nbsp;&nbsp;${sessionScope.user.qq}<br/>
+		QQ：&nbsp;&nbsp;&nbsp;&nbsp;${sessionScope.user.qq}<br/>
 		常用地址：
 		<c:if test="${sessionScope.location == null }">
 			&nbsp;&nbsp;暂无
 		</c:if>
 		<c:if test="${sessionScope.location != null }">
-			&nbsp;&nbsp;${sessionScope.location.dorName} ${sessionScope.location.dorNum}楼  ${sessionScope.location.floorNum}室<br>
+			&nbsp;${sessionScope.location.dorName} ${sessionScope.location.dorNum}楼  ${sessionScope.location.floorNum}室<br>
 		</c:if>
 	</div>
 </div>

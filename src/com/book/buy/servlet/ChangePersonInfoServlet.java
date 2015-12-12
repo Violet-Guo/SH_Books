@@ -87,6 +87,7 @@ public class ChangePersonInfoServlet extends HttpServlet {
 	    //获取参数
 	    newPath = "/images/" + newName + extName;
 	    String mima = (String) request.getAttribute("mima");
+	    String username = (String) request.getAttribute("username");
 	    String phoneNumber = (String) request.getAttribute("tel");
 	    String qq = (String) request.getAttribute("qq");
 	    String dorName = (String) request.getAttribute("yuanqu");
@@ -129,7 +130,7 @@ public class ChangePersonInfoServlet extends HttpServlet {
 		}
 	    }
 	    //qq格式
-	    for(int i = 0; i < 11; ++i){
+	    for(int i = 0; i < qq.length(); ++i){
 		if(!Character.isDigit(qq.charAt(i))){
 		    href += "/changePersonInfo";
 		    out.print("<script language='javascript'>alert('qq格式错误！！！');"
@@ -139,6 +140,7 @@ public class ChangePersonInfoServlet extends HttpServlet {
 	    }
 	    //获取用户信息
 	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
+	    userVo.setUsername(username);
 	    userVo.setPassword(mima);
 	    userVo.setPhoneNumber(phoneNumber);
 	    userVo.setQq(qq);
@@ -146,16 +148,9 @@ public class ChangePersonInfoServlet extends HttpServlet {
 		userVo.setHeadPhoto(newPath);
 	    //获取用户地址修改或增加
 	    LocationVo locationVo = (LocationVo) request.getSession().getAttribute("location");
-	    if(locationVo == null){
-		locationVo  = new LocationVo(dorName, Integer.parseInt(dorNum), Integer.parseInt(floorNum));
-	    }else{
-		locationVo.setDorName(dorName);
-		locationVo.setDorNum(Integer.parseInt(dorNum));
-		locationVo.setFloorNum(Integer.parseInt(floorNum));
-	    }
+	    LocationDao locationDao = LocationDaoImpFactory.getLocationDaoImp();
 	    //更新数据并加入session
 	    UserDao userDao = null;
-	    LocationDao locationDao = null;
 	    try {
 		//获取用户Dao
 		userDao = UserDaoImpFactory.getUserDaoImpl();
@@ -163,8 +158,17 @@ public class ChangePersonInfoServlet extends HttpServlet {
 		userDao.updateUser(userVo);
 		request.getSession().setAttribute("user", userVo);
 		//更新住址信息
-		locationDao = LocationDaoImpFactory.getLocationDaoImp();
-		locationDao.UpdateLocation(locationVo);
+		if(locationVo == null){
+		    locationVo  = new LocationVo(dorName, Integer.parseInt(dorNum), Integer.parseInt(floorNum));
+		    locationVo.setUserID(userVo.getId());
+		    locationDao.addLocation(locationVo);
+		}else{
+		    locationVo.setDorName(dorName);
+		    locationVo.setDorNum(Integer.parseInt(dorNum));
+		    locationVo.setFloorNum(Integer.parseInt(floorNum));
+		    locationDao.UpdateLocation(locationVo);
+		}
+		request.getSession().setAttribute("location", locationVo);
 		
 	    } catch (SQLException e) {
 		// TODO Auto-generated catch block

@@ -142,6 +142,13 @@ public class RegisterServlet extends HttpServlet {
                     //获取用户Dao
                     UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
                     try {
+                	UserVo oldUser = userDao.findUserByName(xuehao);
+                	if(oldUser != null){
+                	    href += "/login";
+                	    out.print("<script language='javascript'>alert('该用户已存在请登录！！！');"
+                                    + "window.location.href='"+ href + "';</script>");
+                	    return;
+                	}
                         //增加用户完成验证
                         userDao.addUser(userVo);
                     } catch (SQLException e) {

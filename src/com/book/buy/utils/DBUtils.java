@@ -40,7 +40,7 @@ public class DBUtils {
                     e.printStackTrace();
                 }
                 try {
-                    conn = DriverManager.getConnection("jdbc:mysql://55e1aacb0d253.sh.cdb.myqcloud.com:11462/sh_books?useUnicode=true&amp;characterEncoding=UTF-8", "root", "19930926sch");
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sh_books", "root", "19940908");
                 } catch (SQLException e) {
                     System.out.println("Error: unable to get connection!");
                     e.printStackTrace();
