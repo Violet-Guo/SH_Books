@@ -37,7 +37,11 @@ public interface InformDao
      */
 	
 	public void close() throws SQLException;
-	
+	  /**
+     * 释放连接
+     * @param Infrom
+     * @throws SQLException
+     */
 	
 	public void updateInform(int userID) throws SQLException;
 	  /**
@@ -48,4 +52,26 @@ public interface InformDao
      */
 	
 	public List<InformVo> count(int userID) throws SQLException; 
+	  /**
+     * 未读消息
+     * @param Infrom
+	 * @return 
+     * @throws SQLException
+     */
+	
+	public List<InformVo> wants(int userID) throws SQLException; 
+	  /**
+   * 心愿单到货通知
+   * @param Infrom
+	 * @return 
+   * @throws SQLException
+   */
+	
+	public List<InformVo> list(int userID) throws SQLException; 
+	  /**
+ * 订单通知
+ * @param Infrom
+	 * @return 
+ * @throws SQLException
+ */
 }

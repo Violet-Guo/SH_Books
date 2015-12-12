@@ -86,4 +86,18 @@ public class InformDaoImpl implements InformDao
 		return runner.query( conn, sql, new BeanListHandler<InformVo>(InformVo.class), userID);
 	}
 
+	@Override
+	public List<InformVo> wants(int userID) throws SQLException
+	{
+		String sql="select * from inform where userID=? and type=1";
+		return runner.query( conn, sql, new BeanListHandler<InformVo>(InformVo.class), userID);
+	}
+
+	@Override
+	public List<InformVo> list(int userID) throws SQLException
+	{
+		String sql="select * from inform where userID=? and type=2";
+		return runner.query( conn, sql, new BeanListHandler<InformVo>(InformVo.class), userID);
+	}
+
 }

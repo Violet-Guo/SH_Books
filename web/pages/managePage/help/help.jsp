@@ -11,10 +11,6 @@
 <title>用户帮助</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="<%=basePath %>css/all.css">
-
-
-
-
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>

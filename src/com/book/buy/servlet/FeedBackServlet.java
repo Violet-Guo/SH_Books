@@ -22,21 +22,16 @@ import com.book.buy.vo.FeedBackVo;
 import com.book.buy.vo.InformVo;
 import com.book.buy.vo.UserVo;
 
-/**
+/**反馈
  * Servlet implementation class FeedBack
  */
 @WebServlet("/FeedBackServlet")
 public class FeedBackServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public FeedBackServlet() 
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -46,7 +41,6 @@ public class FeedBackServlet extends HttpServlet
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException 
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -57,7 +51,6 @@ public class FeedBackServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException 
 	{
-		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
@@ -66,9 +59,10 @@ public class FeedBackServlet extends HttpServlet
 		//Integer userId=-1;
 		String description=null;
 		UserVo userVo=new UserVo();
-		userVo=(UserVo)session.getAttribute("user");
-		if(userVo==null){
-			out.print("<script>alert('你的登陆状态出错');window.location.href='./login';</script>");
+		userVo=(UserVo)session.getAttribute("user");//从session中拿到user
+		if(userVo==null)//拿取失败则提示
+		{
+			out.print("<script>alert('你的登陆状态出错');window.location.href='/login';</script>");
 			return;
 		}
 		int userId=userVo.getId();	 
@@ -79,22 +73,22 @@ public class FeedBackServlet extends HttpServlet
 				String href="./feedback";out.print("<script language='javascript'>alert('oops！输入不能为空哦~');window.location.href='"
 				+ href + "';</script>");
 				 out.close();
-				  out.flush();
+				 out.flush();
 			}
 		String date = NewDate.getDate(new Date());
 	    FeedBackVo feedBackVo = new FeedBackVo(userId,description,date);
 		FeedBackDao FeedBackDaoImpl = FeedBackDaoImplFactory.getFeedBackDaoImpl();
 		try 
 		{
-		 FeedBackDaoImpl.addFeedBack(feedBackVo);
+		 FeedBackDaoImpl.addFeedBack(feedBackVo);//插入数据库
 		} 
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
 		 
-		FeedBackDaoImpl.close();
-		String href = "./controlCenter";
+		FeedBackDaoImpl.close();//关闭连接
+		String href = "/controlCenter";//成功后跳转至服务中心
 		out.print("<script language='javascript'>alert('反馈成功！');window.location.href='"
 				+ href + "';</script>");
 		out.flush();

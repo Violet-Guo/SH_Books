@@ -6,6 +6,7 @@ import java.util.List;
 import com.book.buy.vo.FeedBackVo;
 
 public interface FeedBackDao {
+	
         /**
          * 添加反馈信息
          * @param FeedBack
@@ -39,7 +40,5 @@ public interface FeedBackDao {
 	 * @return 
 	  */
 	 public FeedBackVo findbyut(int userId,String time) throws SQLException;
-	
-
-	
+		
 }

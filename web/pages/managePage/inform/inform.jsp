@@ -1,96 +1,281 @@
+<%--
+  Created by eclipse.
+  User: 张黎明
+  Date: 2015/11/11
+  Time: 22:45
+  4类通知
+--%>
 <%
-	String path = request.getContextPath();
-	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ page import="java.util.List,com.book.buy.vo.*,com.book.buy.dao.*,com.book.buy.daoImp.*,java.io.*,javax.servlet.*,java.sql.*" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+ <%@ page import="java.util.List,com.book.buy.vo.*,com.book.buy.dao.*,com.book.buy.daoImp.*,com.book.buy.factory.*,java.io.*,javax.servlet.*,java.sql.*" %>
+<%@ page import="java.util.ArrayList" %>
 <html>
 <head>
-<title>消息通知</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="<%=basePath %>css/all.css">
-
+    <link rel="stylesheet" href="<%=basePath %>css/all.css">
+    <link rel="stylesheet" href="<%=basePath %>css/panel.css">
+    <link rel="stylesheet" href="<%=basePath %>css/informbody.css">
+    <title>消息通知</title>
 </head>
-  
-  <body>
+<body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
-<br> <br>  
-  <table border=2 align="center">
-  <tr><td>类别</td><td>详情</td><td>时间</td>
-  </tr>
-      <%		
-		Integer userID = new Integer(-1);
-      	// userID=1;    
-		userID = (Integer) session.getAttribute("userID"); 
-  
-		String href = "";// 跳转的界面
+<%
+    request.setCharacterEncoding("utf-8");
 
-		if (userID == null ) 
-		{
-			href = "../controlCenter.jsp";
-			out.print("<script language='javascript'>alert('该用户没有权限 ！');window.location.href='"
-					+ href + "';</script>"); // 页面重定向
-		}
-		%>
-		
-	<%
-		List<InformVo> informs=null;
-		informs=(List<InformVo>)session.getAttribute("informlist");
-  		//out.println(informs);
- 	 	InformVo informvo=new InformVo();
- 	
-	%>
- 	<% int everyPageNum = 5;%>
- 	<%String strPage=(String) session.getAttribute("thisPage");%>
+    List<InformVo> lis1 = (List<InformVo>)session.getAttribute("informs");   //所有消息
 
- 	<%Integer thisPage;%>
- 	<%if(strPage==null||strPage.equals("")){thisPage = 1;}else{%>
- 	<%thisPage = Integer.valueOf(strPage);}%><%--得到当前页数--%>
- 	<%int allNum= informs.size();%>
- 	<%//int allNum = getArticle.getArticleConunt((String) request.getAttribute("leftNav"));%>
- 	<%int pageNum = allNum%everyPageNum==0?allNum/everyPageNum:allNum/everyPageNum+1;//计算总共多少页数%>
- 
- 	<%if(thisPage>pageNum){thisPage=pageNum;}%>
- 	<%if(thisPage<=0){thisPage=1;}int num=(thisPage-1)*5;%>
- 	<%request.setAttribute("thisPage",thisPage);%>
- 
- 	<% 
- 		for (int i = (thisPage-1)*5; i<(thisPage)*5; i++) {        //显示list
- 	 	  	%>
- 	 	    <tr>
- 	 	    <% 	 
- 	 	   num++;
- 	 	 	 if(num>allNum)break;
-		
- 		 informvo = (InformVo)informs.get(i);
+    List<InformVo> lis2 = (ArrayList) request.getSession().getAttribute("wants");    //心愿单通知
+
+    List<InformVo> lis3 = (ArrayList) request.getSession().getAttribute("list");	//订单通知
+
+    List<InformVo> lis4 = (ArrayList) request.getSession().getAttribute("unread");	//未读通知
+     
+%>
+<br>
+
+<div class="panel panel-primary" style="width: 1100px; margin: auto">
+    <div class="panel-heading">
+        <h3 class="panel-title">所有消息<span id="more"><a id="wm" href="/Informs">更多</a></span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="infhead">
+        
+            <span id="type">通知类型</span>
+            <span id="des">详细</span>
+            <span id="time">时间</span>
+        </div>
+        <br>
+        <hr>
+        <%
+            int len1 = 10;
+            if (lis1.size() < len1)
+                len1 = lis1.size();
+            for (int i = 0; i < len1; i++) 
+            {
+                InformVo inf = (InformVo) lis1.get(i);
+        %>
+              
+ 		<%String a; 
+ 		if (inf.getType()==1)
+ 		{
+ 			a="心愿单到货"; 
+      		BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
+      		BookVo bookvo=new BookVo();	
+      		try 
+      		{	
+      		bookvo=BookDaoImpl.findById(inf.getNum());	
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		String bookname=bookvo.getName();
+      		%>
+      		  <span id="type"><%=a%></span>
+            <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
+ 		<%}
+ 		else
+ 		{
+ 			a="订单通知";
+ 			%>
+ 			  <span id="type"><%=a%></span>
+ 			  <span id="des"><a href="/order"> 查看订单详情</a></span>
+ 		<% }
  		%>
- 		
- 		<%String a; if (informvo.getType()==1) a="心愿单到货"; else a="购买通知";%> <td><%= a %></td>
-         <%if(informvo.getType()==1) {%>
-         
- 		 <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=informvo.getNum() %>"><%=informvo.getNum() %></a></td>
- 		<% }%>
- 		   <% if(informvo.getType()==2) {%>
- 		    <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/order?isUser=seller"><%=informvo.getNum() %></a></td>
- 		<% }%>
- 		<td><%=informvo.getTime()%></td>
- 		 
- 		 </tr>
- 		 <%} %>
-        </table>
-        <ul id="page">
-        <li><a href="./InformServlet?thisPage=${requestScope.thisPage-1}">上一页</a></li>
-        <%int firstOne = thisPage%10==0?(((thisPage-1)/10)*10+1):((thisPage/10)*10+1);%>
-        <%int lastOne = thisPage%10==0?(((thisPage-1)/10+1)*10):((thisPage/10+1)*10);%>
-        <%for(int i=firstOne;i<=(lastOne>pageNum?pageNum:lastOne);i++){%>
-        <li><a <%if(thisPage==i){out.print("id='thisPage'");}%> href="./InformServlet?thisPage=<%out.print(i);%>"><%out.print(i);%></a></li>
-        <%}%>
-        <%if(pageNum%10>0&&pageNum/10>(thisPage-1)/10){out.print("<a href='./InformServlet?thisPage="+((((thisPage-1)/10)+1)*10+1)+"'>&gt;&gt;</a>");}%>
-        <li><a href="./InformServlet?thisPage=${requestScope.thisPage+1}">下一页</a></li>
-</ul>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <span id="time"><%= inf.getTime() %></span>
+          <br>
+          <%
+         }
+          %>
+        </div>
+        <br>
+       
+    </div>
+<br>
+
+<br>
+
+<div class="panel panel-primary" style="width: 1100px; margin: auto">
+    <div class="panel-heading">
+        <h3 class="panel-title">未读消息<span id="more"><a id="wm" href="/unreadServlet">更多</a></span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="infhead">
+        
+            <span id="type">通知类型</span>
+            <span id="des">详细</span>
+            <span id="time">时间</span>
+        </div>
+        <br>
+        <hr>
+        <%
+        len1 = 10;
+            if (lis4.size() < len1)
+                len1 = lis4.size();
+            for (int i = 0; i < len1; i++) 
+            {
+                InformVo inf = (InformVo) lis4.get(i);
+        %>
+      
+ 		<%String a; 
+ 		if (inf.getType()==1)
+ 		{
+ 			a="心愿单到货"; 
+      		BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
+      		BookVo bookvo=new BookVo();	
+      		try 
+      		{	
+      		bookvo=BookDaoImpl.findById(inf.getNum());	
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		String bookname=bookvo.getName();
+      		%>
+      		  <span id="type"><%=a%></span>
+            <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
+ 		<%}
+ 		else
+ 		{
+ 			a="订单通知";
+ 			%>
+ 			  <span id="type"><%=a%></span>
+ 			  <span id="des"><a href="/order"> 查看订单详情</a></span>
+ 		<% }
+ 		%>
+          <span id="time"><%= inf.getTime() %></span>
+          <br>
+          <%
+         }
+          %>
+        </div>
+        <br>
+       
+    </div>
+<br>
+<br>
+
+<div class="panel panel-primary" style="width: 1100px; margin: auto">
+    <div class="panel-heading">
+        <h3 class="panel-title">心愿单通知<span id="more"><a id="wm" href="/wantServlet">更多</a></span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="infhead">
+        
+            <span id="type">通知类型</span>
+            <span id="des">详细</span>
+            <span id="time">时间</span>
+        </div>
+        <br>
+        <hr>
+        <%
+           len1 = 10;
+            if (lis2.size() < len1)
+                len1 = lis2.size();
+            for (int i = 0; i < len1; i++) 
+            {
+                InformVo inf = (InformVo) lis2.get(i);
+        %>
+   
+ 	<%String a; 
+ 		if (inf.getType()==1)
+ 		{
+ 			a="心愿单到货"; 
+      		BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
+      		BookVo bookvo=new BookVo();	
+      		try 
+      		{	
+      		bookvo=BookDaoImpl.findById(inf.getNum());	
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		String bookname=bookvo.getName();
+      		%>
+      		  <span id="type"><%=a%></span>
+            <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
+ 		<%}
+ 		else
+ 		{
+ 			a="订单通知";
+ 			%>
+ 			  <span id="type"><%=a%></span>
+ 			  <span id="des"><a href="/order"> 查看订单详情</a></span>
+ 		<% }
+ 		%>
+          <span id="time"><%= inf.getTime() %></span>
+          <br>
+          <%
+         }
+          %>
+        </div>
+        <br>
+       
+    </div>
+<br>
+<br>
+
+<div class="panel panel-primary" style="width: 1100px; margin: auto">
+    <div class="panel-heading">
+        <h3 class="panel-title">订单通知<span id="more"><a id="wm" href="/listServlet">更多</a></span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="infhead">
+     
+            <span id="type">通知类型</span>
+            <span id="des">详细</span>
+            <span id="time">时间</span>
+        </div>
+        <br>
+        <hr>
+        <%
+            len1 = 10;
+            if (lis3.size() < len1)
+                len1 = lis3.size();
+            for (int i = 0; i < len1; i++) 
+            {
+                InformVo inf = (InformVo) lis3.get(i);
+        %>
+
+ 		<%String a; 
+ 		if (inf.getType()==1)
+ 		{
+ 			a="心愿单到货"; 
+      		BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
+      		BookVo bookvo=new BookVo();	
+      		try 
+      		{	
+      		bookvo=BookDaoImpl.findById(inf.getNum());	
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		String bookname=bookvo.getName();
+      		%>
+      		  <span id="type"><%=a%></span>
+            <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
+ 		<%}
+ 		else
+ 		{
+ 			a="订单通知";
+ 			%>
+ 			  <span id="type"><%=a%></span>
+ 			  <span id="des"><a href="/order"> 查看订单详情</a></span>
+ 		<% }
+ 		%>
+          <span id="time"><%= inf.getTime() %></span>
+          <br>
+          <%
+         }
+          %>
+        </div>
+        <br>
+       
+    </div>
+<br>
+
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
-  </body>
+</body>
 </html>
+          
