@@ -62,9 +62,10 @@ public class ManagerIndexServlet extends HttpServlet {
         //查找到所有的投诉、反馈和申诉信息
         try {
 
-            complis = compdao.getAllComp();
-            appeallis = compdao.getAllAppeal();
-            fedlis = feddao.showFeedBack();
+            complis = compdao.getAllComp(0, 10);
+            appeallis = compdao.getAllAppeal(0, 10);
+            fedlis = feddao.showFeedBack(0, 10);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,6 +87,9 @@ public class ManagerIndexServlet extends HttpServlet {
                 }
                 else {
                     userlis.add(uservo);
+                    if (userlis.size() >= 10){
+                        break;
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

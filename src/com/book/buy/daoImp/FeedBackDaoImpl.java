@@ -45,7 +45,13 @@ public class FeedBackDaoImpl implements FeedBackDao{
 		String sql="select userId,description,time from feedback order by time desc";
 		return  runner.query(conn, sql, new BeanListHandler<FeedBackVo>(FeedBackVo.class));
 	}
-	
+
+	@Override
+	public List<FeedBackVo> showFeedBack(int begin, int count) throws SQLException {
+		String sql="select userId,description,time from feedback order by time desc limit ?, ?";
+		return  runner.query(conn, sql, new BeanListHandler<FeedBackVo>(FeedBackVo.class), begin, count);
+	}
+
 	@Override
 	public void addFeedBack(FeedBackVo FeedBack) throws SQLException{
 		// TODO Auto-generated method stub
