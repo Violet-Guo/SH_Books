@@ -142,8 +142,26 @@ public class PublishBookServlet extends HttpServlet {
 			    	+ "window.location.href='"+ href + "';</script>");
 			return;
 		    }
+		    
+		    for(int i = 0; i < bookNum.length(); ++i){
+			if(!Character.isDigit(bookNum.charAt(i))){
+			    out.print("<script language='javascript'>alert('图书数量有误!!!');"
+				    	+ "window.location.href='"+ href + "';</script>");
+				return;
+			}
+		    }
+		    
+		    try{			
+			Float f = Float.parseFloat(price);
+		    }catch(NumberFormatException e){
+			//e.printStackTrace();
+			out.print("<script language='javascript'>alert('价格输入有误!!!');"
+			    	+ "window.location.href='"+ href + "';</script>");
+			return;
+		    }
+		    
 		    //获取状态和其他的参数
-        	    Integer hasNote = 0, canBargain = 0, state = 0;
+        	    Integer hasNote = 0, canBargain = 0, state = 1;
         	    if(pchoice1 != null && pchoice1.equals("keyijia"))
         		canBargain = 1;
         	    if(pchoice2 != null && pchoice2.equals("youbiji"))
