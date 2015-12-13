@@ -72,6 +72,7 @@
       		e.printStackTrace();
       		}
       		String bookname=bookvo.getName();
+      		if(bookname.length()>10) bookname=bookname.substring(0,10);
       		%>
       		  <span id="type"><%=a%></span>
             <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
@@ -134,6 +135,7 @@
       		e.printStackTrace();
       		}
       		String bookname=bookvo.getName();
+      		if(bookname.length()>10) bookname=bookname.substring(0,10);
       		%>
       		  <span id="type"><%=a%></span>
             <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
@@ -195,6 +197,7 @@
       		e.printStackTrace();
       		}
       		String bookname=bookvo.getName();
+      		if(bookname.length()>10) bookname=bookname.substring(0,10);
       		%>
       		  <span id="type"><%=a%></span>
             <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
@@ -256,6 +259,7 @@
       		e.printStackTrace();
       		}
       		String bookname=bookvo.getName();
+      		if(bookname.length()>10) bookname=bookname.substring(0,10);
       		%>
       		  <span id="type"><%=a%></span>
             <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
