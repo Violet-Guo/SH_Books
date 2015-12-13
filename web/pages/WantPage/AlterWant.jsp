@@ -1,4 +1,4 @@
-<%
+﻿<%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
@@ -375,10 +375,12 @@
         }
 
     function check(x,y,z)
-    {
-        if(x == "" || y == "" || z == "")
-        alert("请输入完整信息");
-    }
+        {
+            if(x == "" || y == "" || z == ""){
+                alert("请输入完整信息");
+		return false;
+                }     
+        }
     </script>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/model.css">
