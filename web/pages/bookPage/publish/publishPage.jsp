@@ -70,6 +70,7 @@
                  -->
                 ISBN：&nbsp;<input type="text" name="isbn" value="${sessionScope.bookVo.pubNumber}"/>&nbsp;&nbsp;<br/>
                 出版日期：&nbsp;<input type="text" name="publicYear" value="${sessionScope.bookVo.publicYear}"/>&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+               日期格式： yyyy-mm-dd
             </div>
             <div id="prightright">
                 &nbsp;&nbsp;数量：&nbsp;&nbsp;<input id="pshuliang" type="text" name="bookNum"
