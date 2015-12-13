@@ -34,6 +34,7 @@ public class UpdateServlet extends HttpServlet {
 	public Integer i ;
 	public Integer[] bookID_arr = null;
 	public Integer[] userID_arr = null;
+	public Integer[] bookids = null;
 	
     public UpdateServlet() {
         super();
@@ -46,7 +47,6 @@ public class UpdateServlet extends HttpServlet {
 		String bookname = request.getParameter("bookname");
 		String author = request.getParameter("author");
 		String bookID = request.getParameter("bookID");
-
 		Integer bookid = Integer.parseInt(bookID);
 		String now = NewDate.getDateTime(new Date());
 		
@@ -59,32 +59,34 @@ public class UpdateServlet extends HttpServlet {
 		try{
 			books = bookDao.findAllByNameAndAuthor(bookname, author);
 			Integer size = books.size();
-			bookID_arr = new Integer[size];
-			userID_arr = new Integer[size];
-			if(size == 0)
-			{
+			
+			if(size == 0){
 				response.sendRedirect("/publishedbooks");
 			}
+			
+			bookID_arr = new Integer[size];
+			userID_arr = new Integer[size];
+			bookids = new Integer[size-1];
 			for (i=0; i<size; i++){
 				bookVo = (BookVo) books.get(i);
 				bookID_arr[i] = bookVo.getId();
 			}
-
-			Integer[] bookids = new Integer[size-1];
+			
 			for (i=0; i<(size-1); i++){
 				bookids[i] = bookID_arr[i];
 			}
 			
-			for (i=0; i<size; i++){
+			for (i=0; i<(size-1); i++){
 				wantVo = wantDao.findBybookid(bookids[i]);
 				userID_arr[i] = wantVo.getUserID();
 			}
 			
-			for (i=0; i<size; i++)
+			for (i=0; i<(size-1); i++)
 			{
 				InformVo inform = new InformVo(userID_arr[i], 1, bookid, now, 0);
 				informDao.addInform(inform);
 			}
+			response.sendRedirect("/publishedbooks");
 		}
 		catch (SQLException e)
 		{

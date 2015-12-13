@@ -101,11 +101,11 @@ public class SearchBook extends HttpServlet {
         int allNum = 0;
         try {
             allNum = bookDao.findAlByMajorName(majorName).size();
-        } catch (NumberFormatException e1) {
-            e1.printStackTrace();
-        } catch (SQLException e1) {
+        } catch(Exception e1)
+        {
             e1.printStackTrace();
         }
+
         int pageNum = allNum % everyPageNum == 0 ? allNum / everyPageNum : allNum / everyPageNum + 1;//计算总共多少页数%>
         if (thisPage > pageNum) {
             thisPage = pageNum;
@@ -209,7 +209,8 @@ public class SearchBook extends HttpServlet {
         String oldAndNew = (String) request.getSession().getAttribute("oldAndNew");
         //初始sql的前缀部分
         String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
-                + " imagePath, description, bookNum, price, canBargain, time, state from book where ";
+                + " imagePath, description, bookNum, price, canBargain, time, state from book"
+                + " where bookNum != 0 and state != 2 and state != 3 and ";
         Integer mark = 0;
         //如果专业年级不是空的话则按照专业id去查找图书的类别
         if (majorName != null && nianji != null) {
