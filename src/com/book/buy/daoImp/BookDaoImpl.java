@@ -134,22 +134,24 @@ public class BookDaoImpl implements BookDao{
 	public List<BookVo> findLatestBook(Integer tim) throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author,"
 			+ " hasNote, imagePath, description, bookNum, price, canBargain, time,"
-			+ " state from book order by time desc limit 1, ?";
+			+ " state from book where bookNum != 0 and state != 2 and state != 3"
+			+ " order by time desc limit 0, ?";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), tim);
 	}
 	
 	@Override
 	public List<BookVo> findAllByName(String name) throws SQLException{
 		String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
-				+ " imagePath, description, bookNum, price, canBargain, time, state from book where name like ?";
+				+ " imagePath, description, bookNum, price, canBargain, time, state from book where name like ?"
+				+ " and bookNum != 0 and state != 2 and state != 3";
 		return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), "%" + name + "%");
 	}
 
 	@Override
 	public List<BookVo> findAllByName(String name, Integer start, Integer length) throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
-			+ " imagePath, description, bookNum, price, canBargain, time, state from book where name like ? "
-			+ " limit ?, ?";
+			+ " imagePath, description, bookNum, price, canBargain, time, state from book where name like ?"
+			+ " and bookNum != 0 and state != 2 and state != 3 limit ?, ?";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), "%" + name + "%",
 		    start, length);
 	}
@@ -157,7 +159,8 @@ public class BookDaoImpl implements BookDao{
 	@Override
 	public List<BookVo> findAllByNameAndAuthor(String name, String author) throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
-			+ " imagePath, description, bookNum, price, canBargain, time, state from book where name = ? and author = ?";
+			+ " imagePath, description, bookNum, price, canBargain, time, state from book"
+			+ " where name = ? and author = ? and bookNum != 0 and state != 2 and state != 3";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), name, author);
 	}
 
@@ -166,7 +169,7 @@ public class BookDaoImpl implements BookDao{
 		throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
 			+ " imagePath, description, bookNum, price, canBargain, time, state from book where name = ? and author = ?"
-			+ " order by id asc limit ?, ?";
+			+ " and bookNum != 0 and state != 2 and state != 3 order by id asc limit ?, ?";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), name, author,
 		    start, length);
 	}
@@ -174,7 +177,8 @@ public class BookDaoImpl implements BookDao{
 	@Override
 	public List<BookVo> findAllByMajorID(Integer majorID) throws SQLException{
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
-				+ " imagePath, description, bookNum, price, canBargain, time, state from book where majorID = ?";
+				+ " imagePath, description, bookNum, price, canBargain, time, state from book"
+				+ " where majorID = ? and bookNum != 0 and state != 2 and state != 3";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), majorID);
 	}
 
@@ -182,7 +186,7 @@ public class BookDaoImpl implements BookDao{
 	public List<BookVo> findAllByMajorID(Integer majorID, Integer start, Integer length) throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
 			+ " imagePath, description, bookNum, price, canBargain, time, state from book where majorID = ?"
-			+ " limit ?, ?";
+			+ " and bookNum != 0 and state != 2 and state != 3 limit ?, ?";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), majorID, start, length);
 	}
 
@@ -190,7 +194,7 @@ public class BookDaoImpl implements BookDao{
 	public List<BookVo> findAlByMajorName(String name) throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
 		+ " imagePath, description, bookNum, price, canBargain, time, state from book where majorID in "
-		+ "(select id from major where name = ?)";
+		+ "(select id from major where name = ?) and bookNum != 0 and state != 2 and state != 3";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), name);
 	}
 
@@ -198,13 +202,22 @@ public class BookDaoImpl implements BookDao{
 	public List<BookVo> findAlByMajorName(String name, Integer start, Integer length) throws SQLException {
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
 			+ " imagePath, description, bookNum, price, canBargain, time, state from book where majorID in "
-			+ "(select id from major where name = ?) limit ?, ?";
+			+ "(select id from major where name = ?) and bookNum != 0 and state != 2 and state != 3 limit ?, ?";
 		    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), name, start, length);
 	}
 
 	@Override
 	public List<BookVo> findAllByPart(String sql) throws SQLException {
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class));
+	}
+	
+	@Override
+	public List<BookVo> getRecommedBooks(Integer majorID, Integer tim) throws SQLException {
+	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
+			+ " imagePath, description, bookNum, price, canBargain, time, state from book"
+			+ " where majorID = ? and bookNum != 0 and state != 2 and state != 3"
+			+ " group by name order by time desc limit 0, ?";
+	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), majorID, tim);
 	}
 
 	@Override
@@ -214,7 +227,6 @@ public class BookDaoImpl implements BookDao{
     			conn.close();
     		} 
     		catch (SQLException e){
-    		   // TODO Auto-generated catch block
     		    e.printStackTrace();
     		}
 	}
