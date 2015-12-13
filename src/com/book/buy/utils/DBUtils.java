@@ -40,7 +40,8 @@ public class DBUtils {
                     e.printStackTrace();
                 }
                 try {
-                    conn = DriverManager.getConnection("jdbc:mysql://115.159.149.181/sh_books?useUnicode=true&characterEncoding=utf8", "root", "19940908");
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sh_books?useUnicode=true&characterEncoding=UTF-8", "root", "19940908");
+
                 } catch (SQLException e) {
                     System.out.println("Error: unable to get connection!");
                     e.printStackTrace();

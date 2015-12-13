@@ -92,8 +92,8 @@
         <span id="bname"><a href="/ShowBookDetail?bookID=<%=book.getId()%>">
             <%
                 String bookname = book.getName();
-                if (bookname.length() > 5){
-                    bookname = bookname.substring(0, 5);
+                if (bookname.length() > 10){
+                    bookname = bookname.substring(0, 10);
                 }
             %>
             <%=bookname%>

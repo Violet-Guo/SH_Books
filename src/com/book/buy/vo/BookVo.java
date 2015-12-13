@@ -6,7 +6,8 @@ import java.io.Serializable;
 *	图书的对象实体
 *	@author Nvpiao
 *	@time:2015年10月25日 上午10:06:34
-*/
+ *  changed by violet：book 的state有三个状态，分别是1、2、3，1代表上架，2代表卖家下架，3代表管理员下架
+ */
 public class BookVo implements Serializable{
 	/**
 	 * 

@@ -58,6 +58,7 @@ public class FeedBackServlet extends HttpServlet
 		HttpSession session = request.getSession(true);
 		//Integer userId=-1;
 		String description=null;
+		//UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
 		UserVo userVo=new UserVo();
 		userVo=(UserVo)session.getAttribute("user");//从session中拿到user
 		if(userVo==null)//拿取失败则提示
@@ -75,7 +76,8 @@ public class FeedBackServlet extends HttpServlet
 				 out.close();
 				 out.flush();
 			}
-		String date = NewDate.getDate(new Date());
+		String date = NewDate.getDateTime(new Date());
+		System.out.println(date);
 	    FeedBackVo feedBackVo = new FeedBackVo(userId,description,date);
 		FeedBackDao FeedBackDaoImpl = FeedBackDaoImplFactory.getFeedBackDaoImpl();
 		try 
