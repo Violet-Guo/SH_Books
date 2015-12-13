@@ -104,6 +104,14 @@
         <url-pattern>/inform</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>informs</servlet-name>
+        <jsp-file>/pages/managePage/inform/informs.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>informs</servlet-name>
+        <url-pattern>/informs</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>showFeedBack</servlet-name>
         <jsp-file>/pages/managePage/showFeedback/showFeedback.jsp</jsp-file>
     </servlet>
@@ -166,6 +174,14 @@
     <servlet-mapping>
         <servlet-name>allfeedback</servlet-name>
         <url-pattern>/allfedback</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>fedbackdetil</servlet-name>
+        <jsp-file>/pages/managerPage/info/FedbackDetil.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fedbackdetil</servlet-name>
+        <url-pattern>/fedbackdetil</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>appealdetil</servlet-name>
@@ -262,5 +278,29 @@
     <servlet-mapping>
         <servlet-name>changepassadmin</servlet-name>
         <url-pattern>/changepassadmin</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>unread</servlet-name>
+        <jsp-file>/pages/managePage/inform/showunread.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>unread</servlet-name>
+        <url-pattern>/unread</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>want</servlet-name>
+        <jsp-file>/pages/managePage/inform/showwant.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>want</servlet-name>
+        <url-pattern>/want</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>list</servlet-name>
+        <jsp-file>/pages/managePage/inform/showlist.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>list</servlet-name>
+        <url-pattern>/list</url-pattern>
     </servlet-mapping>
 </web-app>

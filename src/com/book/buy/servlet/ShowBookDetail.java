@@ -38,11 +38,12 @@ public class ShowBookDetail extends HttpServlet {
 	    BookVo bookVo = null;
 	    UserDao userDao = null;
 	    try {
+		//按照图书的id去查找图书
 		bookVo = bookDao.findById(Integer.parseInt(bookID));
 		request.getSession().setAttribute("bookDetils", bookVo);
 		
 		String newOld = null;
-		//新旧程度
+		//设置新旧程度
 		if(bookVo.getOldGrade() == 10)
 		    newOld = "全新";
 		else if(bookVo.getOldGrade() == 9)
@@ -54,8 +55,9 @@ public class ShowBookDetail extends HttpServlet {
 		else if(bookVo.getOldGrade() == 4)
 		    newOld = "五成新以下";
 		request.getSession().setAttribute("newOld", newOld);
-		
+		//获取用户Dao
 		userDao = UserDaoImpFactory.getUserDaoImpl();
+		//按照用户的id进行用户查找
 		UserVo userVo = userDao.findUserById(bookVo.getUserID());
 		request.getSession().setAttribute("userVo", userVo);
 	    } catch (NumberFormatException e) {
@@ -65,9 +67,10 @@ public class ShowBookDetail extends HttpServlet {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
-	    
+	    //关闭流
 	    bookDao.close();
 	    userDao.close();
+	    //跳转
 	    response.sendRedirect("/bookDetail");
 	}
 

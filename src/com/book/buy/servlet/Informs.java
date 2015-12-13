@@ -1,8 +1,17 @@
 package com.book.buy.servlet;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+
+
+
+
+
+
+
+
+
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,33 +19,58 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import com.book.buy.dao.InformDao;
 import com.book.buy.factory.InformDaoImplFactory;
+
+
+
+
+
+
+
+
+
+
 import com.book.buy.vo.InformVo;
 import com.book.buy.vo.UserVo;
 
-/**4type通知
- * Servlet implementation class informbody
+import javax.servlet.http.HttpSession;
+/**通知详情
+ * Servlet implementation class Inform
  */
-@WebServlet("/InformServlet")
-public class InformServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+@WebServlet("/Informs")
+public class Informs extends HttpServlet 
+{
+	private static final long serialVersionUID = 1L;    
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InformServlet() {
+    public Informs() 
+    {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
@@ -47,8 +81,7 @@ public class InformServlet extends HttpServlet {
 		UserVo userVo;
 	    userVo=(UserVo)session.getAttribute("user");//从session中拿到vo
 		if(userVo==null)
-		{
-			//失败则提醒登录
+		{//失败则提醒登录
 			out.print("<script>alert('你的登陆状态出错');window.location.href='/login';</script>");
 			return;
 		}
@@ -61,27 +94,15 @@ public class InformServlet extends HttpServlet {
 		session.setAttribute("thisPage",strPage);
 		InformDao InformDaoImpl = InformDaoImplFactory.getInformDaoImpl();
 		List<InformVo> informs = null;
-		List<InformVo> list = null;	
-		List<InformVo> wants = null;
-		List<InformVo> unread = null;
 		try 
 		{
-			informs = (List<InformVo>) InformDaoImpl.findbyuserid(userID);//all
-			wants = (List<InformVo>) InformDaoImpl.wants(userID);//type==1
-			unread = (List<InformVo>) InformDaoImpl.count(userID);//hasread==0
-			list = (List<InformVo>) InformDaoImpl.list(userID);//type==2
+			informs = (List<InformVo>) InformDaoImpl.findbyuserid(userID);//通知列表
 			System.out.println(informs);
-			System.out.println(wants);
-			System.out.println(unread);
-			System.out.println(list);
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}		
-		session.setAttribute("informs", informs);//all 通知
-		session.setAttribute("list", list);//订单通知
-		session.setAttribute("wants", wants);//心愿单通知
-		session.setAttribute("unread", unread);//未读通知
+		session.setAttribute("informs", informs);//传给jsp
 		if (informs != null) 
 		{
 		try {
@@ -97,7 +118,7 @@ public class InformServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 			}	
-		href = "/inform";//跳转至jsp显示表单内容
+		href = "/informs";//跳转至jsp显示表单内容
 			out.print("<script language='javascript'>window.location.href='"
 					+ href + "';</script>"); // 页面重定向
 		} 
@@ -116,13 +137,13 @@ public class InformServlet extends HttpServlet {
 		}
 		out.flush();
 		out.close();
+	
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		doGet(request, response);
 	}
 
 }

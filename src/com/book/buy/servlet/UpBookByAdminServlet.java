@@ -28,6 +28,7 @@ public class UpBookByAdminServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //校验管理员的登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -36,6 +37,7 @@ public class UpBookByAdminServlet extends HttpServlet {
             return;
         }
 
+        //拿到jsp页面传来的bookid、appealid的值，并将其转换为int型的
         String bookid = request.getParameter("bookid");
         String appealid = request.getParameter("appealid");
 
@@ -48,6 +50,7 @@ public class UpBookByAdminServlet extends HttpServlet {
         BookVo bookvo = new BookVo();
         ComplainVo appealvo = new ComplainVo();
 
+        //根据bid和aid查找到响应的书籍和申诉信息，并对其状态字段进行修改，并update到数据库中
         try {
             bookvo = bookdao.findById(bid);
             appealvo = appealdao.getCompById(aid);

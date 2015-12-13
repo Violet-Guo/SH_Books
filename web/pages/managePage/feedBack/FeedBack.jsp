@@ -16,7 +16,7 @@
 
 <body>
 		<jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
-		<form action="./FeedBackServlet" method="post" align="center"><br><br>
+		<form action="/FeedBackServlet" method="post" align="center"><br><br>
 		<input type="hidden" name="action" value="post" />
 		<h2 >请输入反馈内容：<br>
 		<textarea name="description" rows="15" cols="80" ></textarea></h2>

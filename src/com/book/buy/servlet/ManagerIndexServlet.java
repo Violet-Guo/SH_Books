@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by violet on 2015/12/7.
+ * 拿到主页显示的投诉、申诉、用户投诉情况、反馈信息
  */
 @WebServlet(name = "ManagerIndexServlet", urlPatterns = "/AdminIndex")
 public class ManagerIndexServlet extends HttpServlet {
@@ -33,6 +34,7 @@ public class ManagerIndexServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //校验管理员的登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -57,35 +59,44 @@ public class ManagerIndexServlet extends HttpServlet {
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
         UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
 
+        //查找到所有的投诉、反馈和申诉信息
         try {
 
-            complis = compdao.getAllComp();
-            appeallis = compdao.getAllAppeal();
-            fedlis = feddao.showFeedBack();
+            complis = compdao.getAllComp(0, 10);
+            appeallis = compdao.getAllAppeal(0, 10);
+            fedlis = feddao.showFeedBack(0, 10);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        //根据投诉信息找到所有被投诉过的用户的详情
         for (int i = 0; i < complis.size(); i++){
             ComplainVo comp = (ComplainVo)complis.get(i);
 
+            //通过投诉信息中的bookid找到被投诉的这本书，通过被投诉的这本书的UserID查找到卖家
             try {
 
                 bookvo = bookdao.findById(comp.getBookid());
                 uservo = userdao.findUserById(bookvo.getUserID());
 
+                //若这个卖家已经在userlis中，不放入list中
                 if (userlis.contains(uservo)){
                     continue;
                 }
                 else {
                     userlis.add(uservo);
+                    if (userlis.size() >= 10){
+                        break;
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
 
+        //把拿到的数据放在session中
         request.getSession().setAttribute("allcompuser", userlis);
         request.getSession().setAttribute("allcomp", complis);
         request.getSession().setAttribute("allappeal", appeallis);

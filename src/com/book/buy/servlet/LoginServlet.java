@@ -24,20 +24,22 @@ import com.book.buy.vo.UserVo;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public LoginServlet() {
-        super();
-    }
+        public LoginServlet() {
+            super();
+        }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
+	    //获取登陆时的用户名和密码
 	    String username = request.getParameter("username");
 	    String password = request.getParameter("password");
-	    
+	    //获取用户Dao和输出流
 	    UserDao userDao = UserDaoImpFactory.getUserDaoImpl();
 	    PrintWriter out = response.getWriter();
 	    
 	    String href = "";
 	    try {
+		//在数据库中查询是否存在该用户
 		UserVo user = userDao.findUserByName(username);
 		if(user == null){
 		    href = "/login";

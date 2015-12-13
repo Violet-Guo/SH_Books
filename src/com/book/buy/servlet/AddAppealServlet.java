@@ -24,6 +24,7 @@ public class AddAppealServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
+        //管理员登陆状态校验
         UserVo user1 = (UserVo)request.getSession().getAttribute("user");
         if (user1 == null) {
             out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
@@ -38,6 +39,7 @@ public class AddAppealServlet extends HttpServlet {
         ComplainVo compvo = new ComplainVo();
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
 
+        //拿到jsp页面传来的参数
         int bookid = Integer.parseInt(request.getParameter("bookid"));
         String appeal = request.getParameter("appeal");
 
@@ -45,6 +47,7 @@ public class AddAppealServlet extends HttpServlet {
         compvo.setBookid(bookid);
         compvo.setDescription(appeal);
 
+        //往数据库里添加申诉信息
         try {
             compdao.addAppeal(compvo);
         } catch (SQLException e) {

@@ -31,6 +31,7 @@ public class GetCompDetilServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //校验管理员的登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -39,6 +40,7 @@ public class GetCompDetilServlet extends HttpServlet {
             return;
         }
 
+        //拿到jsp页面中传来的compid的值，并将其转换成int型
         String compid = request.getParameter("compid");
         int id = Integer.parseInt(compid);
 
@@ -50,6 +52,7 @@ public class GetCompDetilServlet extends HttpServlet {
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
 
+        //查找到投诉的详情、被投诉人、被投诉的ID
         try {
             compvo = compdao.getCompById(id);
             uservo = userdao.findUserById(compvo.getUserid());
@@ -59,6 +62,7 @@ public class GetCompDetilServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        //把拿到的数据放在session中
         request.getSession().setAttribute("compuser", uservo);
         request.getSession().setAttribute("compdetil", compvo);
         request.getSession().setAttribute("compbook", bookvo);

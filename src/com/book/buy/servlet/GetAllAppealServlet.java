@@ -29,6 +29,7 @@ public class GetAllAppealServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //校验管理员登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -39,6 +40,7 @@ public class GetAllAppealServlet extends HttpServlet {
 
         int everyPageNum = 5;
 
+        //从jsp页面获得state的值
         String state = (String)request.getParameter("state");
         if (null == state){
             state = "all";
@@ -49,7 +51,9 @@ public class GetAllAppealServlet extends HttpServlet {
 
         List<ComplainVo> lis = new ArrayList<>();
 
+        //根据state的值的不同，在数据库中取不通的数据；
         try {
+
             if (state.equals("all")){
                 lis = compdao.getAllAppeal();
                 paging = new Paging(everyPageNum,request,lis.size(),"/getallappeal?");
@@ -65,6 +69,7 @@ public class GetAllAppealServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        //分页
         request.getSession().setAttribute("paging", paging);
         lis = lis.subList(paging.getStart(),paging.getEnd());
 

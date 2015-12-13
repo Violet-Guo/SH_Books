@@ -23,6 +23,7 @@ public class ManagerLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
 
+        //拿到输入的用户名和密码
         String username = request.getParameter("username");
         String pwd = request.getParameter("pwd");
 
@@ -33,6 +34,7 @@ public class ManagerLoginServlet extends HttpServlet {
         String href = "";
 
         try {
+            //根据管理员的用户名在数据库中进行查找，若找不到响应的信息，则该用户名对应的帐号不是管理员帐号
             mvo = mdao.getPwdByName(username);
             if (null == mvo) {
                 //提示不是管理员
@@ -40,7 +42,7 @@ public class ManagerLoginServlet extends HttpServlet {
                 out.print("<script language='javascript'>alert('该用户不是管理员');"
                         + "window.location.href='" + href + "';</script>");
                 return;
-            } else {
+            } else {       //若查找到相信信息，则比对密码是否相同
                 if (pwd.equals(mvo.getPassword())) {
                     request.getSession().setAttribute("admin", mvo);
 

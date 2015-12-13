@@ -31,6 +31,7 @@ public class AddCompServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //验证用户的登陆状态
         UserVo user1 = (UserVo)request.getSession().getAttribute("user");
         if (user1 == null) {
             out.print("<script>alert('登录状态错误，请重新登录');window.location.href='/login';</script>");
@@ -41,13 +42,14 @@ public class AddCompServlet extends HttpServlet {
         user = (UserVo)request.getSession().getAttribute("user");
 
         ComplainVo compvo = new ComplainVo();
-        BookVo bookvo = new BookVo();    //被投诉的书籍
-        UserVo usered = new UserVo();    //被投诉人
+        BookVo bookvo = new BookVo();               //被投诉的书籍
+        UserVo usered = new UserVo();               //被投诉人
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
         UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
         int compnum = 0;   //被投诉者被投诉的次数
 
+        //从jsp页面拿到参数
         String id = (String)request.getParameter("bookid");
         int bookid = Integer.parseInt(id);
         String complain = request.getParameter("comp");

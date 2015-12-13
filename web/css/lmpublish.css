@@ -50,7 +50,7 @@ input
 
 #pselect
 {
-	width: 151px;
+	width: 171px;
 }
 
 #prightright
@@ -73,12 +73,12 @@ input
 {
 	resize: none;
 	float: left;
-	width: 144px;
+	width: 166px;
 }
 
 #pdescription
 {
-	margin-left: 101px;
+	margin-left: 90px;
 	float: left;
 	padding-right: 5px;
 }
@@ -90,6 +90,7 @@ input
 
 #pzhuanye
 {
+	width: 171px;
 	margin-right: -18px;
 }
 

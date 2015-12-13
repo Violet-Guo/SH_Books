@@ -30,6 +30,7 @@ public class GetAllCompServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String href = "";
 
+        //校验管理员的登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
         if (null == admin){
             href = "/loginmanager";
@@ -45,11 +46,13 @@ public class GetAllCompServlet extends HttpServlet {
         List<ComplainVo> lis = new ArrayList<>();
         Paging paging = new Paging();
 
+        //从jsp页面中取出state的值
         String state = (String)request.getParameter("state");
         if (null == state){
             state = "all";
         }
 
+        //根据state的值的不同对数据库进行查询
         try {
             if (state.equals("all")){
                 lis = compdao.getAllComp();
@@ -65,7 +68,7 @@ public class GetAllCompServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-
+        //分页
         request.getSession().setAttribute("paging", paging);
         lis = lis.subList(paging.getStart(),paging.getEnd());
 

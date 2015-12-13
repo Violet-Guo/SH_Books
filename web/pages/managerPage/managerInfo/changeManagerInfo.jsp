@@ -14,6 +14,7 @@
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/changeManagerInfo.css">
+    <script src="<%=basePath %>js/jquery.min.js"></script>
     <title>修改管理员密码</title>
 </head>
 <body>
@@ -23,7 +24,27 @@
             原密码：<input type="password" name="oldpass"><br>
             新密码：<input type="password" name="newpass1"><br>
             新密码：<input type="password" name="newpass2"><br>
-            <input id="sbutton" type="submit" value="确定修改">
+            <script>
+                function judge(){
+                    var oldpass = $("input[name='oldpass']").val();
+                    var newpass1 = $("input[name='newpass1']").val();
+                    var newpass2 = $("input[name='newwpass2']").val();
+                    if(oldpass == ""){
+                        alert("原密码不能为空");
+                        return false;
+                    }
+                    if(newpass1 == ""){
+                        alert("新密码不能为空");
+                        return false;
+                    }
+                    if(newpass2 == ""){
+                        alert("新密码不能为空");
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+            <input id="sbutton" type="submit" onclick="return judge()" value="确定修改">
         </form>
     </div>
     <br>

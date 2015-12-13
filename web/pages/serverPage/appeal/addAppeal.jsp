@@ -16,6 +16,7 @@
 <head>
     <link rel="stylesheet" href="<%=basePath %>css/all.css">
     <link rel="stylesheet" href="<%=basePath %>css/addcomp.css">
+    <script src="<%=basePath %>js/jquery.min.js"></script>
     <title>添加申诉</title>
 </head>
 <body>
@@ -25,7 +26,17 @@
     <form action="/addappeal?bookid=<%=bookid%>" method="post">
         <textarea id="comp" name="appeal"></textarea>
         <br><br>
-        <input id="cbutton" type="submit">&nbsp;&nbsp;
+        <script>
+            function judge(){
+                var content = $("textarea[name='appeal']").val();
+                if(content == ""){
+                    alert("申诉内容不能为空");
+                    return false;
+                }
+                return true;
+            }
+        </script>
+        <input id="cbutton" type="submit" onclick="return judge()">&nbsp;&nbsp;
         <input id="cbutton" type="reset"><br>
     </form>
 </div>

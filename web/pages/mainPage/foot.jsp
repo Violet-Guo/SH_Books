@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="copyright">
-      ©2015 二手书
+      Copyright ©2015 String Team All Rights Reserved
     </div>
   </div>
 </div>
