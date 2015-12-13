@@ -20,6 +20,7 @@
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
+<p style="margin-left:350px;"><a href="/controlCenter" >返回服务中心</a></p>
 <br> <br>  
  <table border=2 align="center">
  <tr><td>类别</td><td>详情</td><td>时间</td></tr>
@@ -81,8 +82,9 @@
  		<% }%>
  		   <% if(informvo.getType()==2) {%>
  		    <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/order?isUser=seller">查看详情</a></td>
- 		<% }%>
- 		<td><%=informvo.getTime()%></td>		 
+ 		<% }
+ 		String str=informvo.getTime().substring(0,19);%>
+ 		<td><%=str%></td>		 
  		 </tr>
  		 <%} %>
         </table>
@@ -96,7 +98,7 @@
         <%if(pageNum%10>0&&pageNum/10>(thisPage-1)/10){out.print("<a href='/unreadServlet?thisPage="+((((thisPage-1)/10)+1)*10+1)+"'>&gt;&gt;</a>");}%>
         <li><a href="/unreadServlet?thisPage=${requestScope.thisPage+1}">下一页</a></li>
 </ul>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
   </body>
 </html>

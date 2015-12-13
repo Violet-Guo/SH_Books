@@ -51,10 +51,10 @@
 	<div id = "blbuttom">
 		<c:if test="${sessionScope.bList.size() != 0}">
 		<c:forEach items="${sessionScope.bList }" var="bok">
-			<div id = "blbook">
-				<a href="/ShowBookDetail?bookID=${bok.id}"><img  id = "blimage" alt="暂无图片" src="${bok.imagePath}"/></a>
-				<br/><p id = "blname">${bok.name}</p>
-			</div>
+				<div id = "blbook">
+					<a href="/ShowBookDetail?bookID=${bok.id}"><img  id = "blimage" alt="暂无图片" src="${bok.imagePath}"/></a>
+					<br/><p id = "blname">${bok.name}</p>
+				</div>
 		</c:forEach>
 		</c:if>
 		<c:if test="${sessionScope.bList.size() == 0}">

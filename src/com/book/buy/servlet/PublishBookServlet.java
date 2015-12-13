@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -87,7 +89,7 @@ public class PublishBookServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	    //获取参数
-	    newPath = "/SH_Books/images/" + newName + extName;
+	    newPath = "/images/" + newName + extName;
 	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
 	    //UserVo userVo = new UserVo(1, "nihao", "./sdf", "nihao", 1, "nihao", "nihao", "nihao", 0);
 	    String name = (String) request.getAttribute("bookName");
@@ -115,8 +117,31 @@ public class PublishBookServlet extends HttpServlet {
 		out.print("<script language='javascript'>alert('不能有选项为空！！！');"
 		    	+ "window.location.href='"+ href + "';</script>");
 	    }
-	    else
-	    {
+	    else{  
+		    int matches = 1;
+		    if(publicYear.length() == 10){
+			for(int i = 0; i < 10; ++i){
+			    if(i == 4 || i == 7){
+				if(publicYear.charAt(i) != '-'){
+				    matches = 0;
+				    break;
+				}
+			    }
+			    else if(!Character.isDigit(publicYear.charAt(i))){
+				matches = 0;
+				break;
+			    }
+			}
+		    }
+		    else
+			matches = 0;
+		    
+		    if(matches == 0)
+		    {
+			out.print("<script language='javascript'>alert('请按照yyyy-mm-dd输入日期');"
+			    	+ "window.location.href='"+ href + "';</script>");
+			return;
+		    }
 		    //获取状态和其他的参数
         	    Integer hasNote = 0, canBargain = 0, state = 0;
         	    if(pchoice1 != null && pchoice1.equals("keyijia"))

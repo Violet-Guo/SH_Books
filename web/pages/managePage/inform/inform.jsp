@@ -21,6 +21,7 @@
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
+
 <%
     request.setCharacterEncoding("utf-8");
 
@@ -82,8 +83,9 @@
  			  <span id="type"><%=a%></span>
  			  <span id="des"><a href="/order"> 查看订单详情</a></span>
  		<% }
+ 		String str=inf.getTime().substring(0,19);
  		%>
-          <span id="time"><%= inf.getTime() %></span>
+          <span id="time"><%= str %></span>
           <br>
           <%
          }
@@ -143,8 +145,9 @@
  			  <span id="type"><%=a%></span>
  			  <span id="des"><a href="/order"> 查看订单详情</a></span>
  		<% }
+ 		String str=inf.getTime().substring(0,19);
  		%>
-          <span id="time"><%= inf.getTime() %></span>
+          <span id="time"><%= str %></span>
           <br>
           <%
          }
@@ -203,8 +206,9 @@
  			  <span id="type"><%=a%></span>
  			  <span id="des"><a href="/order"> 查看订单详情</a></span>
  		<% }
+ 		String str=inf.getTime().substring(0,19);
  		%>
-          <span id="time"><%= inf.getTime() %></span>
+          <span id="time"><%= str %></span>
           <br>
           <%
          }
@@ -263,8 +267,9 @@
  			  <span id="type"><%=a%></span>
  			  <span id="des"><a href="/order"> 查看订单详情</a></span>
  		<% }
+ 		String str=inf.getTime().substring(0,19);
  		%>
-          <span id="time"><%= inf.getTime() %></span>
+          <span id="time"><%= str %></span>
           <br>
           <%
          }
@@ -274,7 +279,7 @@
        
     </div>
 <br>
-
+<p align="center"><a href="/controlCenter" >返回服务中心</a></p>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>
 </html>
