@@ -135,7 +135,7 @@ public class BookDaoImpl implements BookDao{
 	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author,"
 			+ " hasNote, imagePath, description, bookNum, price, canBargain, time,"
 			+ " state from book where bookNum != 0 and state != 2 and state != 3"
-			+ " order by time desc limit 1, ?";
+			+ " order by time desc limit 0, ?";
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), tim);
 	}
 	
@@ -210,6 +210,15 @@ public class BookDaoImpl implements BookDao{
 	public List<BookVo> findAllByPart(String sql) throws SQLException {
 	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class));
 	}
+	
+	@Override
+	public List<BookVo> getRecommedBooks(Integer majorID, Integer tim) throws SQLException {
+	    String sql = "select id, name, userID, majorID, pubNumber, oldGrade, publicYear, author, hasNote,"
+			+ " imagePath, description, bookNum, price, canBargain, time, state from book"
+			+ " where majorID = ? and bookNum != 0 and state != 2 and state != 3"
+			+ " group by name order by time desc limit 0, ?";
+	    return runner.query(conn, sql, new BeanListHandler<BookVo>(BookVo.class), majorID, tim);
+	}
 
 	@Override
 	public void close(){
@@ -218,7 +227,6 @@ public class BookDaoImpl implements BookDao{
     			conn.close();
     		} 
     		catch (SQLException e){
-    		   // TODO Auto-generated catch block
     		    e.printStackTrace();
     		}
 	}

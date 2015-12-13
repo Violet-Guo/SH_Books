@@ -185,6 +185,16 @@ public interface BookDao{
 	 * @throws SQLException
 	 */
 	public List<BookVo> findAllByPart(String sql) throws SQLException;
+	
+	/**
+	 * 按照专业id和数量查找该学生对应的图书的推荐
+	 * 按照发布时间排序
+	 * @param majorID
+	 * @param num
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<BookVo> getRecommedBooks(Integer majorID, Integer num) throws SQLException;
 
 	/**
 	 * 释放连接
