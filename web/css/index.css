@@ -4,7 +4,6 @@
     top: 0;
 }*/
 #main{
-    height: 1000px;
     width: 1100px;
     margin: auto;
     position: relative;
@@ -76,6 +75,13 @@
     display: table;
     width: 1070px;
 }
+.hotBookDiv .hot-head{
+    width: 100%;
+}
+.hotBookDiv .hot-head a{
+    float: right;
+    color: #5725a2;
+}
 .hotBookDiv:hover{
     border: 1px #902BF5 solid;
 }
@@ -109,6 +115,7 @@
     opacity: 0.8;
     color: #ffffff;
 }
+
 .hotBook-title span{
     display: table-cell;
     width:100%;
@@ -124,4 +131,10 @@
     white-space: nowrap;
     -ms-text-overflow: ellipsis;
     text-overflow: ellipsis;
+}
+.center-alert{
+    margin-bottom: 100px;
+}
+.center-alert a{
+    color: #902bf5;
 }

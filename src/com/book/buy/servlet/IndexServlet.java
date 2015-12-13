@@ -31,6 +31,8 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        //------获取用户信息
+        UserVo userVo = (UserVo) req.getSession().getAttribute("user");
         //--------------------------------这里获取首页需要的信息
 
         //----获取专业院系列表
@@ -44,7 +46,11 @@ public class IndexServlet extends HttpServlet {
             //-----------------获取最新上架的书籍
             List<BookVo> bookLastVos = bookDao.findLatestBook(5);//这里需要参数@import
             req.setAttribute("bookLastVos",bookLastVos);
-
+            //-----------------获取推荐给用户的书籍
+            if(userVo!=null) {
+                List<BookVo> bookRecVos = bookDao.getRecommedBooks(userVo.getMajorID(), userVo.getId());
+                req.setAttribute("bookRecVos",bookRecVos);
+            }
             bookDao.close();
             majorDao.close();
         } catch (SQLException e) {

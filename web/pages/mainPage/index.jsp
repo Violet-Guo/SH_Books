@@ -45,6 +45,7 @@
         </ul>
     </div>
     <!--热销书籍部分-->
+
     <div class="hotBookDiv">
         <h2>最新上架</h2>
         <ul>
@@ -63,6 +64,41 @@
                 </li>
             </c:forEach>
         </ul>
+    </div>
+
+    <%--推荐书籍部分--%>
+
+    <div class="hotBookDiv">
+        <c:if test="${sessionScope.user!=null}">
+
+            <h2 class="hot-head">
+                推荐书籍
+                <c:if test="${bookRecVos.size()>5}">
+                    <a href="#">查看更多</a>
+                </c:if>
+            </h2>
+            <ul>
+                <c:forEach items="${bookRecVos}" var="bookVo" begin="0" end="4">
+                    <li>
+                        <a href="/ShowBookDetail?bookID=${bookVo.id}"><img src="${bookVo.imagePath}"/></a>
+
+                        <div class="hotBook-title">
+                        <span>
+                            <p><a href="/ShowBookDetail?bookID=${bookVo.id}">${bookVo.name}</a></p>
+                            <p><a href="/ShowBookDetail?bookID=${bookVo.id}">作者:${bookVo.author}</a></p>
+                            <p><a href="/ShowBookDetail?bookID=${bookVo.id}">价格:${bookVo.price}</a></p>
+                        </span>
+                        </div>
+
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:if>
+        <c:if test="${sessionScope.user==null}">
+            <div class="center-alert">
+                您还没有登陆，是否<a href="/login">登陆？</a>推荐你专业的书籍给你。
+            </div>
+        </c:if>
     </div>
 
     <%--<div id="newBookDiv" class="hotBookDiv">
