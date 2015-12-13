@@ -104,7 +104,7 @@
                             value="checked='checked'"></c:out></c:if> />可议价
                     <input type="checkbox" name="pchoice2" value="wubiji"  <c:if
                             test="${sessionScope.bookVo.hasNote == 1}"><c:out
-                            value="checked='checked'"></c:out></c:if> />无笔记<br/>
+                            value="checked='checked'"></c:out></c:if> />有笔记<br/>
                 </div>
                 <div id="pdowndown">
                     <input id="pbutton" type="submit" value="发布"/>
