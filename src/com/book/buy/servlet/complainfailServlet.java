@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Created by violet on 2015/12/14.
  */
-@WebServlet(name = "complainfailServlet", urlPatterns = "complainfail")
+@WebServlet(name = "complainfailServlet", urlPatterns = "/complainfail")
 public class complainfailServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
