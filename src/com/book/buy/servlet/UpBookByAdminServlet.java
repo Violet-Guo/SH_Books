@@ -2,10 +2,14 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.ComplainDao;
+import com.book.buy.dao.InformDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.ComplainDaoImpFactory;
+import com.book.buy.factory.InformDaoImplFactory;
+import com.book.buy.utils.NewDate;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.ComplainVo;
+import com.book.buy.vo.InformVo;
 import com.book.buy.vo.ManagerVo;
 
 import javax.servlet.ServletException;
@@ -16,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * Created by violet on 2015/11/26.
@@ -45,9 +50,11 @@ public class UpBookByAdminServlet extends HttpServlet {
         int aid = Integer.parseInt(appealid);
 
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
+        InformDao informdao = InformDaoImplFactory.getInformDaoImpl();
         ComplainDao appealdao = ComplainDaoImpFactory.getCompDaoImp();
 
         BookVo bookvo = new BookVo();
+        InformVo informvo = new InformVo();
         ComplainVo appealvo = new ComplainVo();
 
         //根据bid和aid查找到响应的书籍和申诉信息，并对其状态字段进行修改，并update到数据库中
@@ -60,12 +67,28 @@ public class UpBookByAdminServlet extends HttpServlet {
 
             bookdao.updateBook(bookvo);
             appealdao.updateComp(appealvo);
+
+            //把申诉处理消息放入inform表中
+            informvo.setUserID(bookvo.getUserID());
+            informvo.setType(4);
+            informvo.setNum(appealvo.getId());
+            Date date = new Date();
+            String time = NewDate.getDateTime(date);
+            informvo.setTime(time);
+            informdao.addInform(informvo);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        bookdao.close();
-        appealdao.close();
+
+        try {
+            bookdao.close();
+            appealdao.close();
+            informdao.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         href = "/getappealdetil?appid="+aid;
         out.print("<script language='javascript'>alert('上架成功');"

@@ -11,7 +11,7 @@ public class InformVo implements Serializable{
 	 * */
 	private static final long serialVersionUID = 1L;
 	private int userID;
-	private int type;//1：心愿单到货通知               2：付款通知
+	private int type;//1：心愿单到货通知               2：付款通知  type=3 投诉 4 申诉
 	private int num;//消息通知所对应的值 bookid||orderid
 	private String time;
 	private int hasRead;
