@@ -1,4 +1,4 @@
-﻿package com.book.buy.servlet;
+package com.book.buy.servlet;
 
 import java.io.IOException;
 import java.util.Date;

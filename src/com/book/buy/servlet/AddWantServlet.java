@@ -1,4 +1,4 @@
-﻿package com.book.buy.servlet;
+package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.WantDao;
