@@ -42,7 +42,17 @@ public class PublishBookServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
 	    //获取到method来判断是修改图书的信息还是新增图书
+	    PrintWriter out = response.getWriter();	    
+	    String href = "/index";
 	    String method = request.getParameter("method");
+	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
+	    if(Integer.parseInt(method) == 2 && userVo.getComplainNum() > 3)
+	    {
+		out.print("<script language='javascript'>alert('您的账户已被冻结，暂时不能发布任何图书！！！');"
+		    	+ "window.location.href='"+ href + "';</script>");
+		return;
+	    }
+	    	
 	    String newPath = null;
 	    String extName = null;
 	    String newName = null;
@@ -90,7 +100,6 @@ public class PublishBookServlet extends HttpServlet {
 		}
 	    //获取参数
 	    newPath = "/images/" + newName + extName;
-	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
 	    //UserVo userVo = new UserVo(1, "nihao", "./sdf", "nihao", 1, "nihao", "nihao", "nihao", 0);
 	    String name = (String) request.getAttribute("bookName");
 	    String price = (String) request.getAttribute("nowPrice");
@@ -103,10 +112,8 @@ public class PublishBookServlet extends HttpServlet {
 	    String publicYear = (String) request.getAttribute("publicYear");
 	    String pchoice1 = (String) request.getAttribute("pchoice1");//被选中的值
 	    String pchoice2 = (String) request.getAttribute("pchoice2");//被选中的值
-	    PrintWriter out = response.getWriter();
-	    
-	    String href = "/publishPage";
 	    //判断不能有选项为空。除了是否有笔记或者是否能议价
+	    href = "/publishPage";
 	    if(name == null || price == null || pubNumber == null || oldGrade == null
 		    || author == null || majorID == null || description == null 
 		    || bookNum == null || publicYear == null || name.equals("") ||

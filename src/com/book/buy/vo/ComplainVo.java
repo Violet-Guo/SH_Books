@@ -7,9 +7,7 @@ import java.io.Serializable;
  * 15/11/11 添加字段bookid
  */
 public class ComplainVo implements Serializable{
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
     private int id;
     private int userid;
