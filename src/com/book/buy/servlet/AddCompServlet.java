@@ -2,12 +2,16 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.ComplainDao;
+import com.book.buy.dao.InformDao;
 import com.book.buy.dao.UserDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.ComplainDaoImpFactory;
+import com.book.buy.factory.InformDaoImplFactory;
 import com.book.buy.factory.UserDaoImpFactory;
+import com.book.buy.utils.NewDate;
 import com.book.buy.vo.BookVo;
 import com.book.buy.vo.ComplainVo;
+import com.book.buy.vo.InformVo;
 import com.book.buy.vo.UserVo;
 
 import javax.jws.WebService;
@@ -19,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * Created by violet on 2015/11/11.
@@ -42,11 +47,14 @@ public class AddCompServlet extends HttpServlet {
         user = (UserVo)request.getSession().getAttribute("user");
 
         ComplainVo compvo = new ComplainVo();
+        InformVo informvo = new InformVo();
         BookVo bookvo = new BookVo();               //被投诉的书籍
         UserVo usered = new UserVo();               //被投诉人
+
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
         UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
+        InformDao informdao = InformDaoImplFactory.getInformDaoImpl();
         int compnum = 0;   //被投诉者被投诉的次数
 
         //从jsp页面拿到参数
@@ -68,13 +76,29 @@ public class AddCompServlet extends HttpServlet {
             usered.setComplainNum(compnum);
             userdao.updateUser(usered);            //更新到用户表中
 
+            if (compnum == 3){
+                informvo.setUserID(bookvo.getUserID());
+                informvo.setType(5);
+                informvo.setNum(0);
+                Date date = new Date();
+                String time = NewDate.getDateTime(date);
+                informvo.setTime(time);
+                informdao.addInform(informvo);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        compdao.close();
-        userdao.close();
-        bookdao.close();
+
+        try {
+            compdao.close();
+            userdao.close();
+            bookdao.close();
+            informdao.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         href = "/ShowBookDetail?bookID=";
         out.print("<script language='javascript'>alert('发布投诉成功');"

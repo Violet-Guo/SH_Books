@@ -3,14 +3,13 @@ package com.book.buy.servlet;
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.ComplainDao;
 import com.book.buy.dao.InformDao;
+import com.book.buy.dao.UserDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.ComplainDaoImpFactory;
 import com.book.buy.factory.InformDaoImplFactory;
+import com.book.buy.factory.UserDaoImpFactory;
 import com.book.buy.utils.NewDate;
-import com.book.buy.vo.BookVo;
-import com.book.buy.vo.ComplainVo;
-import com.book.buy.vo.InformVo;
-import com.book.buy.vo.ManagerVo;
+import com.book.buy.vo.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,6 +31,7 @@ public class UpBookByAdminServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         String href = "";
+        int compnum = 0;
 
         //校验管理员的登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
@@ -50,10 +50,12 @@ public class UpBookByAdminServlet extends HttpServlet {
         int aid = Integer.parseInt(appealid);
 
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
+        UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
         InformDao informdao = InformDaoImplFactory.getInformDaoImpl();
         ComplainDao appealdao = ComplainDaoImpFactory.getCompDaoImp();
 
         BookVo bookvo = new BookVo();
+        UserVo uservo = new UserVo();
         InformVo informvo = new InformVo();
         ComplainVo appealvo = new ComplainVo();
 
@@ -62,6 +64,13 @@ public class UpBookByAdminServlet extends HttpServlet {
             bookvo = bookdao.findById(bid);
             appealvo = appealdao.getCompById(aid);
 
+            uservo = userdao.findUserById(bookvo.getUserID());
+
+            compnum = uservo.getComplainNum();
+            compnum = compnum-1;                 //被投诉次数减一
+            uservo.setComplainNum(compnum);
+
+            userdao.updateUser(uservo);
             bookvo.setState(1);
             appealvo.setState(1);
 
@@ -77,6 +86,17 @@ public class UpBookByAdminServlet extends HttpServlet {
             informvo.setTime(time);
             informdao.addInform(informvo);
 
+            //判断用户是否可以解除冻结，若可以则给用户发个消息
+            if (compnum == 2){
+                informvo.setUserID(bookvo.getUserID());
+                informvo.setType(6);
+                informvo.setNum(0);
+                Date date1 = new Date();
+                String time1 = NewDate.getDateTime(date1);
+                informvo.setTime(time1);
+                informdao.addInform(informvo);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,6 +104,7 @@ public class UpBookByAdminServlet extends HttpServlet {
 
         try {
             bookdao.close();
+            userdao.close();
             appealdao.close();
             informdao.close();
         } catch (SQLException e) {
