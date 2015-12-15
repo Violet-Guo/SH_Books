@@ -21,7 +21,7 @@
 		<p id = "bltopnomove">专业：</p>
 		<div id = "zhuanye">&nbsp;&nbsp;&nbsp;&nbsp;
 			<c:set var="t" value="1"></c:set>
-			<c:forEach items="${sessionScope.mList}" var="maj">
+			<c:forEach items="${sessionScope.mList}" var="maj" varStatus="status">
 				<a href="/SearchBook?method=1&majorNamet=${maj.name}">${maj.name}</a>&nbsp;&nbsp;
 				<c:set var="t" value="${t+1}"></c:set>
 				<c:if test="${t%10==0}">
@@ -50,11 +50,22 @@
 	</div>
 	<div id = "blbuttom">
 		<c:if test="${sessionScope.bList.size() != 0}">
-		<c:forEach items="${sessionScope.bList }" var="bok">
-				<div id = "blbook">
-					<a href="/ShowBookDetail?bookID=${bok.id}"><img  id = "blimage" alt="暂无图片" src="${bok.imagePath}"/></a>
-					<br/><p id = "blname">${bok.name}</p>
-				</div>
+
+		<c:forEach items="${sessionScope.bList }" var="bok" varStatus="status">
+			<c:if test="${status.count==1}">
+				<ul><li>
+			</c:if>
+			<div id = "blbook">
+				<a href="/ShowBookDetail?bookID=${bok.id}"><img  id = "blimage" alt="暂无图片" src="${bok.imagePath}"/></a>
+				<br/><p id = "blname">${bok.name}</p>
+			</div>
+			<c:if test="${status.count%5==0 || status.count>sessionScope.bList.size()-(sessionScope.bList.size()%5)}">
+				</li>
+			</c:if>
+			<c:if test="${status.count==sessionScope.bList.size()}">
+				</ul>
+			</c:if>
+
 		</c:forEach>
 		</c:if>
 		<c:if test="${sessionScope.bList.size() == 0}">
