@@ -69,22 +69,7 @@ public class AddCompServlet extends HttpServlet {
 
         try {
             compdao.addComp(compvo);               //添加投诉
-            bookvo = bookdao.findById(bookid);     //通过书的ID找到这本书
-            usered = userdao.findUserById(bookvo.getUserID());       //通过书籍的发布者的ID，查找到这个人
-            compnum = usered.getComplainNum();     //获得发布书籍者的被投诉次数
-            compnum = compnum+1;                   //被投诉次数+1
-            usered.setComplainNum(compnum);
-            userdao.updateUser(usered);            //更新到用户表中
 
-            if (compnum == 3){
-                informvo.setUserID(bookvo.getUserID());
-                informvo.setType(5);
-                informvo.setNum(0);
-                Date date = new Date();
-                String time = NewDate.getDateTime(date);
-                informvo.setTime(time);
-                informdao.addInform(informvo);
-            }
 
         } catch (SQLException e) {
             e.printStackTrace();

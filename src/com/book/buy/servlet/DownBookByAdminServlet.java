@@ -3,14 +3,13 @@ package com.book.buy.servlet;
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.ComplainDao;
 import com.book.buy.dao.InformDao;
+import com.book.buy.dao.UserDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.ComplainDaoImpFactory;
 import com.book.buy.factory.InformDaoImplFactory;
+import com.book.buy.factory.UserDaoImpFactory;
 import com.book.buy.utils.NewDate;
-import com.book.buy.vo.BookVo;
-import com.book.buy.vo.ComplainVo;
-import com.book.buy.vo.InformVo;
-import com.book.buy.vo.ManagerVo;
+import com.book.buy.vo.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,6 +32,7 @@ public class DownBookByAdminServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         String href = "";
+        int compnum = 0;
 
         //校验管理员登陆状态
         ManagerVo admin = (ManagerVo)request.getSession().getAttribute("admin");
@@ -51,9 +51,12 @@ public class DownBookByAdminServlet extends HttpServlet {
         int bid = Integer.parseInt(bookid);
         int cid = Integer.parseInt(compid);
 
+        UserDao userdao = UserDaoImpFactory.getUserDaoImpl();
         ComplainDao compdao = ComplainDaoImpFactory.getCompDaoImp();
         InformDao informdao = InformDaoImplFactory.getInformDaoImpl();
         BookDao bookdao = BookDaoImpFactory.getBookDaoImpl();
+
+        UserVo uservo = new UserVo();
         ComplainVo compvo = new ComplainVo();
         InformVo informvo = new InformVo();
         BookVo bookvo = new BookVo();
@@ -62,15 +65,21 @@ public class DownBookByAdminServlet extends HttpServlet {
         try {
             bookvo = bookdao.findById(bid);
             compvo = compdao.getCompById(cid);
+            uservo = userdao.findUserById(bookvo.getUserID());
 
+            compnum = uservo.getComplainNum();
+            compnum = compnum+1;
+
+            uservo.setComplainNum(compnum);
             bookvo.setState(3);
             compvo.setState(1);
 
+            userdao.updateUser(uservo);
             bookdao.updateBook(bookvo);
             compdao.updateComp(compvo);
 
             //把投诉处理插入到inform表中
-            informvo.setType(4);;
+            informvo.setType(3);;
             informvo.setUserID(bookvo.getUserID());
             informvo.setNum(compvo.getId());
             Date date = new Date();
@@ -78,12 +87,25 @@ public class DownBookByAdminServlet extends HttpServlet {
             informvo.setTime(time);
             informdao.addInform(informvo);
 
+
+            //投诉达到三次，用户被冻结
+            if (compnum == 3){
+                informvo.setUserID(bookvo.getUserID());
+                informvo.setType(5);
+                informvo.setNum(0);
+                Date date1 = new Date();
+                String time1 = NewDate.getDateTime(date1);
+                informvo.setTime(time1);
+                informdao.addInform(informvo);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
         try {
+            userdao.close();
             bookdao.close();
             compdao.close();
             informdao.close();
