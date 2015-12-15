@@ -58,9 +58,14 @@
 				<a href="/ShowBookDetail?bookID=${bok.id}"><img  id = "blimage" alt="暂无图片" src="${bok.imagePath}"/></a>
 				<br/><p id = "blname">${bok.name}</p>
 			</div>
-			<c:if test="${status.count%5==0 || status.count>sessionScope.bList.size()-(sessionScope.bList.size()%5)}">
-				</li>
-			</c:if>
+			<c:choose>
+				<c:when test="${status.count%5==0 && status.count!=sessionScope.bList.size()}">
+					</li><li>
+				</c:when>
+				<c:when test="${status.count%5==0 && status.count==sessionScope.bList.size()}">
+					</li>
+				</c:when>
+			</c:choose>
 			<c:if test="${status.count==sessionScope.bList.size()}">
 				</ul>
 			</c:if>
