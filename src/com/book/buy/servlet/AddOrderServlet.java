@@ -2,15 +2,14 @@ package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.BuyDao;
+import com.book.buy.dao.InformDao;
 import com.book.buy.dao.OrderformDao;
 import com.book.buy.factory.BookDaoImpFactory;
 import com.book.buy.factory.BuyDaoImpFactory;
+import com.book.buy.factory.InformDaoImplFactory;
 import com.book.buy.factory.OrderformDaoImpFactory;
 import com.book.buy.utils.NewDate;
-import com.book.buy.vo.BookVo;
-import com.book.buy.vo.BuyVo;
-import com.book.buy.vo.OrderFormVo;
-import com.book.buy.vo.UserVo;
+import com.book.buy.vo.*;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.servlet.RequestDispatcher;
@@ -106,6 +105,16 @@ public class AddOrderServlet extends HttpServlet {
                     //-------购买成功之后--书的数量减掉购买数量
                     bookVo.setBookNum(bookVo.getBookNum()-bookNum);
                     bookDao.updateBook(bookVo);
+                    //-------给卖家发送消息
+                    InformDao informDao = InformDaoImplFactory.getInformDaoImpl();
+                    InformVo informVo = new InformVo();
+                    informVo.setHasRead(0);
+                    informVo.setNum(1);
+                    informVo.setTime(time);
+                    informVo.setType(2);
+                    informVo.setUserID(bookVo.getUserID());
+
+                    informDao.addInform(informVo);
 
                     buyDao.close();
                     orderformDao.close();
