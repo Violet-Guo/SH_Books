@@ -40,7 +40,7 @@
 		List<InformVo> informs=null;
 		informs=(List<InformVo>)session.getAttribute("informs");
   		//out.println(informs);
- 	 	InformVo informvo=new InformVo();	
+ 	 	InformVo inf=new InformVo();	
 	%>
  	<% int everyPageNum = 10;%>
  	<%String strPage=(String) session.getAttribute("thisPage");%>
@@ -62,31 +62,132 @@
  	 	    <% 	 
  	 	   num++;
  	 	 	 if(num>allNum)break;
- 			informvo = (InformVo)informs.get(i);
- 	 		BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
- 	  		BookVo bookvo=new BookVo();	
- 	  		try 
- 	  		{	
- 	  		bookvo=BookDaoImpl.findById(informvo.getNum());	
- 	  		} catch (SQLException e) 
- 	  		{
- 	  		e.printStackTrace();
- 	  		}
- 	  		String bookname=bookvo.getName();
+ 			inf = (InformVo)informs.get(i);
  		%>
  		
- 		<%String a; if (informvo.getType()==1) a="心愿单到货"; else a="订单通知";%> <td><%= a %></td>
-         <%if(informvo.getType()==1) {%>
-         
- 		 <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=informvo.getNum() %>"><%=bookname%></a></td>
- 		<% }%>
- 		   <% if(informvo.getType()==2) {%>
- 		    <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/order?isUser=seller">查看详情</a></td>
+ 		<%String a; 
+ 		if (inf.getType()==1)
+ 		{
+ 			a="心愿单到货"; 
+ 			%>
+ 			<td><%=a %></td>
+ 			<% 
+      		BookDao book = BookDaoImpFactory.getBookDaoImpl();
+      		BookVo bok=new BookVo();	
+      		try 
+      		{	
+      		bok=book.findById(inf.getNum());	
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		String bookName=bok.getName();
+      		%>
+      	
+      		  <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=inf.getNum() %>"><%=bookName%></a></td>
+ 		<%}
+ 		else if(inf.getType()==2)
+ 		{
+ 			a="订单通知";
+ 			%>
+ 			  <td><%=a%></td>
+ 			 <td><a href="/order"> 查看订单详情</a></td>
  		<% }
- 		String str=informvo.getTime().substring(0,19);%>
- 		<td><%=str%></td>		 
- 		 </tr>
- 		 <%} %>
+ 		else if(inf.getType()==3)
+ 		{
+ 			a="书籍违规被下架";
+ 			//根据num中的id拿到bookid 显示bookname
+ 			BookDao book = BookDaoImpFactory.getBookDaoImpl();
+ 			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
+ 			ComplainVo comvo=new ComplainVo();
+      		BookVo bok=new BookVo();	
+      		try 
+      		{	
+      		comvo=com.getCompById(inf.getNum());//从inform表里面num中的comid得到comvo
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		int id=comvo.getBookid();//由comvo得到bookid
+      		String bookName=book.findById(id).getName();//由bookid得到bookname去显示
+      	
+ 		%>
+ 				<td><%=a %></td>
+      		  <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=id %>"><%=bookName%></a></td>
+ 			 
+ 		<%
+ 			
+ 		}
+ 		else if(inf.getType()==4)
+ 		{
+ 			a="申诉成功，书籍已重上架";
+ 			BookDao book = BookDaoImpFactory.getBookDaoImpl();
+ 			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
+ 			ComplainVo comvo=new ComplainVo();
+      		BookVo bok=new BookVo();	
+      		try 
+      		{	
+      		comvo=com.getCompById(inf.getNum());
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		int id=comvo.getBookid();
+      		String bookName=book.findById(id).getName();
+      	
+ 		%>
+ 		<td><%=a %></td>
+      		  <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=id %>"><%=bookName%></a></td>
+ 			 
+ 		<%
+ 		}
+ 		else if(inf.getType()==5)
+ 		{
+ 			a="冻结通知";
+ 			%>
+ 			<td><%=a %></td>
+      		<td>您的账户已被冻结</td>
+		<%
+
+ 		}
+ 		else if(inf.getType()==6)
+ 		{
+ 			a="解冻通知";
+ 			%>
+			 <td><%=a %></td>
+      		<td>您的账户已被解冻</td>
+		<%
+ 		}
+ 		else if(inf.getType()==7)
+ 		{
+ 			a="申诉失败";
+ 			BookDao book = BookDaoImpFactory.getBookDaoImpl();
+ 			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
+ 			ComplainVo comvo=new ComplainVo();
+      		BookVo bok=new BookVo();	
+      		try 
+      		{	
+      		comvo=com.getCompById(inf.getNum());
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      	
+      		int id=comvo.getBookid();
+      		String bookName=book.findById(id).getName();
+      	
+ 		%>
+ 			<td><%=a %></td>
+      		  <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=id %>"><%=bookName%></a></td>
+
+ 		<%
+ 		}
+ 		String str=inf.getTime().substring(0,19);
+ 		%>
+          <td><%=str %></td>
+       
+          <%
+         }%>
         </table>
         <ul id="page">
         <li><a href="/unreadServlet?thisPage=${requestScope.thisPage-1}">上一页</a></li>

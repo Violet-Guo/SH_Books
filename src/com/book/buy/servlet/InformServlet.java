@@ -88,12 +88,6 @@ public class InformServlet extends HttpServlet {
 		
 		if (informs != null) 
 		{
-		try {
-				InformDaoImpl.updateInform(userID);//成功后将未读消息设为已读
-			} catch (SQLException e) 
-			{
-				e.printStackTrace();
-			}
 			try
 			{
 				InformDaoImpl.close();//关闭连接
@@ -101,7 +95,7 @@ public class InformServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 			}	
-		href = "/inform";//跳转至jsp显示表单内容
+			href = "/inform";//跳转至jsp显示表单内容
 			out.print("<script language='javascript'>window.location.href='"
 					+ href + "';</script>"); // 页面重定向
 		} 

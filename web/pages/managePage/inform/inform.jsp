@@ -87,7 +87,7 @@
  		<% }
  		else if(inf.getType()==3)
  		{
- 			a="被投诉通知";
+ 			a="书籍违规被下架";
  			//根据num中的id拿到bookid 显示bookname
  			BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
  			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
@@ -111,7 +111,7 @@
  		}
  		else if(inf.getType()==4)
  		{
- 			a="申诉成功";
+ 			a="申诉成功，书籍已重上架";
  			BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
  			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
  			ComplainVo comvo=new ComplainVo();
@@ -227,13 +227,100 @@
       		  <span id="type"><%=a%></span>
             <span id="des"><a href="/ShowBookDetail?bookID=<%=inf.getNum()%>"> <%=bookname %></a></span>
  		<%}
- 		else
+ 		else if(inf.getType()==2)
  		{
  			a="订单通知";
  			%>
  			  <span id="type"><%=a%></span>
  			  <span id="des"><a href="/order"> 查看订单详情</a></span>
  		<% }
+ 		else if(inf.getType()==3)
+ 		{
+ 			a="书籍违规被下架";
+ 			//根据num中的id拿到bookid 显示bookname
+ 			BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
+ 			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
+ 			ComplainVo comvo=new ComplainVo();
+      		BookVo bookvo=new BookVo();	
+      		try 
+      		{	
+      		comvo=com.getCompById(inf.getNum());//从inform表里面num中的comid得到comvo
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		int id=comvo.getBookid();//由comvo得到bookid
+      		String bookname=BookDaoImpl.findById(id).getName();//由bookid得到bookname去显示
+      		if(bookname.length()>10) bookname=bookname.substring(0,10);
+ 		%>
+ 			  <span id="type"><%=a %></span>
+ 			 <span id="des"><a href="/ShowBookDetail?bookID=<%=id%>"> <%=bookname %></a></span>
+ 		<%
+ 			
+ 		}
+ 		else if(inf.getType()==4)
+ 		{
+ 			a="申诉成功，书籍已重上架";
+ 			BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
+ 			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
+ 			ComplainVo comvo=new ComplainVo();
+      		BookVo bookvo=new BookVo();	
+      		try 
+      		{	
+      		comvo=com.getCompById(inf.getNum());
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      		int id=comvo.getBookid();
+      		String bookname=BookDaoImpl.findById(id).getName();
+      		if(bookname.length()>10) bookname=bookname.substring(0,10);
+ 		%>
+ 		
+ 			  <span id="type"><%=a %></span>
+ 			 <span id="des"><a href="/ShowBookDetail?bookID=<%=id%>"> <%=bookname %></a></span>
+ 		<%
+ 		}
+ 		else if(inf.getType()==5)
+ 		{
+ 			a="冻结通知";
+ 			%>
+			  <span id="type"><%=a%></span>
+			  <span id="des">您的账户已被冻结</span>
+		<%
+
+ 		}
+ 		else if(inf.getType()==6)
+ 		{
+ 			a="解冻通知";
+ 			%>
+			  <span id="type"><%=a%></span>
+			  <span id="des">您的账户已被解冻</span>
+		<%
+ 		}
+ 		else if(inf.getType()==7)
+ 		{
+ 			a="申诉失败";
+ 			BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
+ 			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
+ 			ComplainVo comvo=new ComplainVo();
+      		BookVo bookvo=new BookVo();	
+      		try 
+      		{	
+      		comvo=com.getCompById(inf.getNum());
+      		} catch (SQLException e) 
+      		{
+      		e.printStackTrace();
+      		}
+      	
+      		int id=comvo.getBookid();
+      		String bookname=BookDaoImpl.findById(id).getName();
+      		if(bookname.length()>10) bookname=bookname.substring(0,10);
+ 		%>
+ 			  <span id="type"><%=a %></span>
+ 			 <span id="des"><a href="/ShowBookDetail?bookID=<%=id%>"> <%=bookname %></a></span>
+ 		<%
+ 		}
  		String str=inf.getTime().substring(0,19);
  		%>
           <span id="time"><%= str %></span>

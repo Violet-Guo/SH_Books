@@ -63,16 +63,7 @@
  	 	   num++;
  	 	 	 if(num>allNum)break;
  			inf = (InformVo)informs.get(i);
- 	 		BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
- 	  		BookVo bookvo=new BookVo();	
- 	  		try 
- 	  		{	
- 	  		bookvo=BookDaoImpl.findById(inf.getNum());	
- 	  		} catch (SQLException e) 
- 	  		{
- 	  		e.printStackTrace();
- 	  		}
- 	  		String bookname=bookvo.getName();
+ 	 
  		%>
  		
  		<%String a; 
@@ -105,7 +96,7 @@
  		<% }
  		else if(inf.getType()==3)
  		{
- 			a="被投诉通知";
+ 			a="书籍违规被下架";
  			//根据num中的id拿到bookid 显示bookname
  			BookDao book = BookDaoImpFactory.getBookDaoImpl();
  			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
@@ -120,7 +111,7 @@
       		}
       		int id=comvo.getBookid();//由comvo得到bookid
       		String bookName=book.findById(id).getName();//由bookid得到bookname去显示
-      		if(bookName.length()>10) bookName=bookName.substring(0,10);
+      	
  		%>
  				<td><%=a %></td>
       		  <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=id %>"><%=bookName%></a></td>
@@ -130,7 +121,7 @@
  		}
  		else if(inf.getType()==4)
  		{
- 			a="申诉成功";
+ 			a="申诉成功，书籍已重上架";
  			BookDao book = BookDaoImpFactory.getBookDaoImpl();
  			ComplainDao com=ComplainDaoImpFactory.getCompDaoImp();
  			ComplainVo comvo=new ComplainVo();
@@ -144,7 +135,7 @@
       		}
       		int id=comvo.getBookid();
       		String bookName=book.findById(id).getName();
-      		if(bookName.length()>10) bookName=bookName.substring(0,10);
+      	
  		%>
  		<td><%=a %></td>
       		  <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=id %>"><%=bookName%></a></td>
@@ -185,7 +176,7 @@
       	
       		int id=comvo.getBookid();
       		String bookName=book.findById(id).getName();
-      		if(bookName.length()>10) bookName=bookName.substring(0,10);
+      	
  		%>
  			<td><%=a %></td>
       		  <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=id %>"><%=bookName%></a></td>
