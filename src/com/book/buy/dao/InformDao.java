@@ -73,5 +73,9 @@ public interface InformDao
  * @param Infrom
 	 * @return 
  * @throws SQLException
+ * 
+ *
  */
+	public List<InformVo> manager(int userID) throws SQLException;
+	
 }

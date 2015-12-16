@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,7 +42,17 @@ public class PublishBookServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
 	    //获取到method来判断是修改图书的信息还是新增图书
+	    PrintWriter out = response.getWriter();	    
+	    String href = "/index";
 	    String method = request.getParameter("method");
+	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
+	    if(Integer.parseInt(method) == 2 && userVo.getComplainNum() > 3)
+	    {
+		out.print("<script language='javascript'>alert('您的账户已被冻结，暂时不能发布任何图书！！！');"
+		    	+ "window.location.href='"+ href + "';</script>");
+		return;
+	    }
+	    	
 	    String newPath = null;
 	    String extName = null;
 	    String newName = null;
@@ -87,8 +99,7 @@ public class PublishBookServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	    //获取参数
-	    newPath = "/SH_Books/images/" + newName + extName;
-	    UserVo userVo = (UserVo) request.getSession().getAttribute("user");
+	    newPath = "/images/" + newName + extName;
 	    //UserVo userVo = new UserVo(1, "nihao", "./sdf", "nihao", 1, "nihao", "nihao", "nihao", 0);
 	    String name = (String) request.getAttribute("bookName");
 	    String price = (String) request.getAttribute("nowPrice");
@@ -101,10 +112,8 @@ public class PublishBookServlet extends HttpServlet {
 	    String publicYear = (String) request.getAttribute("publicYear");
 	    String pchoice1 = (String) request.getAttribute("pchoice1");//被选中的值
 	    String pchoice2 = (String) request.getAttribute("pchoice2");//被选中的值
-	    PrintWriter out = response.getWriter();
-	    
-	    String href = "/publishPage";
 	    //判断不能有选项为空。除了是否有笔记或者是否能议价
+	    href = "/publishPage";
 	    if(name == null || price == null || pubNumber == null || oldGrade == null
 		    || author == null || majorID == null || description == null 
 		    || bookNum == null || publicYear == null || name.equals("") ||
@@ -115,10 +124,51 @@ public class PublishBookServlet extends HttpServlet {
 		out.print("<script language='javascript'>alert('不能有选项为空！！！');"
 		    	+ "window.location.href='"+ href + "';</script>");
 	    }
-	    else
-	    {
+	    else{  
+		    int matches = 1;
+		    if(publicYear.length() == 10){
+			for(int i = 0; i < 10; ++i){
+			    if(i == 4 || i == 7){
+				if(publicYear.charAt(i) != '-'){
+				    matches = 0;
+				    break;
+				}
+			    }
+			    else if(!Character.isDigit(publicYear.charAt(i))){
+				matches = 0;
+				break;
+			    }
+			}
+		    }
+		    else
+			matches = 0;
+		    
+		    if(matches == 0)
+		    {
+			out.print("<script language='javascript'>alert('请按照yyyy-mm-dd输入日期');"
+			    	+ "window.location.href='"+ href + "';</script>");
+			return;
+		    }
+		    
+		    for(int i = 0; i < bookNum.length(); ++i){
+			if(!Character.isDigit(bookNum.charAt(i))){
+			    out.print("<script language='javascript'>alert('图书数量有误!!!');"
+				    	+ "window.location.href='"+ href + "';</script>");
+				return;
+			}
+		    }
+		    
+		    try{			
+			Float f = Float.parseFloat(price);
+		    }catch(NumberFormatException e){
+			//e.printStackTrace();
+			out.print("<script language='javascript'>alert('价格输入有误!!!');"
+			    	+ "window.location.href='"+ href + "';</script>");
+			return;
+		    }
+		    
 		    //获取状态和其他的参数
-        	    Integer hasNote = 0, canBargain = 0, state = 0;
+        	    Integer hasNote = 0, canBargain = 0, state = 1;
         	    if(pchoice1 != null && pchoice1.equals("keyijia"))
         		canBargain = 1;
         	    if(pchoice2 != null && pchoice2.equals("youbiji"))

@@ -47,14 +47,21 @@
 			电话：&nbsp;&nbsp;<input type="text" name="tel" value="${sessionScope.user.phoneNumber}"/><br/>
 			QQ：&nbsp;&nbsp;&nbsp;<input type="text" name="qq" value="${sessionScope.user.qq}"/><br/>
 			常用地址：
+			<%
+				LocationVo loc = (LocationVo)session.getAttribute("location");
+				if(loc == null)
+				    request.setAttribute("flag", 0);
+				else
+				    request.setAttribute("flag", 1);
+			%>
 			<select name="yuanqu">
-				<option value="松园" <% if (((LocationVo) session.getAttribute("location")).getDorName()
+				<option value="松园" <% if (request.getAttribute("flag").equals("1") && ((LocationVo) session.getAttribute("location")).getDorName()
 					.equals("松园")) out.print("selected='selected'"); %>>松园</option>
-				<option value="菊园" <% if (((LocationVo) session.getAttribute("location")).getDorName()
+				<option value="菊园" <% if (request.getAttribute("flag").equals("1") && ((LocationVo) session.getAttribute("location")).getDorName()
 					.equals("菊园")) out.print("selected='selected'"); %>>菊园</option>
-				<option value="柳园" <% if (((LocationVo) session.getAttribute("location")).getDorName()
+				<option value="柳园" <% if (request.getAttribute("flag").equals("1") && ((LocationVo) session.getAttribute("location")).getDorName()
 					.equals("柳园")) out.print("selected='selected'"); %>>柳园</option>
-				<option value="荷园" <% if (((LocationVo) session.getAttribute("location")).getDorName()
+				<option value="荷园" <% if (request.getAttribute("flag").equals("1") && ((LocationVo) session.getAttribute("location")).getDorName()
 					.equals("荷园")) out.print("selected='selected'"); %>>荷园</option>
 			</select>
 			<input type="text" name="jihaolou" value="${sessionScope.location.dorNum}"/> 楼

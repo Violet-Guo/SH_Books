@@ -80,7 +80,7 @@ public class InformDaoImpl implements InformDao
 	}
 
 	@Override
-	public List<InformVo>   count(int userID) throws SQLException {
+	public List<InformVo> count(int userID) throws SQLException {
 		// TODO Auto-generated method stub
 		String sql="select * from inform where userID=? and hasRead=0";
 		return runner.query( conn, sql, new BeanListHandler<InformVo>(InformVo.class), userID);
@@ -97,6 +97,13 @@ public class InformDaoImpl implements InformDao
 	public List<InformVo> list(int userID) throws SQLException
 	{
 		String sql="select * from inform where userID=? and type=2";
+		return runner.query( conn, sql, new BeanListHandler<InformVo>(InformVo.class), userID);
+	}
+
+	@Override
+	public List<InformVo> manager(int userID) throws SQLException
+	{
+		String sql="select * from inform where userID=? and type>2 and type<8";
 		return runner.query( conn, sql, new BeanListHandler<InformVo>(InformVo.class), userID);
 	}
 

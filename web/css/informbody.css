@@ -8,7 +8,19 @@
 
 
 
+#type{
+    position: absolute;
+    left: 165px;
+}
 
+#des{
+    position: absolute;
+    left: 300px;
+}
+#time{
+    position: absolute;
+    left: 450px;
+}
 #infnum{
     position: absolute;
     left: 350px
