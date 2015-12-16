@@ -4,7 +4,12 @@
 %>	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.List,com.book.buy.vo.*,javax.servlet.*,com.book.buy.dao.*,com.book.buy.daoImp.*,com.book.buy.factory.*,java.io.*,java.sql.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.book.buy.vo.UserVo" %>
+<%@ page import="com.book.buy.dao.InformDao" %>
+<%@ page import="com.book.buy.factory.InformDaoImplFactory" %>
+<%@ page import="com.book.buy.vo.InformVo" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -14,37 +19,69 @@
 <title>服务中心</title>
 </head>
 <body>
-<jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
-<% 
-	Integer userID = new Integer(-1);
- 	//UserVo userVo = new UserVo(1, "nihao", "nihao", "/SH_Books/images/touxiang.png", "nihao", 1, "2015-01-01", "nihao", "nihao", 0);
-	UserVo userVo=new UserVo();
-	int num=0;					//初始化未读消息数为0
-	userVo=(UserVo)session.getAttribute("user");
-	if(userVo!=null)
-{
-	userID=userVo.getId();		//从session中拿id
-	session.setAttribute("user",userVo);
-	InformDao InformDaoImpl = InformDaoImplFactory.getInformDaoImpl();
-	List<InformVo> informs = null;
-	InformVo informvo=new InformVo();	
-	try 
-	{	
-		informs=(List<InformVo>)InformDaoImpl.count(userID);//调用count拿到所有未读消息
-		//System.out.println(informs);
-	} catch (SQLException e) 
-	{
-	e.printStackTrace();
-	}
-	num=informs.size();//num为未读消息数
-}
-
+<%UserVo userVo = (UserVo) session.getAttribute("user");%>
+<%Boolean isLogin;%>
+<%	int num=0;
+    List<InformVo> informVos = null;
+    if (userVo != null) {
+        isLogin = true;
+        InformDao informDao = InformDaoImplFactory.getInformDaoImpl();
+        informVos = informDao.count(userVo.getId());
+    } else {
+        isLogin = false;
+    }
 %>
-<br><br><br><br><br>
+<%request.setAttribute("isLogin", isLogin);%>
+<div id="head">
+    <div id="top-navigat">
+        <div id="menu">
+            <c:if test="${isLogin}">
+                <ul class="navigat">
+                    <li>
+                        <a href="/PersonInfoServlet">${user.username}</a>
+                        <ul>
+                            <li><a href="/cancel">注销</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./InformServlet">消息(<%=informVos.size()%>)</a></li>
+                </ul>
+            </c:if>
+            <c:if test="${!isLogin}">
+                <ul class="navigat">
+                    <li><a href="/login">请登录!</a></li>
+                    <li><a href="/register">注册</a></li>
+                </ul>
+            </c:if>
+            <ul class="navigat top-sell-book">
+                
+                <li>
+                    <a href="/controlCenter">服务中心</a>
+                    <ul>
+                        <li><a href="/feedback">反馈</a></li>
+                        <li><a href="/InformServlet">通知</a></li>
+                        <li><a href="/help">帮助</a></li>
+                    </ul>
+                </li>
+          
+                <li>
+                    <a href="/controlCenter">通知</a>
+                    <ul>
+                        <li><a href="/unreadServlet">未读通知</a></li>
+                        <li><a href="/wantServlet">心愿单通知</a></li>
+                        <li><a href="/listServlet">订单</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+        </div>
+ 
+   
+<%if (informVos!=null)num=informVos.size(); %>
 <H1 align="center"><a href="/feedback">反馈</a>
 <a href="/InformServlet">通知(<%=num %>)</a>
 <a href="/help">帮助</a></H1>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
 </body>
 </html>
