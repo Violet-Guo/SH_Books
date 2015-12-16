@@ -69,7 +69,7 @@
                                    <input type="radio" name = "xiangqing" />课外书<br/>
                  -->
                 ISBN：&nbsp;<input type="text" name="isbn" value="${sessionScope.bookVo.pubNumber}"/>&nbsp;&nbsp;<br/>
-                出版日期：&nbsp;<input placeholder="格式:XXXX-XX-XX" type="text" name="publicYear" value="${sessionScope.bookVo.publicYear}"/>&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+                出版日期：&nbsp;<input  placeholder="格式:XXXX-XX-XX" type="text" name="publicYear" value="${sessionScope.bookVo.publicYear}"/>&nbsp;&nbsp;&nbsp;&nbsp;<br/>
             </div>
             <div id="prightright">
                 &nbsp;&nbsp;数量：&nbsp;&nbsp;<input id="pshuliang" type="text" name="bookNum"
