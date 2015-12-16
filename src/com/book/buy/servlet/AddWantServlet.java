@@ -42,7 +42,6 @@ public class AddWantServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		if(user==null){
 			out.println("<script>alert('用户登录状态出错，请重新登录');window.location.href='/login';</script>");
-			System.out.print("sdafasdfasf");
 			return;
 		}
 
@@ -52,7 +51,7 @@ public class AddWantServlet extends HttpServlet {
 		String writer = request.getParameter("writer");
 		String ISBN = request.getParameter("ISBN");
 		
-		BookVo book = new BookVo(name, null, user.getId(), ISBN, 0, year,
+		BookVo book = new BookVo(name, null, 0, ISBN, 0, year,
 		    writer, 0, "", name, 1, (float)0, 0, NewDate.getDate(now), 1);
 			
 		BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();

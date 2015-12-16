@@ -71,12 +71,7 @@ public class unreadServlet extends HttpServlet {
 		session.setAttribute("informs", informs);//传给jsp
 		if (informs != null) 
 		{
-		try {
-				InformDaoImpl.updateInform(userID);//成功后将未读消息设为已读
-			} catch (SQLException e) 
-			{
-				e.printStackTrace();
-			}
+		
 			try
 			{
 				InformDaoImpl.close();//关闭连接

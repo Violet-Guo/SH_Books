@@ -50,6 +50,7 @@
 	</div>
 	<div id = "blbuttom">
 		<c:if test="${sessionScope.bList.size() != 0}">
+
 		<c:forEach items="${sessionScope.bList }" var="bok" varStatus="status">
 			<c:if test="${status.count==1}">
 				<ul><li>
@@ -69,6 +70,7 @@
 			<c:if test="${status.count==sessionScope.bList.size()}">
 				</ul>
 			</c:if>
+
 		</c:forEach>
 		</c:if>
 		<c:if test="${sessionScope.bList.size() == 0}">

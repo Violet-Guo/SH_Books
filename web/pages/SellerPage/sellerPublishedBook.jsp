@@ -87,7 +87,7 @@
             request.setAttribute("udstate", udstate);
             request.setAttribute("bstate", bstate);
     %>
-    <div id="body">
+    <div id="sellerbody">
         <span id="num"><%=i + 1%></span>
         <span id="bname"><a href="/ShowBookDetail?bookID=<%=book.getId()%>">
             <%
@@ -98,11 +98,19 @@
             %>
             <%=bookname%>
         </a></span>
-        <span id="bauther"><%=book.getAuthor()%></span>
+        <span id="bauther">
+            <%
+                String bookauther = book.getAuthor();
+                if (bookauther.length() > 5){
+                    bookauther = bookauther.substring(0, 5);
+                }
+            %>
+            <%=bookauther%>
+        </span>
         <span id="oldgrade"><%=book.getOldGrade()%></span>
         <span id="ptime"><%=book.getTime()%></span>
             <span id="udstate">
-                <c:if test="${!udstate}">已下架</c:if>
+                <c:if test="${!udstate&&!bstate}">已下架</c:if>
                 <c:if test="${udstate}">已上架</c:if>
                 <c:if test="${bstate}">被管理员下架</c:if>
             </span>

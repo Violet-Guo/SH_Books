@@ -52,28 +52,30 @@ public class InformServlet extends HttpServlet {
 			out.print("<script>alert('你的登陆状态出错');window.location.href='/login';</script>");
 			return;
 		}
-		userID=userVo.getId();//用get拿到id
+		userID=userVo.getId();//用get拿到id*/
+		
 		session.setAttribute("userID", userID);//传参
 		String href = "";// 跳转的界面
 		String strPage=request.getParameter("thisPage");//首次strPage=null
 		System.out.print(strPage);
-		session.setAttribute("userID",userID);
+		
 		session.setAttribute("thisPage",strPage);
 		InformDao InformDaoImpl = InformDaoImplFactory.getInformDaoImpl();
 		List<InformVo> informs = null;
 		List<InformVo> list = null;	
 		List<InformVo> wants = null;
 		List<InformVo> unread = null;
+		List<InformVo> manager = null;
+		
+		
 		try 
 		{
-			informs = (List<InformVo>) InformDaoImpl.findbyuserid(userID);//all
-			wants = (List<InformVo>) InformDaoImpl.wants(userID);//type==1
-			unread = (List<InformVo>) InformDaoImpl.count(userID);//hasread==0
-			list = (List<InformVo>) InformDaoImpl.list(userID);//type==2
-			System.out.println(informs);
-			System.out.println(wants);
-			System.out.println(unread);
-			System.out.println(list);
+			informs = (List<InformVo>) InformDaoImpl.findbyuserid(userID);
+			unread = (List<InformVo>) InformDaoImpl.count(userID);
+			wants = (List<InformVo>) InformDaoImpl.findallbyut(userID,1);
+			list = (List<InformVo>) InformDaoImpl.findallbyut(userID,2);
+			manager=(List<InformVo>) InformDaoImpl.manager(userID);
+		
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
@@ -82,14 +84,10 @@ public class InformServlet extends HttpServlet {
 		session.setAttribute("list", list);//订单通知
 		session.setAttribute("wants", wants);//心愿单通知
 		session.setAttribute("unread", unread);//未读通知
+		session.setAttribute("manager", manager);//系统通知
+		
 		if (informs != null) 
 		{
-		try {
-				InformDaoImpl.updateInform(userID);//成功后将未读消息设为已读
-			} catch (SQLException e) 
-			{
-				e.printStackTrace();
-			}
 			try
 			{
 				InformDaoImpl.close();//关闭连接
@@ -97,7 +95,7 @@ public class InformServlet extends HttpServlet {
 			{
 				e.printStackTrace();
 			}	
-		href = "/inform";//跳转至jsp显示表单内容
+			href = "/inform";//跳转至jsp显示表单内容
 			out.print("<script language='javascript'>window.location.href='"
 					+ href + "';</script>"); // 页面重定向
 		} 

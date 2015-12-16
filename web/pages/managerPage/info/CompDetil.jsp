@@ -66,6 +66,8 @@
             <input id="sbutton" type="submit" value="查看书籍详情" onclick="window.location='/ShowBookDetail?bookID=<%=bookvo.getId()%>'">
             &nbsp;&nbsp;
             <input id="sbutton" type="submit" value="下架书籍" onclick="window.location='/downbookbyadmin?bookid=<%=bookvo.getId()%>&&compid=<%=compvo.getId()%>'">
+            &nbsp;&nbsp;
+            <input id="sbutton" type="submit" value="投诉失败" onclick="window.location='/complainfail?bookid=<%=bookvo.getId()%>&&compid=<%=compvo.getId()%>'">
         </div>
     </div>
 </div>
