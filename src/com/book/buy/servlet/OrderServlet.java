@@ -90,60 +90,60 @@ public class OrderServlet extends HttpServlet {
                 if (state.equals("all")) {//----------全部订单
                     //获取buy列表
                     //-----获取数量--进行分页
-                    count = buyDao.getCountByUserID(userVo.getId()).intValue();
+                    count = buyDao.getCountSql(null, 3, userVo).intValue();
                     paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                    buyVos = buyDao.getBuyByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
+                    buyVos = buyDao.getOrderSql(null, 3, userVo, paging.getStart(), paging.getEnd());
                 }else if(state.equals("waitsure")){//--------待确认订单
                     //-----获取数量--进行分页
-                    count = buyDao.getWaitSureCount(userVo.getId()).intValue();
+                    count = buyDao.getCountSql(null, 1, userVo).intValue();
                     paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                    buyVos = buyDao.getWaitSureByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
+                    buyVos = buyDao.getOrderSql(null, 1, userVo, paging.getStart(), paging.getEnd());
                 }else if(state.equals("waiteva")) {//----------待评价订单
                     //-----获取数量--进行分页
-                    count = buyDao.getWaitEvaCount(userVo.getId()).intValue();
+                    count = buyDao.getCountSql(null, 2, userVo).intValue();
                     paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                    buyVos = buyDao.getWaitEvaByUserID(userVo.getId(), paging.getStart(), paging.getEnd());
+                    buyVos = buyDao.getOrderSql(null, 2, userVo, paging.getStart(), paging.getEnd());
                 }
             }else if(isBuyer!=null && !state.equals("isQuick")){
                 //--------这里处理用户点击了切换开关之后的代码
                 if(isBuyer) {//--------买家
                     if (state.equals("all")) {
                         //获取buy列表
-                        count = buyDao.getCountByUserID(userVo,BuyDaoImp.ISBUYER).intValue();
+                        count = buyDao.getCountSql(true, 3, userVo).intValue();
                         paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                        buyVos = buyDao.getBuyByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
+                        buyVos = buyDao.getOrderSql(true, 3, userVo, paging.getStart(), paging.getEnd());
                     } else if (state.equals("waitsure")) {
-                        count = buyDao.getWaitSureCount(userVo,BuyDaoImp.ISBUYER).intValue();
+                        count = buyDao.getCountSql(true,1,userVo).intValue();
                         paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                        buyVos = buyDao.getWaitSureByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
+                        buyVos = buyDao.getOrderSql(true,1,userVo, paging.getStart(), paging.getEnd());
                     } else if (state.equals("waiteva")) {
-                        count = buyDao.getWaitEvaCount(userVo, BuyDaoImp.ISBUYER).intValue();
+                        count = buyDao.getCountSql(true,2,userVo).intValue();
                         paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                        buyVos = buyDao.getWaitEvaByUserID(userVo, paging.getStart(), paging.getEnd(), BuyDaoImp.ISBUYER);
+                        buyVos = buyDao.getOrderSql(true,2,userVo, paging.getStart(), paging.getEnd());
                     }
                 }else{//----------卖家
                     if (state.equals("all")) {
                         //获取buy列表
-                        count = buyDao.getCountByUserID(userVo, BuyDaoImp.ISSELLER).intValue();
+                        count = buyDao.getCountSql(false,3,userVo).intValue();
                         paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                        buyVos = buyDao.getBuyByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
+                        buyVos = buyDao.getOrderSql(false,3,userVo, paging.getStart(), paging.getEnd());
                     }else if(state.equals("waitsure")){
-                        count = buyDao.getWaitSureCount(userVo, BuyDaoImp.ISSELLER).intValue();
+                        count = buyDao.getCountSql(false,1,userVo).intValue();
                         paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                        buyVos = buyDao.getWaitSureByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
+                        buyVos = buyDao.getOrderSql(false,1,userVo, paging.getStart(), paging.getEnd());
                     }else if(state.equals("waiteva")) {
-                        count = buyDao.getWaitEvaCount(userVo, BuyDaoImp.ISSELLER).intValue();
+                        count = buyDao.getCountSql(false,2,userVo).intValue();
                         paging = new Paging(5, request, count, "/order?state=" + state+"&");
 
-                        buyVos = buyDao.getWaitEvaByUserID(userVo, paging.getStart(), paging.getEnd(),BuyDaoImp.ISSELLER);
+                        buyVos = buyDao.getOrderSql(false,2,userVo, paging.getStart(), paging.getEnd());
                     }
                 }
             }else if(state.equals("isQuick")){//--------一键下单部分
