@@ -69,7 +69,7 @@
                                    <input type="radio" name = "xiangqing" />课外书<br/>
                  -->
                 ISBN：&nbsp;<input type="text" name="isbn" value="${sessionScope.bookVo.pubNumber}"/>&nbsp;&nbsp;<br/>
-                出版日期：&nbsp;<input type="text" name="publicYear" value="${sessionScope.bookVo.publicYear}"/>&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+                出版日期：&nbsp;<input  placeholder="格式:XXXX-XX-XX" type="text" name="publicYear" value="${sessionScope.bookVo.publicYear}"/>&nbsp;&nbsp;&nbsp;&nbsp;<br/>
             </div>
             <div id="prightright">
                 &nbsp;&nbsp;数量：&nbsp;&nbsp;<input id="pshuliang" type="text" name="bookNum"
@@ -104,7 +104,7 @@
                             value="checked='checked'"></c:out></c:if> />可议价
                     <input type="checkbox" name="pchoice2" value="wubiji"  <c:if
                             test="${sessionScope.bookVo.hasNote == 1}"><c:out
-                            value="checked='checked'"></c:out></c:if> />无笔记<br/>
+                            value="checked='checked'"></c:out></c:if> />有笔记<br/>
                 </div>
                 <div id="pdowndown">
                     <input id="pbutton" type="submit" value="发布"/>

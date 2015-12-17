@@ -78,6 +78,33 @@ public class RegisterServlet extends HttpServlet {
     	        cuowu = -1;
     	    }
 	}
+	//电话11位
+	    if(tel.length() != 11){
+		href += "/register";
+		out.print("<script language='javascript'>alert('电话格式错误！！！');"
+		    	+ "window.location.href='"+ href + "';</script>");
+		return;
+	    }
+	    else{
+		//全数字
+		for(int i = 0; i < 11; ++i){
+		    if(!Character.isDigit(tel.charAt(i))){
+			href += "/register";
+			out.print("<script language='javascript'>alert('电话格式错误！！！');"
+			    	+ "window.location.href='"+ href + "';</script>");
+			return;
+		    }
+		}
+	    }
+	    //qq格式
+	    for(int i = 0; i < qq.length(); ++i){
+		if(!Character.isDigit(qq.charAt(i))){
+		    href += "/changePersonInfo";
+		    out.print("<script language='javascript'>alert('qq格式错误！！！');"
+			+ "window.location.href='"+ href + "';</script>");
+		    return;
+		}
+	    }
 	if(cuowu != -1)
 	{
 	    //如果学号没有错误则去校园网上去搜索个人信息
@@ -95,6 +122,7 @@ public class RegisterServlet extends HttpServlet {
             String line = ele.text();
             //判断页面上是否出现了一下的错误信息
             cuowu = line.indexOf("1、你不是郑州大学学生！ 　 2、你输入的学号、密码或年级不正确！");
+            System.out.println(line);
             if(cuowu != -1){
                 href += "/register";
                 //错误时判断是否密码为空
@@ -103,7 +131,7 @@ public class RegisterServlet extends HttpServlet {
                         + "window.location.href='"+ href + "';</script>");
                 else
                     //或者是因为用户不存在
-                    out.print("<script language='javascript'>alert('用户不存在！！！');"
+                    out.print("<script language='javascript'>alert('用户不存在或密码错误！！！');"
                             + "window.location.href='"+ href + "';</script>");
     	    }
             else{
