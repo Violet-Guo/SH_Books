@@ -20,7 +20,7 @@
 		<div id = "logincenter">
 			账&nbsp;号：<input type="text" name = "xuehao" placeholder="请输入学号"/><br/>
 			用户名：<input type="text" name = "username"/><br/>
-			密&nbsp;码：<input type="password" name = "mima"/><br/>
+			密&nbsp;码：<input placeholder="输入查成绩密码" type="password" name = "mima"/><br/>
 			手&nbsp;机：<input type="text" name = "tel"/><br/>
 			Q&nbsp;Q：&nbsp;<input type="text" name = "QQ"/><br/>
 			<input id = "pbutton" type="submit" value="注册"/>
