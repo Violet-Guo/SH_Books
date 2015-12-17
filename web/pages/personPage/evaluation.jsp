@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
@@ -81,7 +82,7 @@
                         <li class="goods-descript">
                             <p class="goods-title">${book.name}</p>
 
-                            <p>${book.description}</p>
+                            <p>${fn:substring(book.description,0,30)}</p>
                         </li>
                         <li class="goods-price">${book.price}元</li>
                         <li class="goods-num">${orderFormVo.bookNum}</li>
@@ -97,6 +98,7 @@
         var userID = $(li).attr("user");
         var content = $("input[name='content']").val();
         var orderID = $(li).parent().children("input[name='orderID']").val();
+        var inpCon = $(li).parent().find("input[name='content']");
         $.post("/addeva",{
             userID:userID,
             content:content,
@@ -105,8 +107,9 @@
             if(date=="yes"){
                 $(li).html("已评价");
                 $(li).css("background-color","darkgray");
-                $("input[name='content']").attr("disabled","disabled");
-                $("input[name='content']").css("background-color","darkgray");
+                $(li).removeAttr("onclick");
+                inpCon.attr("disabled","disabled");
+                inpCon.css("background-color","darkgray");
             }else if(date == "have"){
                 alert("已经评论过了");
             } else{
