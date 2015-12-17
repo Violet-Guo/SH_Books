@@ -99,6 +99,11 @@
                 您还没有登陆，是否<a href="/login">登陆？</a>推荐你专业的书籍给你。
             </div>
         </c:if>
+        <c:if test="${bookRecVos.size()==0}">
+            <div class="center-alert">
+                没有符合你的推荐书籍，是否<a href="#">添加心愿单</a>？
+            </div>
+        </c:if>
     </div>
 
     <%--<div id="newBookDiv" class="hotBookDiv">
