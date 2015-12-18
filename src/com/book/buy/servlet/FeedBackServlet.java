@@ -76,6 +76,15 @@ public class FeedBackServlet extends HttpServlet
 				 out.close();
 				 out.flush();
 			}
+		else if(description.length()>255)
+		{
+			//description太长
+			String href="./feedback";out.print("<script language='javascript'>alert('oops！输入字数过多~');window.location.href='"
+			+ href + "';</script>");
+			 out.close();
+			 out.flush();
+		}
+		else{
 		String date = NewDate.getDateTime(new Date());
 		System.out.println(date);
 	    FeedBackVo feedBackVo = new FeedBackVo(userId,description,date);
@@ -95,6 +104,7 @@ public class FeedBackServlet extends HttpServlet
 				+ href + "';</script>");
 		out.flush();
 		out.close();
+		}
 	  
 	}
 }

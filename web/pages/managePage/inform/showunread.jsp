@@ -20,7 +20,7 @@
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
-<p style="margin-left:350px;"><a href="/controlCenter" >返回服务中心</a></p>
+
 <br> <br>  
  <table border=2 align="center">
  <tr><td>类别</td><td>详情</td><td>时间</td></tr>
@@ -200,6 +200,9 @@
         <li><a href="/unreadServlet?thisPage=${requestScope.thisPage+1}">下一页</a></li>
 </ul>
 
+
+<p align="center"><a href="/controlCenter" >返回服务中心</a></p>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <jsp:include page="/pages/mainPage/foot.jsp"></jsp:include>
   </body>
 </html>

@@ -20,6 +20,7 @@
 </head>
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
+
 <br> <br>  
  <table border=2 align="center">
  <tr><td>类别</td><td>详情</td><td>时间</td></tr>
@@ -38,7 +39,7 @@
 		<%
 		List<InformVo> informs=null;
 		informs=(List<InformVo>)session.getAttribute("informs");
-  		//out.println(informs);
+  	
  	 	InformVo informvo=new InformVo();	
 	%>
  	<% int everyPageNum = 10;%>
@@ -62,27 +63,13 @@
  	 	   num++;
  	 	 	 if(num>allNum)break;
  			informvo = (InformVo)informs.get(i);
- 	 		BookDao BookDaoImpl = BookDaoImpFactory.getBookDaoImpl();
- 	  		BookVo bookvo=new BookVo();	
- 	  		try 
- 	  		{	
- 	  		bookvo=BookDaoImpl.findById(informvo.getNum());	
- 	  		} catch (SQLException e) 
- 	  		{
- 	  		e.printStackTrace();
- 	  		}
- 	  		String bookname=bookvo.getName();
+ 	 	
  		%>
  		
- 		<%String a; if (informvo.getType()==1) a="心愿单到货"; else a="订单通知";%> <td><%= a %></td>
-         <%if(informvo.getType()==1) {%>
-         
- 		 <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/ShowBookDetail?bookID=<%=informvo.getNum() %>"><%=bookname%></a></td>
- 		<% }%>
- 		   <% if(informvo.getType()==2) {%>
+ 		<%String a="订单通知";%> <td><%= a %></td>
+ 		 
  		    <td class="jive-thread-name" width="20%"><a id="jive-thread-1" href="/order?isUser=seller">查看详情</a></td>
- 		<% }
- 		String str=informvo.getTime().substring(0,19);%>
+ 		<% String str=informvo.getTime().substring(0,19);%>
  		<td><%=str%></td>		 
  		 </tr>
  		 <%} %>
