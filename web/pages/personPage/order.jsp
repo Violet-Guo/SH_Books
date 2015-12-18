@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
@@ -125,24 +126,6 @@
                     <c:if test="${buyVo.hasEva==1}">
                         <li class="all-action button floatRight" type="${buyVo.orderID}" onclick="delorder(this)">删除
                         </li>
-                        <script>
-                            //----------订单删除动画还没加@impotr
-                            function delorder(li) {
-                                if (!confirm("确认删除?")) {
-                                    return;
-                                }
-                                var orderID = $(li).attr("type");
-                                $.post("/delorder", {
-                                    orderID: orderID
-                                }, function (date) {
-                                    if (date == "yes") {
-                                        alert("删除成功");
-                                    } else {
-                                        alert("删除失败,请重试");
-                                    }
-                                });
-                            }
-                        </script>
                     </c:if>
                 </ul>
                     <%--@import这里获取不到值--%>
@@ -159,7 +142,7 @@
                         <li class="goods-descript">
                             <p class="goods-title">${book.name}</p>
 
-                            <p>${book.description}</p>
+                            <p>${fn:substring(book.description,0,30)}</p>
                         </li>
                         <li class="goods-price">${book.price}元</li>
                         <li class="goods-num">${orderFormVo.bookNum}</li>
@@ -175,6 +158,24 @@
         <%((Paging) request.getAttribute("paging")).printPage(out);%>
     </div>
 </div>
+<script>
+    //----------订单删除动画还没加@impotr
+    function delorder(li) {
+        if (!confirm("确认删除?")) {
+            return;
+        }
+        var orderID = $(li).attr("type");
+        $.post("/delorder", {
+            orderID: orderID
+        }, function (date) {
+            if (date == "yes") {
+                alert("删除成功");
+            } else {
+                alert("删除失败,请重试");
+            }
+        });
+    }
+</script>
 <script>
     $("[name='switch']").bootstrapSwitch();
     $('input[name="switch"]').on('switchChange.bootstrapSwitch', function (event, state) {

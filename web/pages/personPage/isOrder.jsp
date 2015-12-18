@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
@@ -59,7 +60,7 @@
                     <li class="goods-descript">
                         <p class="goods-title">${book.name}</p>
 
-                        <p>${book.description}</p>
+                        <p>${fn:substring(book.description,0,30)}</p>
                     </li>
                     <li class="goods-price">${book.price}元</li>
                     <li class="goods-num">${orderFormVo.bookNum}</li>

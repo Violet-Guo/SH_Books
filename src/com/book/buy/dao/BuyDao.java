@@ -33,17 +33,19 @@ public interface BuyDao {
      * @throws SQLException
      */
     public void delBuyByUserID(int userID) throws SQLException;
-    
+
+    public List<BuyVo> getOrderSql(Boolean isBuy,int state,UserVo userVo,Integer begin,Integer count) throws SQLException;
+    public Long getCountSql(Boolean isBuy,int state,UserVo userVo) throws SQLException;
     /**
      * 按照userID查找
      * @param userID
      * @return
      * @throws SQLException
      */
-    public List<BuyVo> getBuyByUserID(int userID,int begin,int count) throws SQLException;
+    /*public List<BuyVo> getBuyByUserID(int userID,int begin,int count) throws SQLException;
     public List<BuyVo> getBuyByUserID(UserVo userVo,int begin,int count,int state) throws SQLException;
     public Long getCountByUserID(int userID) throws SQLException;
-    public Long getCountByUserID(UserVo userVo,int state) throws SQLException;
+    public Long getCountByUserID(UserVo userVo,int state) throws SQLException;*/
     /**
      * 按照orderid查找
      * @param orderID
@@ -53,18 +55,6 @@ public interface BuyDao {
     public BuyVo getBuyByOrderID(int orderID) throws SQLException;
 
     /**
-     * 获取待付款
-     * @param userID
-     * @param begin
-     * @param count
-     * @return
-     * @throws SQLException
-     */
-    public List<BuyVo> getWaitMoneyByUserID(int userID,int begin,int count) throws SQLException;
-    public List<BuyVo> getWaitMoneyByUserID(UserVo userVo,int begin,int count,int state) throws SQLException;
-    public Long getWaitMoneyCount(int userID) throws SQLException;
-    public Long getWaitMoneyCount(UserVo userVo,int state) throws SQLException;
-    /**
      * 获取待确认订单
      * @param userID
      * @param begin
@@ -72,10 +62,10 @@ public interface BuyDao {
      * @return
      * @throws SQLException
      */
-    public List<BuyVo> getWaitSureByUserID(int userID,int begin,int count) throws SQLException;
+    /*public List<BuyVo> getWaitSureByUserID(int userID,int begin,int count) throws SQLException;
     public List<BuyVo> getWaitSureByUserID(UserVo userVo,int begin,int count,int state) throws SQLException;
     public Long getWaitSureCount(int userID) throws SQLException;
-    public Long getWaitSureCount(UserVo userVo,int state) throws SQLException;
+    public Long getWaitSureCount(UserVo userVo,int state) throws SQLException;*/
     /**
      * 获取最后插入的一列的id
      * @return
@@ -91,10 +81,10 @@ public interface BuyDao {
      * @param count
      * @throws SQLException
      */
-    public List<BuyVo> getWaitEvaByUserID(int userID,int begin,int count) throws SQLException;
+    /*public List<BuyVo> getWaitEvaByUserID(int userID,int begin,int count) throws SQLException;
     public List<BuyVo> getWaitEvaByUserID(UserVo userVo,int begin,int count,int state) throws SQLException;
     public Long getWaitEvaCount(UserVo userVo,int state) throws SQLException;
-    public Long getWaitEvaCount(int userID) throws SQLException;
+    public Long getWaitEvaCount(int userID) throws SQLException;*/
 
     /**
      * 获取每个订单的总价格
