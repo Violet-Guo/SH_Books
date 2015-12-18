@@ -51,7 +51,7 @@
 %>
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
     <div class="panel-heading">
-        <h3 class="panel-title">投诉详情</h3>
+        <h3 class="panel-title">申诉详情</h3>
     </div>
     <div class="panel-body">
         <div id="appealdetil">

@@ -8,32 +8,32 @@
 
 #xuhao{
     position: absolute;
-    left: 165px;
+    left: 25px;
 }
 
 #username{
     position: absolute;
-    left: 220px;
+    left: 100px;
 }
 
 #compnum{
     position: absolute;
-    left: 350px
+    left: 200px
 }
 
 #userstate{
     position: absolute;
-    left: 500px
+    left: 300px
 }
 
 #content{
     position: absolute;
-    left: 220px;
+    left: 100px;
 }
 
 #feedtime{
     position: absolute;
-    left: 500px;
+    left: 300px;
 }
 
 #loginstate{

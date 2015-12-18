@@ -16,7 +16,8 @@
 }
 
 .panel-body {
-    padding: 15px
+    padding: 15px;
+    position: relative;
 }
 
 .panel-body:before, .panel-body:after {

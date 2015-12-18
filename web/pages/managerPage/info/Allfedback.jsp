@@ -31,7 +31,7 @@
 <jsp:include page="/pages/mainPage/managerhead.jsp"></jsp:include>
 <div class="panel panel-primary" style="width: 1100px; margin: auto">
     <div class="panel-heading">
-        <h3 class="panel-title">反馈<span id="more"><a id="wm" href="#">更多</a></span></h3>
+        <h3 class="panel-title">反馈</h3>
     </div>
     <div class="panel-body">
         <div id="feedhead">
