@@ -1,4 +1,4 @@
-﻿package com.book.buy.servlet;
+package com.book.buy.servlet;
 
 import java.io.IOException;
 import java.util.Date;
@@ -43,7 +43,7 @@ public class AlterWantServlet extends HttpServlet {
 		Date now = new Date();
 		
 		
-		BookVo book = new BookVo(bookID, name, null, 77, ISBN, 0, year,
+		BookVo book = new BookVo(bookID, name, null, null, ISBN, 0, year,
 			    writer, 0, "", name, 1, (float)0, 0, NewDate.getDate(now), 1);
 		
 		BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();

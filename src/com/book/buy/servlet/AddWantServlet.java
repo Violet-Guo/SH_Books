@@ -1,4 +1,4 @@
-﻿package com.book.buy.servlet;
+package com.book.buy.servlet;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.dao.WantDao;
@@ -51,7 +51,7 @@ public class AddWantServlet extends HttpServlet {
 		String writer = request.getParameter("writer");
 		String ISBN = request.getParameter("ISBN");
 		
-		BookVo book = new BookVo(name, null, 77, ISBN, 0, year,
+		BookVo book = new BookVo(name, null, null, ISBN, 0, year,
 		    writer, 0, "", name, 1, (float)0, 0, NewDate.getDate(now), 1);
 			
 		BookDao bookDao = BookDaoImpFactory.getBookDaoImpl();
