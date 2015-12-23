@@ -55,6 +55,7 @@ public class AddAppealServlet extends HttpServlet {
         }
 
         compdao.close();
+        
 
         href = "/addAppeal";
         out.print("<script language='javascript'>alert('发布申诉成功');"
