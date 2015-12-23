@@ -69,6 +69,7 @@ public class GetCompDetilServlet extends HttpServlet {
 
         bookdao.close();
         compdao.close();
+        userdao.close();
 
         response.sendRedirect("/compdetil");
     }

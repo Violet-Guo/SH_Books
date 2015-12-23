@@ -67,6 +67,8 @@ public class GetAppealDetilServlet extends HttpServlet {
         request.getSession().setAttribute("appealbook", bookvo);
 
         compdao.close();
+        userdao.close();
+        bookdao.close();
 
         response.sendRedirect("/appealdetil");
     }

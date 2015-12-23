@@ -38,6 +38,7 @@ public class ManagerLoginServlet extends HttpServlet {
             mvo = mdao.getPwdByName(username);
             if (null == mvo) {
                 //提示不是管理员
+                mdao.close();
                 href = "/loginmanager";
                 out.print("<script language='javascript'>alert('该用户不是管理员');"
                         + "window.location.href='" + href + "';</script>");

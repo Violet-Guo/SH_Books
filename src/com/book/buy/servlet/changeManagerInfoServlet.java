@@ -43,16 +43,19 @@ public class changeManagerInfoServlet extends HttpServlet {
 
         //在后台对密码进行判断
         if (null == oldpass){
+            admindao.close();
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('原密码不能为空');"
                     + "window.location.href='" + href + "';</script>");
             return;
         } else if (null == newpass1){
+            admindao.close();
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('新密码不能为空');"
                     + "window.location.href='" + href + "';</script>");
             return;
         } else if (null == newpass2){
+            admindao.close();
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('新密码不能为空');"
                     + "window.location.href='" + href + "';</script>");
@@ -68,18 +71,21 @@ public class changeManagerInfoServlet extends HttpServlet {
                     e.printStackTrace();
                 }
 
+                admindao.close();
                 href = "/managerinfo";
                 out.print("<script language='javascript'>alert('修改成功');"
                         + "window.location.href='" + href + "';</script>");
                 return;
 
             } else {                                  //两次输入的新密码不通
+                admindao.close();
                 href = "/changepassadmin";
                 out.print("<script language='javascript'>alert('两个新密码不一致');"
                         + "window.location.href='" + href + "';</script>");
                 return;
             }
         } else {                               //原始密码与数据库中原始密码不相同
+            admindao.close();
             href = "/changepassadmin";
             out.print("<script language='javascript'>alert('原密码不正确');"
                     + "window.location.href='" + href + "';</script>");
