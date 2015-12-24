@@ -194,7 +194,7 @@ public class PublishBookServlet extends HttpServlet {
 					bookDao.addBook(bookVo);
         		    Integer bookID = bookDao.getLastInfertID();
         		    bookDao.close();
-        		    response.sendRedirect("/UpdateServlet?bookname=" + name + "&author=" + author + "&bookID=" + bookID);
+        		    response.sendRedirect("/UpdateServlet?bookID=" + bookID);
         		}
         		else
         		{
