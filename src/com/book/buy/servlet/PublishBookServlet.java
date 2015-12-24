@@ -3,6 +3,7 @@ package com.book.buy.servlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import java.net.URLEncoder;
 
 import com.book.buy.dao.BookDao;
 import com.book.buy.factory.BookDaoImpFactory;
@@ -41,6 +43,9 @@ public class PublishBookServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+
 	    //获取到method来判断是修改图书的信息还是新增图书
 	    PrintWriter out = response.getWriter();	    
 	    String href = "/index";
@@ -112,6 +117,8 @@ public class PublishBookServlet extends HttpServlet {
 	    String publicYear = (String) request.getAttribute("publicYear");
 	    String pchoice1 = (String) request.getAttribute("pchoice1");//被选中的值
 	    String pchoice2 = (String) request.getAttribute("pchoice2");//被选中的值
+
+
 	    //判断不能有选项为空。除了是否有笔记或者是否能议价
 	    href = "/publishPage";
 	    if(name == null || price == null || pubNumber == null || oldGrade == null
@@ -184,7 +191,7 @@ public class PublishBookServlet extends HttpServlet {
         		//判断method为2时是进行对图书的添加操作，然后将进行对图书的在用户心愿单中添加图书的步骤
         		if(Integer.parseInt(method) == 2)
         		{
-        		    bookDao.addBook(bookVo);
+					bookDao.addBook(bookVo);
         		    Integer bookID = bookDao.getLastInfertID();
         		    bookDao.close();
         		    response.sendRedirect("/UpdateServlet?bookname=" + name + "&author=" + author + "&bookID=" + bookID);

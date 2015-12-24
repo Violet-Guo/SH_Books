@@ -59,8 +59,9 @@ public class UpdateServlet extends HttpServlet {
 		try{
 			books = bookDao.findAllByNameAndAuthor(bookname, author);
 			Integer size = books.size();
+			Integer j = size-1;
 			
-			if(size == 0){
+			if(size == 1 || size == 0){
 				response.sendRedirect("/publishedbooks");
 			}
 			
@@ -72,16 +73,16 @@ public class UpdateServlet extends HttpServlet {
 				bookID_arr[i] = bookVo.getId();
 			}
 			
-			for (i=0; i<(size-1); i++){
+			for (i=0; i<j; i++){
 				bookids[i] = bookID_arr[i];
 			}
 			
-			for (i=0; i<(size-1); i++){
+			for (i=0; i<j; i++){
 				wantVo = wantDao.findBybookid(bookids[i]);
 				userID_arr[i] = wantVo.getUserID();
 			}
 			
-			for (i=0; i<(size-1); i++)
+			for (i=0; i<j; i++)
 			{
 				InformVo inform = new InformVo(userID_arr[i], 1, bookid, now, 0);
 				informDao.addInform(inform);
