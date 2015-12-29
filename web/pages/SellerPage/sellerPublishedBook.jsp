@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.book.buy.vo.BookVo" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.book.buy.utils.Paging" %>
 <%--
   Created by IntelliJ IDEA.
