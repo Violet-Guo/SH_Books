@@ -62,12 +62,20 @@
             <c:if test="${!iscomp}">未处理</c:if><br>
             书籍状态：
             <c:if test="${!isbook}">已下架</c:if>
-            <c:if test="${isbook}">上架</c:if><br>
+            <c:if test="${isbook}">上架</c:if>
+            <br>
             <input id="sbutton" type="submit" value="查看书籍详情" onclick="window.location='/ShowBookDetail?bookID=<%=bookvo.getId()%>'">
+            <%
+                if (0 == compvo.getState()){
+
+            %>
             &nbsp;&nbsp;
             <input id="sbutton" type="submit" value="下架书籍" onclick="window.location='/downbookbyadmin?bookid=<%=bookvo.getId()%>&&compid=<%=compvo.getId()%>'">
             &nbsp;&nbsp;
             <input id="sbutton" type="submit" value="投诉失败" onclick="window.location='/complainfail?bookid=<%=bookvo.getId()%>&&compid=<%=compvo.getId()%>'">
+            <%
+                }
+            %>
         </div>
     </div>
 </div>
