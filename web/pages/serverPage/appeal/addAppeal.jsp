@@ -22,7 +22,8 @@
 <body>
 <jsp:include page="/pages/mainPage/head.jsp"></jsp:include>
 <div id="addcomp">
-    <h1>申诉内容：</h1><br>
+    <h2>申诉人：${sessionScope.user.username}</h2>
+    <h2>申诉内容：</h2><br>
     <form action="/addappeal?bookid=<%=bookid%>" method="post">
         <textarea id="comp" name="appeal"></textarea>
         <br><br>
